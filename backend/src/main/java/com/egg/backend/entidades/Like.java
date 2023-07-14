@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.AccessLevel;
@@ -33,7 +34,7 @@ public class Like {
     private String idLike;   
     @Temporal(TemporalType.DATE)
     private Date fechaLike;
-    @ManyToOne
+    @OneToOne
     private Usuario usuario;
 //    @ManyToOne
 //    private Publicacion publicacion;
