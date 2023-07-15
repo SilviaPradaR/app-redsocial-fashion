@@ -38,8 +38,8 @@ public class Publicacion {
     private Usuario usuario;    
 //    @OneToMany
 //    private Reporte reporte;
-//    @ManyToOne
-//    private Categoria categoria;
+    @ManyToOne
+    private Categoria categoria;
 //    @OneToMany
 //    private Comentario comentario;
 }
