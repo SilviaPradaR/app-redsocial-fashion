@@ -3,7 +3,6 @@ package com.egg.backend.servicios;
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.repositorios.PublicacionRepositorio;
 import com.egg.backend.entidades.Categoria;
-import com.egg.backend.entidades.Imagen;
 import com.egg.backend.entidades.Usuario;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.egg.backend.entidades.Imagen;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PublicacionServicio {
@@ -26,7 +24,7 @@ public class PublicacionServicio {
     public void crearPublicacion(Usuario usuario, Categoria categoria, String contenido,
             Imagen imagen) throws MiException{
                          
-        validar(categoria, imagen);
+        validar(imagen, categoria);
         
         Publicacion publicacion = new Publicacion();
         
@@ -68,7 +66,7 @@ public class PublicacionServicio {
 
     }
     
-    public Publicacion getOne(Long id) {
+    public Publicacion getOne(String id) {
         return publicRepositorio.getOne(id);
     }
 }
