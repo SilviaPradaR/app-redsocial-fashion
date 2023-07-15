@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.egg.backend.entidades;
 
 import com.egg.backend.enumeraciones.Rol;
@@ -23,10 +19,6 @@ import lombok.Setter;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- *
- * @author Anny
- */
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)

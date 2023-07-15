@@ -3,6 +3,9 @@ package com.egg.backend.controladores;
 
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
+import com.egg.backend.entidades.Categoria;
+import com.egg.backend.entidades.Imagen;
+import com.egg.backend.excepciones.MiException;
 import com.egg.backend.servicios.PublicacionServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
