@@ -2,15 +2,12 @@ package com.egg.backend.servicios;
 
 import com.egg.backend.entidades.Imagen;
 import com.egg.backend.enumeraciones.Rol;
-import com.egg.backend.exepciones.MiException;
+import com.egg.backend.excepciones.MiException;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/*
- * @author Nahuel
- */
 @Service
 public class PublicacionServicio {
     

@@ -1,9 +1,6 @@
 
-package com.egg.backend.exepciones;
+package com.egg.backend.excepciones;
 
-/*
- * @author Nahuel
- */
 public class MiException extends Exception {
     public MiException(String msg){
         super(msg);
