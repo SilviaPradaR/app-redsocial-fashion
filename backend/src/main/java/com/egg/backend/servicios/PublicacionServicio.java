@@ -36,7 +36,7 @@ public class PublicacionServicio {
             throw new MiException("imagen no puede ser nula");
         }
         if (categoria == null) {
-            throw new MiException("imagen no puede ser nula");
+            throw new MiException("La categoria no puede ser nula");
         }
         
     }
@@ -50,9 +50,12 @@ public class PublicacionServicio {
 
     }
     
-    public Publicacion getOne(Long id) {
-        return publicRepositorio.getOne(id);
+    public Publicacion getOne(String id) {
+        return publicacionRepositorio.getOne(id);
+        
     }
+    
+    
     
     
 }
