@@ -52,10 +52,7 @@ public class PublicacionServicio {
     
     public Publicacion getOne(String id) {
         return publicacionRepositorio.getOne(id);
-        
     }
-    
-    
     
     
 }
