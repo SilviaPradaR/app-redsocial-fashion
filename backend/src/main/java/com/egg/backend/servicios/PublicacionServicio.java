@@ -67,6 +67,6 @@ public class PublicacionServicio {
     }
     
     public Publicacion getOne(String id) {
-        return publicRepositorio.getOne(id);
+        return publicacionRepositorio.getOne(id);
     }
 }
