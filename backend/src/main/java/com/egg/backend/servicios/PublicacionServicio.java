@@ -43,7 +43,7 @@ public class PublicacionServicio {
             throw new MiException("imagen no puede ser nula");
         }
         if (categoria == null) {
-            throw new MiException("imagen no puede ser nula");
+            throw new MiException("La categoria no puede ser nula");
         }
         
     }
