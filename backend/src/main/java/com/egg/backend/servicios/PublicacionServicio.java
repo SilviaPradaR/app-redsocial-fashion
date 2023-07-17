@@ -24,7 +24,7 @@ public class PublicacionServicio {
     public void crearPublicacion(Usuario usuario, Categoria categoria, String contenido,
             Imagen imagen) throws MiException{
                          
-        validar(imagen, categoria);
+//        validar(imagen, categoria);
         
         Publicacion publicacion = new Publicacion();
         
@@ -37,16 +37,16 @@ public class PublicacionServicio {
         publicacionRepositorio.save(publicacion); 
     }
 
-        private void validar(Imagen imagen,Categoria categoria ) throws MiException {
-                
-        if (imagen == null) {
-            throw new MiException("imagen no puede ser nula");
-        }
-        if (categoria == null) {
-            throw new MiException("La categoria no puede ser nula");
-        }
-        
-    }
+//        private void validar(Imagen imagen,Categoria categoria ) throws MiException {
+//                
+//        if (imagen == null) {
+//            throw new MiException("imagen no puede ser nula");
+//        }
+//        if (categoria == null) {
+//            throw new MiException("La categoria no puede ser nula");
+//        }
+//        
+//    }
 
     public List<Publicacion> listarPublicaciones(){
         
