@@ -23,7 +23,7 @@ public class Comentario {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String idComentario;
+    private String id;
     
     @OneToOne
     private Usuario usuario;

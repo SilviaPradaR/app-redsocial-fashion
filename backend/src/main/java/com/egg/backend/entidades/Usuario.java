@@ -40,13 +40,5 @@ public class Usuario {
     private Rol rol;
     @OneToOne
     private Imagen imagen;
-//    @OneToMany
-//    private Publicacion publicacion;
-//    @OneToMany
-//    private Like like;
-//    @OneToMany
-//    private Comentario comentario;
-//    @OneToMany
-//    private Reporte reporte;
 
 }
