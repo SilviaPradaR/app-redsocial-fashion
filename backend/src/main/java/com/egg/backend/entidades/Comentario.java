@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,15 +18,24 @@ import org.hibernate.annotations.GenericGenerator;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
-public class Like {
+public class Comentario {
+    
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String idLike;   
-    @Temporal(TemporalType.DATE)
-    private Date fechaLike;
+    private String idComentario;
+    
     @OneToOne
     private Usuario usuario;
-//    @ManyToOne
-//    private Publicacion publicacion;
+    
+    @OneToOne
+    private Publicacion publicacion;
+    
+    private String contenido;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaComentario;
+    
+    private Boolean darBaja;
+   
 }
