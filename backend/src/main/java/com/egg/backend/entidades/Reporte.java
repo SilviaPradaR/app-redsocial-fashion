@@ -23,20 +23,14 @@ public class Reporte {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String idReporte;
-    
+    private String id;    
     @OneToOne
     private Usuario usuario;
-    
     @OneToOne
-    private Publicacion publicacion;
-    
+    private Publicacion publicacion;    
     @OneToOne
-    private Comentario comentario;
-    
+    private Comentario comentario;    
     @Enumerated(EnumType.STRING)
-    private Categoria categoria;
-    
+    private Categoria categoria;    
     private String descripcion;
-
 }

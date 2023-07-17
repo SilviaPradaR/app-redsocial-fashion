@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,14 +31,9 @@ public class Publicacion {
     private Boolean darBaja;
     @OneToOne
     private Imagen imagen;
-    @OneToMany
-    private Like like;
     @ManyToOne
     private Usuario usuario;    
-//    @OneToMany
-//    private Reporte reporte;
-    @ManyToOne
+    @OneToOne
     private Categoria categoria;
-//    @OneToMany
-//    private Comentario comentario;
+
 }
