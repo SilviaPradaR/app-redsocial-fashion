@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class UsuarioServicio {
+public class UsuarioServicio /*implements UserDetailsService*/{
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
@@ -48,7 +48,7 @@ public class UsuarioServicio {
     @Transactional
     public void actualizar(MultipartFile archivo, String id, String nombreCompleto, String nombreUsuario, String email, String password, String password2, Rol rol) throws MiException {
 
-        
+        validar(nombreCompleto, nombreUsuario, email, password, password2);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -99,7 +99,7 @@ public class UsuarioServicio {
         if (nombreUsuario.isEmpty()) {
             throw new MiException("El nombre de usuario no puede estar vacio");
         }
-        if (password.isEmpty() || password.length()!=8) {
+        if (password.isEmpty() || password.length()<=8) {
             throw new MiException("contrasenia no puede ser menor a 8");
         }
         if (!password.equals(password2)) {
@@ -112,8 +112,8 @@ public class UsuarioServicio {
     
     /*
     @Override
-    public UserDetails loadUserByUsername(String nombreUsuario) throws UsernameNotFoundException {
-        Usuario us = ur.buscarPorNombreUsuario(nombreUsuario);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario us = usuarioRepositorio.buscarPorEmail(email);
 
         if (us != null) {
             List<GrantedAuthority> permisos = new ArrayList();
@@ -122,7 +122,7 @@ public class UsuarioServicio {
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             HttpSession session = attr.getRequest().getSession(true);
             session.setAttribute("usuariosession", us);
-            return new User(us.getNombreUsuario(), us.getPassword(), permisos);
+            return new User(us.getEmail(), us.getPassword(), permisos);
         } else {
             return null;
         }
