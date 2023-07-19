@@ -34,7 +34,7 @@ public class UsuarioServicio {
         //usuario.setPassword(new BCryptPasswordEncoder().encode(password));
         usuario.setFechaAlta(new Date());
         usuario.setDarBaja(false);
-        usuario.setRol(Rol.USER);
+        usuario.setRol(rol); 
         Imagen imagen = imagenServicio.guardar(archivo);
 
         usuario.setImagen(imagen);
@@ -58,7 +58,7 @@ public class UsuarioServicio {
             usuario.setNombreUsuario(nombreUsuario);
             usuario.setEmail(email);
             //usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-                        
+            usuario.setRol(rol);             
             String idImagen = null;
 
             if (usuario.getImagen() != null) {
