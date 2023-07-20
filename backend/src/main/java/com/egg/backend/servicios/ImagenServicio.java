@@ -1,4 +1,4 @@
-
+package com.egg.backend.servicios;
 import com.egg.backend.entidades.Imagen;
 import com.egg.backend.excepciones.MiException;
 import com.egg.backend.repositorios.ImagenRepositorio;

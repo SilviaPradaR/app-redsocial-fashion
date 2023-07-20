@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class UsuarioServicio {
+public class UsuarioServicio /*implements UserDetailsService*/{
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
@@ -24,7 +24,7 @@ public class UsuarioServicio {
     @Transactional
     public void registrar(MultipartFile archivo, String nombreCompleto, String nombreUsuario, String email, String password, String password2, Rol rol) throws MiException {
 
-        
+        validar(nombreCompleto, nombreUsuario, email, password, password2);
 
         Usuario usuario = new Usuario();
 
@@ -48,7 +48,7 @@ public class UsuarioServicio {
     @Transactional
     public void actualizar(MultipartFile archivo, String id, String nombreCompleto, String nombreUsuario, String email, String password, String password2, Rol rol) throws MiException {
 
-        
+        validar(nombreCompleto, nombreUsuario, email, password, password2);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -91,5 +91,43 @@ public class UsuarioServicio {
         usuarioRepositorio.delete(usuario);
 
     }
+    
+    private void validar(String nombreCompleto,String nombreUsuario, String email,String password,String password2) throws MiException {
+
+        if (nombreCompleto.isEmpty()) {
+            throw new MiException("El nombre no puede estar vacio");
+        }
+        if (nombreUsuario.isEmpty()) {
+            throw new MiException("El nombre de usuario no puede estar vacio");
+        }
+        if (password.isEmpty() || password.length()<=8) {
+            throw new MiException("contrasenia no puede ser menor a 8");
+        }
+        if (!password.equals(password2)) {
+            throw new MiException(" Las contrasenias deben coincidir");
+        }
+        
+    }    
+        
+    
+    
+    /*
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario us = usuarioRepositorio.buscarPorEmail(email);
+
+        if (us != null) {
+            List<GrantedAuthority> permisos = new ArrayList();
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + us.getRol().toString());
+            permisos.add(p);
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            HttpSession session = attr.getRequest().getSession(true);
+            session.setAttribute("usuariosession", us);
+            return new User(us.getEmail(), us.getPassword(), permisos);
+        } else {
+            return null;
+        }
+
+    }*/
     
 }
