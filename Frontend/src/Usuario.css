@@ -1,0 +1,66 @@
+
+
+.Descripcion_perfil {
+     position: relative;
+     top: 40px;
+}
+
+
+.foto{
+padding-left: 40px;
+
+
+}
+.foto img {
+  width: 180px;
+  height: 180px;
+  border-radius: 150px;
+  border:4px solid #2D4356;
+ 
+}
+
+
+.informacion_perfil h3{
+  position: relative;
+     padding-left: 250px;
+     top: -150px;
+ 
+}
+
+
+.informacion_perfil p {
+     position: relative;
+     padding-left: 10px;
+     top: -40px;
+     font-size: 15px;
+}
+
+
+.seccion_destacados_usuario {
+     background-color: #A76F6F;
+     width: 100%;
+     height: 400px;
+     
+}
+
+.seccion_destacados_usuario h4{
+     font-size: 18px;
+     text-align: center;
+     color: black;
+
+
+}
+
+
+
+
+.contenedor_etiqueta h3{
+    font-size: 20px;
+    color:#A76F6F;
+
+
+     
+   
+}
+
+
