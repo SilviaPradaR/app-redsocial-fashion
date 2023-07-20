@@ -74,3 +74,65 @@ nav a {
 .faq-container{
     background-image: url('../src/img/fondoFaq.png');    
 }
+/* -----------------FORM LOGIN------------------- */
+.vista-login {
+    font-family: 'Nunito', sans-serif;
+}
+#foto-login {
+    filter: blur(7px);
+    width: 100%;
+}
+.login-container {
+    display: flex;
+    align-items: center;
+}
+.login-container form {
+    display: inline-block !important;
+    background-color: white;
+    width: 50%;
+}
+.login-container .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.btn-login {
+    background-color: #EF8E01;
+    color: white;
+    margin-top: 30px;
+}
+.btn-login:hover {
+    background-color: #fc9e11;
+    color: white;
+}
+.form-header {
+    margin-bottom: 20px;
+}
+.form-header h4 {
+    margin-top: 50px;
+    font-size: 30px;
+    font-weight: bold;
+}
+.links-footer {
+    margin-top: 20px;
+    width: 50%;
+}
+.links-footer a {
+    text-decoration: none;
+    color: #EF8E01;
+}
+.links-footer a:hover {
+    text-decoration: none;
+    color: #da8302;
+}
+#roomly-login {
+    font-weight: 700;
+    font-size: 80px;
+}
+.text-container h4 {
+    font-size: 30px;
+    font-weight: 550;
+}
+.text-container {
+    top: 35%;
+}

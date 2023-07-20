@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../../img/logo.png';
+import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <div>
@@ -40,6 +41,9 @@ const Navbar = () => {
                   Regístrate!
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
+                <li><Link to={`/registroUser`} className="dropdown-item">                    
+                            <span>Usuario</span>                  
+                        </Link></li>
                   <li><a class="dropdown-item" href="#">Usuario</a></li>
                   <li><a class="dropdown-item" href="#">Diseñador</a></li>
 

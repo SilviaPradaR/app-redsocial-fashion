@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import imgBanner from '../../img/imgBanner.png';
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 export class Main extends Component {
     render() {
         return (
             <main>
-                <div class="card banner-container">
-                    <Navbar />
+                <Navbar/>
+                <div class="card banner-container">                    
                     <div class="row g-0 info-container py-5">
                         <div class="col-md-5 d-flex justify-content-center align-items-center">
                             <img src={imgBanner} alt='imgBanner' id='imgBanner'></img>
@@ -119,6 +120,7 @@ export class Main extends Component {
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </main>
         )
     }
