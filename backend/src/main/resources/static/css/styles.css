@@ -42,7 +42,7 @@ nav a {
     border: none;
 }
 .banner-container{
-    background-image: url('../src/img/fondoBanner.png');
+    background-image: url('../img/fondoBanner.png');
 }
 .info-container p{
     color: rgb(255, 255, 255);
@@ -58,7 +58,7 @@ nav a {
     color: #156669;
 }
 .aboutUs-container{
-    background-image: url('../src/img/fondoAbout.png');    
+    background-image: url('../img/fondoAbout.png');    
 }
 .bi {
     vertical-align: -.125em;
@@ -72,7 +72,7 @@ nav a {
     text-align: justify;
 }
 .faq-container{
-    background-image: url('../src/img/fondoFaq.png');    
+    background-image: url('../img/fondoFaq.png');    
 }
 /* -----------------FORM LOGIN------------------- */
 .vista-login {
