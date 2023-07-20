@@ -1,2 +1,4 @@
 node_modules/
 Frontend/package-lock.json
+package-lock.json
+backend/src/main/resources/application.properties
