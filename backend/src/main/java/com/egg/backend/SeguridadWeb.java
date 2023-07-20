@@ -1,5 +1,6 @@
 package com.egg.backend;
 
+import com.egg.backend.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,12 +16,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SeguridadWeb extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    // public UsuarioServicio usuarioServicio;
+    public UsuarioServicio usuarioServicio;
     
-    // @Autowired
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        // auth.userDetailsService(usuarioServicio)
-                // .passwordEncoder(new BCryptPasswordEncoder());
+         auth.userDetailsService(usuarioServicio)
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
     
     @Override
