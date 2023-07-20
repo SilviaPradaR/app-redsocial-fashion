@@ -82,6 +82,7 @@ public class UsuarioServicio {
 
         return usuarios;
     }
+    
    @Transactional
     public void eliminar(String id) throws MiException {
 
