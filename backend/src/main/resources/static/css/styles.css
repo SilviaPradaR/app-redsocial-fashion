@@ -77,25 +77,14 @@ nav a {
 /* -----------------FORM LOGIN------------------- */
 .vista-login {
     font-family: 'Nunito', sans-serif;
+    background-image: url('../img/fondo1.png');
 }
-#foto-login {
-    filter: blur(7px);
-    width: 100%;
-}
-.login-container {
-    display: flex;
-    align-items: center;
-}
-.login-container form {
-    display: inline-block !important;
+.form-container{
     background-color: white;
-    width: 50%;
+    padding: 40px;
+    border-radius: 20px;
 }
-.login-container .card-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+
 .btn-login {
     background-color: #EF8E01;
     color: white;
@@ -109,13 +98,12 @@ nav a {
     margin-bottom: 20px;
 }
 .form-header h4 {
-    margin-top: 50px;
+    margin-top: 15px;
     font-size: 30px;
     font-weight: bold;
 }
 .links-footer {
     margin-top: 20px;
-    width: 50%;
 }
 .links-footer a {
     text-decoration: none;
@@ -125,14 +113,30 @@ nav a {
     text-decoration: none;
     color: #da8302;
 }
-#roomly-login {
-    font-weight: 700;
-    font-size: 80px;
+/* -----------------FORM REGISTRO------------------- */
+.vista-registro{
+    background-image: url(../img/fondo1.png);    
 }
-.text-container h4 {
-    font-size: 30px;
-    font-weight: 550;
+.vista-registro .form-container{
+    padding: 20px 40px;
 }
-.text-container {
-    top: 35%;
+.vista-registro .form-container{
+    font-size: 12px;
+}
+.btn-registrar{
+    background-color: #EF8E01;
+    color: white;
+    margin-top: 15px;
+    font-size: 13px;
+    padding: 5px;
+}
+.btn-registrar:hover {
+    background-color: #fc9e11;
+    color: white;
+}
+.TyC { 
+    font-size: 10px;
+}
+.TyC p{
+    font-size:12px;
 }
