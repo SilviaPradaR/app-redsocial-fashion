@@ -140,3 +140,15 @@ nav a {
 .TyC p{
     font-size:12px;
 }
+/* -----------------EXPLORE------------------- */
+.explore-container{
+    background-image: url('../img/fondoAzul.png');
+}
+.explore-container .card{
+    border:none;
+    background-image: url('../img/fondoAzul.png');
+    color: #156669;
+}
+.explore-container h2{
+    font-size: 55px;
+}
