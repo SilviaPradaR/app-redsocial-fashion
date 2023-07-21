@@ -1,0 +1,142 @@
+nav a {
+    color: rgb(6, 95, 73) !important;
+}
+.navbar-nav .nav-item{
+    font-size: 18px;
+    font-weight: bold;
+}
+.nav-item a:hover {
+    color: #347ad6da !important;
+} 
+.nav-izq .nav-item a {
+    color: black!important;
+}
+.nav-izq .nav-item a:hover{
+    color: black !important;
+}
+.nav-izq .dropdown-menu{
+    background-color: #f5b8f5f1;
+}
+.nav-izq .dropdown-menu .dropdown-item:hover{
+    background-color: #e27fe2f1;
+}
+.navbar-brand span{
+    font-family: 'Courgette', cursive;
+    font-size: 28px;
+}
+.nav-btns {
+    background-color:  #e27fe2f1;
+    color: white !important;
+    margin-left: 8px;
+    border-radius: 6px;
+}
+.nav-btns:hover {
+    background-color:#c070c0f1;
+}
+.banner-container,
+.aboutUs-container,
+.faq-container{    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+}
+.banner-container{
+    background-image: url('../img/fondoBanner.png');
+}
+.info-container p{
+    color: rgb(255, 255, 255);
+    font-size: 22px;
+    font-weight: bold;
+}
+#imgBanner{
+    border-radius: 30px;
+}
+#intro {
+    font-size: 65px !important;
+    font-weight: 700;
+    color: #156669;
+}
+.aboutUs-container{
+    background-image: url('../img/fondoAbout.png');    
+}
+.bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+}
+.feature-icon-small {
+    width: 3rem;
+    height: 3rem;
+}
+#info-app {
+    text-align: justify;
+}
+.faq-container{
+    background-image: url('../img/fondoFaq.png');    
+}
+/* -----------------FORM LOGIN------------------- */
+.vista-login {
+    font-family: 'Nunito', sans-serif;
+    background-image: url('../img/fondo1.png');
+}
+.form-container{
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+}
+
+.btn-login {
+    background-color: #EF8E01;
+    color: white;
+    margin-top: 30px;
+}
+.btn-login:hover {
+    background-color: #fc9e11;
+    color: white;
+}
+.form-header {
+    margin-bottom: 20px;
+}
+.form-header h4 {
+    margin-top: 15px;
+    font-size: 30px;
+    font-weight: bold;
+}
+.links-footer {
+    margin-top: 20px;
+}
+.links-footer a {
+    text-decoration: none;
+    color: #EF8E01;
+}
+.links-footer a:hover {
+    text-decoration: none;
+    color: #da8302;
+}
+/* -----------------FORM REGISTRO------------------- */
+.vista-registro{
+    background-image: url(../img/fondo1.png);    
+}
+.vista-registro .form-container{
+    padding: 20px 40px;
+}
+.vista-registro .form-container{
+    font-size: 12px;
+}
+.btn-registrar{
+    background-color: #EF8E01;
+    color: white;
+    margin-top: 15px;
+    font-size: 13px;
+    padding: 5px;
+}
+.btn-registrar:hover {
+    background-color: #fc9e11;
+    color: white;
+}
+.TyC { 
+    font-size: 10px;
+}
+.TyC p{
+    font-size:12px;
+}
