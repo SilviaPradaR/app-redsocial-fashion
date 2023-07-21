@@ -44,7 +44,7 @@ public class UsuarioServicio implements UserDetailsService{
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
         usuario.setFechaAlta(new Date());
         usuario.setDarBaja(false);
-        usuario.setRol(Rol.USER);
+        usuario.setRol(rol); 
         Imagen imagen = imagenServicio.guardar(archivo);
 
         usuario.setImagen(imagen);
@@ -67,8 +67,9 @@ public class UsuarioServicio implements UserDetailsService{
             usuario.setNombreCompleto(nombreCompleto);
             usuario.setNombreUsuario(nombreUsuario);
             usuario.setEmail(email);
+
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-                        
+
             String idImagen = null;
 
             if (usuario.getImagen() != null) {
@@ -135,6 +136,27 @@ public class UsuarioServicio implements UserDetailsService{
             return null;
         }
 
+
     }
+         @Transactional
+    public void cambiarEstado(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+
+            Usuario usuario = respuesta.get();
+
+            if (usuario.getDarBaja()) {
+
+                usuario.setDarBaja(false);
+
+            } else {
+                usuario.setDarBaja(true);
+            }
+        }
+    }
+        
+
     
+ 
 }
