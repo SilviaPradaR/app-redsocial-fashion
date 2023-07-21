@@ -128,5 +128,24 @@ public class UsuarioServicio /*implements UserDetailsService*/{
         }
 
     }*/
+         @Transactional
+    public void cambiarEstado(String id) {
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+
+            Usuario usuario = respuesta.get();
+
+            if (usuario.getDarBaja()) {
+
+                usuario.setDarBaja(false);
+
+            } else {
+                usuario.setDarBaja(true);
+            }
+        }
+    }
+        
     
+ 
 }
