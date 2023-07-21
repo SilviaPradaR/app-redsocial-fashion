@@ -1,1 +1,0 @@
-## Aquí se encuentran los documentos relacionados al frontend

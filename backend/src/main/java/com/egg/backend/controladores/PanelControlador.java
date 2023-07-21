@@ -40,7 +40,7 @@ public class PanelControlador {
     @GetMapping("/registrar")
     public String registrar(){
         
-        return "registro.html";
+        return "signup.html";
     }
     
     @PostMapping("/registro")
