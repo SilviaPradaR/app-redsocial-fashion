@@ -1,5 +1,5 @@
 .banner-container {
-    background-image: url("C:/Users/Fer/Desktop/Programacion Web Full Stack/Proyecto final/frontend/fondoAzul.png");
+    background-image: url("../img/fondoAzul.png");
 }
 .carousel-image {
     height: calc(100vh - 60px);
