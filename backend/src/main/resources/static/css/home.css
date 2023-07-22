@@ -1,0 +1,31 @@
+.banner-container {
+    background-image: url("../img/fondoAzul.png");
+}
+.carousel-image {
+    height: calc(100vh - 60px);
+    width: 100%;
+}
+.cards-wrapper {
+    display: flex;
+}
+.card {
+    margin: 0 0.5em;
+    width: calc(100% / 3);
+}
+.carousel {
+    width: 70%;
+    margin: auto;
+    padding-top: 2rem;
+}
+.titulo-principal {
+    font-size: 48px;
+    font-weight: 700;
+    color: #156669;
+}
+.image-wrapper {
+    height: 22vw;
+}
+.image-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+}
