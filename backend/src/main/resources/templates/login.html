@@ -20,15 +20,15 @@
                 <img src="/img/logo.png" alt="logo" style="width: 70px ;" />
                 <h4>Bienvenido de vuelta</h4>
             </div>
-            <form>
+            <form action="/logincheck" method="POST">
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo</label>
-                    <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" required />
+                    <input type="email" name="email" class="form-control" id="correo" aria-describedby="emailHelp" required />
 
                 </div>
                 <div class="mb-3">
                     <label for="clave" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="clave" required />
+                    <input type="password" name="password" class="form-control" id="clave" required />
                 </div>
                 <button type="submit" class="btn btn-login d-block" style="width: 100%">Login</button>
             </form>
