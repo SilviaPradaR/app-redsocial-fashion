@@ -36,4 +36,15 @@ public class LikeServicio {
 
         likeRepositorio.delete(like);
     }       
+        
+    public Long ContadorLikes() throws MiException {
+
+        return likeRepositorio.count();
+
+    }    
+    
+    public Like getOne(String id) {
+        
+        return likeRepositorio.getOne(id);
+    }
 }
