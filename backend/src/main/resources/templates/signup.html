@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
-    <title>Document</title>
+    <title>FashionNet</title>
 </head>
 
 <body>
@@ -21,7 +21,7 @@
                     <a href="/"><img src="/img/logo.png" alt="logo" style="width: 50px ;" /></a>                    
                     <h4>Bienvenido a FashionNet</h4>
                 </div>
-                <form class="row" action="/registro" method="POST">
+                <form class="row" action="/registro" method="POST" enctype="multipart/form-data">
                     <div class="col-md-6  mb-2">
                         <label for="inputNombre" class="form-label">Nombre (*)</label>
                         <input type="text" name="nombreCompleto" class="form-control form-control-sm" id="inputNombre" required>
@@ -38,12 +38,12 @@
                         <label for="inputPassword1" class="form-label">Contraseña (*)</label>
                         <input type="password" name="password" class="form-control form-control-sm" id="inputPassword1" required>
                         <div id="passwordHelpBlock" class="form-text">
-                            La contraseña debe tener más de 8 caracteres
+                            La contraseña debe tener mínimo 9 caracteres
                           </div>
                     </div>
                     <div class="col-md-6 mb-2">
                         <label for="inputPassword2" class="form-label">Confirmar contraseña (*)</label>
-                        <input type="password" name="password2" class="form-control form-control-sm" id="inputPassword2"required>
+                        <input type="password" name="password2" class="form-control form-control-sm" id="inputPassword2" required>
                     </div>
                     <div class="col-md-12 mb-2">
                         <label for="formFile" class="form-label">Adjunta foto de perfil</label>
