@@ -5,7 +5,9 @@ import com.egg.backend.entidades.Comentario;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.excepciones.MiException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,7 @@ public class ComentarioServicio {
             throw new MiException("El comentario no puede estar vacío ni ser nulo");
         }
     }
-
+    
     @Transactional
     public void darBaja(String id) throws MiException {
 
@@ -63,5 +65,19 @@ public class ComentarioServicio {
                 comentario.setDarBaja(Boolean.FALSE);
             }
         }
+    }
+    
+    public Comentario getOne(String id) {
+        
+        return comentarioRepositorio.getOne(id);
+    }
+    
+    public List<Comentario> listarComentarios() {
+
+        List<Comentario> comentarios = new ArrayList();
+
+        comentarios = comentarioRepositorio.findAll();
+        
+        return comentarios;
     }
 }
