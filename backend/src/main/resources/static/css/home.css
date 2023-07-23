@@ -1,31 +1,40 @@
-.banner-container {
+.tendencias-container {
     background-image: url("../img/fondoAzul.png");
 }
-.carousel-image {
+.tendencias-container .carousel-image {
     height: calc(100vh - 60px);
     width: 100%;
 }
-.cards-wrapper {
+.tendencias-container .cards-wrapper {
     display: flex;
 }
-.card {
+.tendencias-container .card {
     margin: 0 0.5em;
     width: calc(100% / 3);
 }
-.carousel {
+.tendencias-container .carousel {
     width: 70%;
     margin: auto;
     padding-top: 2rem;
 }
-.titulo-principal {
+.tendencias-container .titulo-principal {
     font-size: 48px;
     font-weight: 700;
     color: #156669;
 }
-.image-wrapper {
+.tendencias-container .image-wrapper {
     height: 22vw;
 }
-.image-wrapper img {
+.tendencias-container .image-wrapper img {
     max-width: 100%;
     max-height: 100%;
+}
+
+
+.cards-container .card{
+    cursor: pointer;
+}
+.cards-container .card:hover{
+    transform: scale(1);
+    box-shadow: 5px 5px 15px;
 }

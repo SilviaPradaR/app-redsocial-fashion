@@ -88,7 +88,7 @@ public class PanelControlador {
             
         }
         
-        return "Home.html";
+        return "home.html";
     }
             
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
