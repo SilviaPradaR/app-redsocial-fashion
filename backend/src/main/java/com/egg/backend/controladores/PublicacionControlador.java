@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping("/disenador")
 public class PublicacionControlador {
     @Autowired
@@ -29,57 +29,45 @@ public class PublicacionControlador {
     @Autowired
     private PublicacionServicio publicacionServicio;
   
-//    @PostMapping("/publicacion")
-//    public String publicacion(Usuario usuario, Categoria categoria, String contenido,
-//            Imagen imagen, ModelMap modelo) {
-//      
-//
-//        try {
-//
-//            publicacionServicio.crearPublicacion(usuario, categoria, contenido, imagen);
-//
-//            modelo.put("exito", "La publicación fue cargada exitosamente!!!");
-//
-//        } catch (MiException ex) {
-//
-//            modelo.put("error", ex.getMessage());
-//
-//            return "publicacion.html";
-//        }
-//
-//        return "inicio.html";
-//    }
-      
-//    @GetMapping("/listar")
-//    public String listar(ModelMap modelo) {
-//
-//        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
-//
-//        modelo.addAttribute("publicaciones", publicaciones);
-//
-//        return "listarPublicaciones.html";
-//    }
-    
-        @GetMapping("/listar")
-        public List<Publicacion> listarPublicaciones(){
-        
-        return publicacionRepositorio.findAll();      
-  
-   
+    @GetMapping("/crear")
+    public String registrar(){
+        return "form_crearPost.html";
     }
-        
-        @PostMapping("/guardar")
-        public Publicacion guardarPublicacion (@RequestBody Publicacion publicacion){
-            return publicacionRepositorio.save(publicacion);
-        }
-        
 
-        
-    
-    
-//    @GetMapping("/eliminar/{id}")
-//    public String eliminar(@PathVariable String id, ModelMap modelo) throws MiException{
-//        publicacionServicio.eliminar(id);
-//        return "redirect:../listar";
-//    }
+   @PostMapping("/publicacion")
+   public String publicacion(Usuario usuario, Categoria categoria, String contenido,
+           Imagen imagen, ModelMap modelo) {
+     
+
+       try {
+
+           publicacionServicio.crearPublicacion(usuario, categoria, contenido, imagen);
+
+           modelo.put("exito", "La publicación fue cargada exitosamente!!!");
+
+       } catch (MiException ex) {
+
+           modelo.put("error", ex.getMessage());
+
+           return "publicacion.html";
+       }
+
+       return "inicio.html";
+   }
+      
+   @GetMapping("/listar")
+   public String listar(ModelMap modelo) {
+
+       List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
+
+       modelo.addAttribute("publicaciones", publicaciones);
+
+       return "listarPublicaciones.html";
+   }
+ 
+   @GetMapping("/eliminar/{id}")
+   public String eliminar(@PathVariable String id, ModelMap modelo) throws MiException{
+       publicacionServicio.eliminar(id);
+       return "redirect:../listar";
+   }
 }

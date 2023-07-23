@@ -95,10 +95,10 @@ nav a {
     color: white;
 }
 .form-header {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 .form-header h4 {
-    margin-top: 15px;
+    margin-top: 8px;
     font-size: 30px;
     font-weight: bold;
 }
@@ -118,7 +118,7 @@ nav a {
     background-image: url(../img/fondo1.png);    
 }
 .vista-registro .form-container{
-    padding: 20px 40px;
+    padding: 30px 40px 10px 40px;
 }
 .vista-registro .form-container{
     font-size: 12px;
@@ -151,4 +151,8 @@ nav a {
 }
 .explore-container h2{
     font-size: 55px;
+}
+#passwordHelpBlock{
+    font-size: 10px;
+    margin: 0px;
 }
