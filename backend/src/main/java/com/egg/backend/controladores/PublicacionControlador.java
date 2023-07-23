@@ -10,6 +10,10 @@ import com.egg.backend.repositorios.PublicacionRepositorio;
 import com.egg.backend.servicios.PublicacionServicio;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/disenador")
@@ -35,24 +40,24 @@ public class PublicacionControlador {
     }
 
    @PostMapping("/publicacion")
-   public String publicacion(Usuario usuario, Categoria categoria, String contenido,
-           Imagen imagen, ModelMap modelo) {
+   public String publicacion(HttpSession session, String contenido,
+           MultipartFile imagen, ModelMap modelo) { //configurar categoria
      
 
        try {
-
-           publicacionServicio.crearPublicacion(usuario, categoria, contenido, imagen);
+        Usuario logueado = (Usuario) session.getAttribute("usuariosession"); 
+           publicacionServicio.crearPublicacion(logueado, contenido, imagen); //configurar categoria
 
            modelo.put("exito", "La publicación fue cargada exitosamente!!!");
 
        } catch (MiException ex) {
-
+            Logger.getLogger(PublicacionControlador.class.getName()).log(Level.SEVERE, null, ex);
            modelo.put("error", ex.getMessage());
 
-           return "publicacion.html";
+           return "home.html";
        }
 
-       return "inicio.html";
+       return "index.html";
    }
       
    @GetMapping("/listar")
@@ -69,5 +74,5 @@ public class PublicacionControlador {
    public String eliminar(@PathVariable String id, ModelMap modelo) throws MiException{
        publicacionServicio.eliminar(id);
        return "redirect:../listar";
-   }
+   };
 }

@@ -29,7 +29,19 @@
     max-width: 100%;
     max-height: 100%;
 }
-
+.tendencias-container .carousel-control-prev{
+    width: auto;
+    
+}
+.tendencias-container .carousel-control-next{
+    width: auto;
+    
+}
+.tendencias-container .carousel-inner{
+    padding-left: 3rem;
+    padding-right: 3rem;
+    
+}
 
 .cards-container .card{
     cursor: pointer;
