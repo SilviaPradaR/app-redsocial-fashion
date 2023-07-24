@@ -140,6 +140,16 @@ nav a {
 .TyC p{
     font-size:12px;
 }
+#passwordHelpBlock, 
+#passwordMatchMessage{
+    font-size: 10px;
+    margin: 0px;
+}
+.vista-registro .green-border {
+    border: 1px solid rgb(76, 211, 76) !important;
+    background-color:  rgb(206, 238, 206) !important;
+    box-shadow: none!important;
+}
 /* -----------------EXPLORE------------------- */
 .explore-container{
     background-image: url('../img/fondoAzul.png');
@@ -152,7 +162,7 @@ nav a {
 .explore-container h2{
     font-size: 55px;
 }
-#passwordHelpBlock{
-    font-size: 10px;
-    margin: 0px;
+/* -----------------FORM CREAR POST------------------- */
+.crear-container{
+    background-image: url('../img/fondo1.png');    
 }

@@ -1,9 +1,11 @@
 package com.egg.backend.servicios;
 
 import com.egg.backend.entidades.Imagen;
+import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
+import com.egg.backend.repositorios.PublicacionRepositorio;
 import com.egg.backend.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +32,8 @@ public class UsuarioServicio implements UserDetailsService{
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
     private ImagenServicio imagenServicio;
+    @Autowired
+    private PublicacionRepositorio publicacionRepositorio;
     
     @Transactional
     public void registrar(MultipartFile archivo, String nombreCompleto, String nombreUsuario, String email, String password, String password2, Rol rol) throws MiException {
@@ -112,10 +116,10 @@ public class UsuarioServicio implements UserDetailsService{
             throw new MiException("El nombre de usuario no puede estar vacio");
         }
         if (password.isEmpty() || password.length()<5) {
-            throw new MiException("contrasenia no puede ser menor a 5");
+            throw new MiException("La contraseña no puede ser menor a 5 caracteres");
         }
         if (!password.equals(password2)) {
-            throw new MiException(" Las contrasenias deben coincidir");
+            throw new MiException(" Las contraseñas no coinciden");
         }
         
     }    
@@ -154,6 +158,10 @@ public class UsuarioServicio implements UserDetailsService{
                 usuario.setDarBaja(true);
             }
         }
+    }
+
+    public List<Publicacion> getPublicacionesPorUsuario(Usuario usuario) {
+        return publicacionRepositorio.findByUsuario(usuario);
     }
         
 

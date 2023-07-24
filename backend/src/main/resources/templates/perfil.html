@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>mi perfil</h1>
+    <p>Mis publicaciones</p>
+
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+        <div th:each="publicacion : ${publicaciones}" class="col-sm-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    
+                    
+                    <p th:text="${publicacion.contenido}"></p>
+                     
+                </div>
+                <div class="card-footer">
+                    
+                    <a role="button" type="submit" class="btn btn-danger" th:href= "@{/disenador/eliminar/__${publicacion.id}__}"> Eliminar</a>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 
 package com.egg.backend.controladores;
 
+import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
@@ -47,7 +48,7 @@ public class PanelControlador {
     
     @PostMapping("/registro")
     public String registro(@RequestParam String nombreCompleto, @RequestParam String nombreUsuario,
-            @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam Rol rol, ModelMap modelo, MultipartFile archivo) throws MiException{
+            @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam Rol rol, ModelMap modelo, MultipartFile archivo) {
       
         try {
             usuarioServicio.registrar(archivo, nombreCompleto, nombreUsuario, email, password, password2, rol);
@@ -57,10 +58,9 @@ public class PanelControlador {
             return "index.html";
         } catch (MiException ex) {
             
-            modelo.put("error", ex);
+            modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombreUsuario);
             modelo.put("email", email);
-            System.out.println(modelo);
             return "signup.html";
         }
     } 
@@ -95,8 +95,11 @@ public class PanelControlador {
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo,HttpSession session){
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-         modelo.put("usuario", usuario);
-        return "actualizar_usuario.html";
+         
+         List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);
+         modelo.addAttribute("publicaciones", publicaciones);
+        
+        return "perfil.html";
     }
     
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
