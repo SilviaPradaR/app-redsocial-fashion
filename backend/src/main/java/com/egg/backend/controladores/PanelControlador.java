@@ -32,6 +32,7 @@ public class PanelControlador {
         return "index.html";        
     }
     
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/dashboard")
     public String panelAdministrador() {
 
