@@ -112,10 +112,10 @@ public class UsuarioServicio implements UserDetailsService{
             throw new MiException("El nombre de usuario no puede estar vacio");
         }
         if (password.isEmpty() || password.length()<5) {
-            throw new MiException("contrasenia no puede ser menor a 5");
+            throw new MiException("La contraseña no puede ser menor a 5 caracteres");
         }
         if (!password.equals(password2)) {
-            throw new MiException(" Las contrasenias deben coincidir");
+            throw new MiException(" Las contraseñas no coinciden");
         }
         
     }    

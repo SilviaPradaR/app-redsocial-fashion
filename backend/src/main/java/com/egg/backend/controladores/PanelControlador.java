@@ -47,7 +47,7 @@ public class PanelControlador {
     
     @PostMapping("/registro")
     public String registro(@RequestParam String nombreCompleto, @RequestParam String nombreUsuario,
-            @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam Rol rol, ModelMap modelo, MultipartFile archivo) throws MiException{
+            @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam Rol rol, ModelMap modelo, MultipartFile archivo) {
       
         try {
             usuarioServicio.registrar(archivo, nombreCompleto, nombreUsuario, email, password, password2, rol);
@@ -57,10 +57,8 @@ public class PanelControlador {
             return "index.html";
         } catch (MiException ex) {
             
-            modelo.put("error", ex);
-            modelo.put("nombre", nombreUsuario);
-            modelo.put("email", email);
-            System.out.println(modelo);
+            modelo.put("error", ex.getMessage());
+            
             return "signup.html";
         }
     } 
