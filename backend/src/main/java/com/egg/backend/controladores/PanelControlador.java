@@ -59,7 +59,8 @@ public class PanelControlador {
         } catch (MiException ex) {
             
             modelo.put("error", ex.getMessage());
-            
+            modelo.put("nombre", nombreUsuario);
+            modelo.put("email", email);
             return "signup.html";
         }
     } 
