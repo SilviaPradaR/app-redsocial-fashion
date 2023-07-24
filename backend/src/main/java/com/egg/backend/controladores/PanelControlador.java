@@ -1,6 +1,7 @@
 
 package com.egg.backend.controladores;
 
+import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
@@ -93,8 +94,11 @@ public class PanelControlador {
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo,HttpSession session){
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-         modelo.put("usuario", usuario);
-        return "actualizar_usuario.html";
+         
+         List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);
+         modelo.addAttribute("publicaciones", publicaciones);
+        
+        return "perfil.html";
     }
     
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")

@@ -54,10 +54,11 @@
         </div>
     </nav>
 
-    <section>
+    <section class="crear-container d-flex justify-content-center align-items-center vh-100">
+        
         <form action="/disenador/publicacion" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="categoria" class="form-label">Categoria</label>
+                <label for="categoria" class="form-label">Categoria(*)</label>
                 <select name="categoria" id="categoria"  class="form-select" aria-label="Default select example">
                     <option selected>Seleccione...</option>
                     <option value="maquillaje">Maquillaje</option>
@@ -68,11 +69,11 @@
             </div>            
             <div class="mb-3">
                 <label for="contenido" class="form-label">Contenido</label>
-                <input type="text" name="contenido" class="form-control" id="clave" required />
+                <textarea type="text" name="contenido" class="form-control" id="clave" required></textarea>
             </div>
             <div class="col-md-12 mb-2">
-                <label for="imagen" class="form-label">Adjunta la imagen</label>
-                <input class="form-control form-control-sm" name="imagen" type="file" id="imagen">
+                <label for="imagen" class="form-label">Adjunta la imagen(*)</label>
+                <input class="form-control form-control-sm" name="imagen" type="file" id="imagen" required>
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
         </form>

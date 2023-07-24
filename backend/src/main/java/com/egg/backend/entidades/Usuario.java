@@ -9,7 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
 import javax.persistence.OneToOne;
 
 import lombok.AccessLevel;
