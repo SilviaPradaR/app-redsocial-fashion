@@ -10,6 +10,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.egg.backend.entidades.Imagen;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
@@ -19,21 +21,24 @@ public class PublicacionServicio {
     
     @Autowired
     private PublicacionRepositorio publicacionRepositorio;
+    @Autowired
+    private ImagenServicio imagenServicio;
     
     @Transactional
-    public void crearPublicacion(Usuario usuario, Categoria categoria, String contenido,
-            Imagen imagen) throws MiException{
+    public void crearPublicacion(Usuario usuario, String contenido,
+    MultipartFile imagen) throws MiException{ //configurar categoria
                          
 //        validar(imagen, categoria);
         
         Publicacion publicacion = new Publicacion();
         
         publicacion.setUsuario(usuario);
-        publicacion.setCategoria(categoria);        
+        // publicacion.setCategoria(categoria); al configurar categoria descomentar        
         publicacion.setContenido(contenido);              
         publicacion.setFechaPublicacion(new Date());
         publicacion.setDarBaja(Boolean.FALSE);
-        publicacion.setImagen(imagen);
+        Imagen img = imagenServicio.guardar(imagen);
+        publicacion.setImagen(img);
         publicacionRepositorio.save(publicacion); 
     }
 
