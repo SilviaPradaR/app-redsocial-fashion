@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet" />
     <title>Document</title>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg" id="nav-scrolled" aria-label="Eleventh navbar example">
         <div class="container-fluid">
@@ -55,18 +56,18 @@
     </nav>
 
     <section class="crear-container d-flex justify-content-center align-items-center vh-100">
-        
+
         <form action="/disenador/publicacion" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="categoria" class="form-label">Categoria(*)</label>
-                <select name="categoria" id="categoria"  class="form-select" aria-label="Default select example">
+                <select name="idCategoria" id="categoria" class="form-select" aria-label="Default select example">
                     <option selected>Seleccione...</option>
-                    <option value="maquillaje">Maquillaje</option>
-                    <option value="accesorios">Accesorios</option>
-                    <option value="ropa">Ropa</option>
-                    <option value="calzado">Calzado</option>    
-                  </select>
-            </div>            
+                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                        th:text="${categoria.nombre}">
+                    </option>
+                </select>
+            </div>
+            
             <div class="mb-3">
                 <label for="contenido" class="form-label">Contenido</label>
                 <textarea type="text" name="contenido" class="form-control" id="clave" required></textarea>
@@ -82,4 +83,5 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
 </body>
+
 </html>
