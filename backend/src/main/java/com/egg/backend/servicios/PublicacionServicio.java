@@ -31,7 +31,7 @@ public class PublicacionServicio {
     
     @Transactional
     public void crearPublicacion(Usuario usuario, String contenido,
-    MultipartFile imagen, String idCategoria) throws MiException{ //configurar categoria
+    MultipartFile imagen, String idCategoria) throws MiException{
                          
         validar(imagen, idCategoria);
         Optional<Categoria> respuesta = categoriaRepositorio.findById(idCategoria);

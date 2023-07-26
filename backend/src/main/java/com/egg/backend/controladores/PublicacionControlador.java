@@ -47,12 +47,12 @@ public class PublicacionControlador {
 
    @PostMapping("/publicacion")
    public String publicacion(HttpSession session, String contenido,
-           @RequestParam MultipartFile imagen, ModelMap modelo, String idCategoria) { //configurar categoria
+           @RequestParam MultipartFile imagen, ModelMap modelo, String idCategoria) { 
      
 
        try {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession"); 
-           publicacionServicio.crearPublicacion(logueado, contenido, imagen, idCategoria); //configurar categoria
+           publicacionServicio.crearPublicacion(logueado, contenido, imagen, idCategoria);
 
            modelo.put("exito", "La publicación fue cargada exitosamente!!!");
 
