@@ -106,6 +106,13 @@ public class PanelControlador {
         
         return "perfil.html";
     }
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
+    @GetMapping("/editar_perfil")
+    public String editarperfil(ModelMap modelo,HttpSession session){
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        modelo.put("usuario", usuario);
+        return "usuario_modificar.html";
+    }
     
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
     @PostMapping("/perfil/{id}")
@@ -117,14 +124,14 @@ public class PanelControlador {
 
             modelo.put("éxito", "Usuario actualizado correctamente!");
 
-            return "inicio.html";//preguntar si el html de pagina inicio logueado se llamará asi
+            return "home.html";
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombreUsuario);
             modelo.put("email", email);
 
-            return "actualizar_usuario.html";
+            return "usuario_modificar.html";
         }
     }
     
