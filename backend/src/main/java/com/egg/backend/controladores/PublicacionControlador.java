@@ -7,6 +7,7 @@ import com.egg.backend.entidades.Categoria;
 import com.egg.backend.entidades.Imagen;
 import com.egg.backend.excepciones.MiException;
 import com.egg.backend.repositorios.PublicacionRepositorio;
+import com.egg.backend.servicios.CategoriaServicio;
 import com.egg.backend.servicios.PublicacionServicio;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,23 +33,26 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/disenador")
 public class PublicacionControlador {
     @Autowired
-    private PublicacionRepositorio publicacionRepositorio;
+    private CategoriaServicio categoriaServicio;
     @Autowired
     private PublicacionServicio publicacionServicio;
   
     @GetMapping("/crear")
-    public String registrar(){
+    public String registrar(ModelMap modelo){
+        List<Categoria> categorias = categoriaServicio.listarCategoria();
+        
+        modelo.addAttribute("categorias", categorias);
         return "form_crearPost.html";
     }
 
    @PostMapping("/publicacion")
    public String publicacion(HttpSession session, String contenido,
-           @RequestParam MultipartFile imagen, ModelMap modelo) { //configurar categoria
+           @RequestParam MultipartFile imagen, ModelMap modelo, String idCategoria) { //configurar categoria
      
 
        try {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession"); 
-           publicacionServicio.crearPublicacion(logueado, contenido, imagen); //configurar categoria
+           publicacionServicio.crearPublicacion(logueado, contenido, imagen, idCategoria); //configurar categoria
 
            modelo.put("exito", "La publicación fue cargada exitosamente!!!");
 
