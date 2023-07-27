@@ -70,6 +70,22 @@ public class PublicacionServicio {
         
         return publicaciones;
     }     
+    
+    @Transactional
+    public void darBaja(String id) throws MiException {
+
+        Optional<Publicacion> respuesta = publicacionRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+            Publicacion publicacion = respuesta.get();
+
+            if (!publicacion.getDarBaja()) {
+                publicacion.setDarBaja(Boolean.TRUE);
+            } else {
+                publicacion.setDarBaja(Boolean.FALSE);
+            }
+        }
+    }
 
      @Transactional
     public void eliminar(String id) throws MiException {
