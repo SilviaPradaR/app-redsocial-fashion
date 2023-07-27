@@ -63,7 +63,7 @@ public class PublicacionControlador {
            return "home.html";
        }
 
-       return "index.html";
+       return "redirect:../perfil";
    }
       
    @GetMapping("/listar")
