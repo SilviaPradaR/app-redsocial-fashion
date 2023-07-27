@@ -85,8 +85,10 @@ public class PanelControlador {
     @GetMapping("/inicio")
     public String inicio(ModelMap modelo, HttpSession session){
         
-        Usuario logueado = (Usuario) session.getAttribute("usuariosession");
-
+        
+        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
+        
+        modelo.addAttribute("publicaciones", publicaciones);
         return "home.html";
     }
             
