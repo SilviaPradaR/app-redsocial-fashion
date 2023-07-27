@@ -5,6 +5,7 @@ import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
+import com.egg.backend.servicios.PublicacionServicio;
 import com.egg.backend.servicios.UsuarioServicio;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,8 @@ public class PanelControlador {
     
     @Autowired
     private UsuarioServicio usuarioServicio;
+    @Autowired
+    private PublicacionServicio publicacionServicio;
     
     @GetMapping("/")
     public String index(){
@@ -87,10 +90,12 @@ public class PanelControlador {
     
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
     @GetMapping("/inicio")
-    public String inicio(HttpSession session){
+    public String inicio(ModelMap modelo, HttpSession session){
         
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
         
+        modelo.addAttribute("publicaciones", publicaciones);
         if (logueado.getRol().toString().equals("ADMIN")) {
             
             return "redirect:/dashboard";
@@ -110,6 +115,13 @@ public class PanelControlador {
         
         return "perfil.html";
     }
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
+    @GetMapping("/editar_perfil")
+    public String editarperfil(ModelMap modelo,HttpSession session){
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        modelo.put("usuario", usuario);
+        return "usuario_modificar.html";
+    }
     
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
     @PostMapping("/perfil/{id}")
@@ -121,14 +133,14 @@ public class PanelControlador {
 
             modelo.put("éxito", "Usuario actualizado correctamente!");
 
-            return "inicio.html";//preguntar si el html de pagina inicio logueado se llamará asi
+            return "home.html";
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombreUsuario);
             modelo.put("email", email);
 
-            return "actualizar_usuario.html";
+            return "usuario_modificar.html";
         }
     }
     

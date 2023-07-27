@@ -16,8 +16,10 @@
             <div class="card h-100">
                 <div class="card-body">
                     
-                    
+                    <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" alt="img">
+                   
                     <p th:text="${publicacion.contenido}"></p>
+                    <p th:text="${publicacion.imagen.id}"></p>
                      
                 </div>
                 <div class="card-footer">
