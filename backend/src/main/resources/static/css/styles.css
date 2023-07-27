@@ -166,7 +166,7 @@ nav a {
 .crear-container{
     background-image: url('../img/fondo1.png');    
 }
-/* -----------------FORM LOGIN------------------- */
+/* -----------------FORM DASHBOARD------------------- */
 .vista-reporte {
     font-family: 'Nunito', sans-serif;
     background-image: url('../img/fondo1.png');
@@ -180,3 +180,7 @@ nav a {
 .vista-comentarios{
     background-image: url('../img/fondoFaq.png');    
 }
+div.dataTables_wrapper {
+        width: 800px;
+        margin: 0 auto;
+    }
