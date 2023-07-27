@@ -34,7 +34,7 @@ public class UsuarioServicio implements UserDetailsService{
     private ImagenServicio imagenServicio;
     @Autowired
     private PublicacionRepositorio publicacionRepositorio;
-    
+
     @Transactional
     public void registrar(MultipartFile archivo, String nombreCompleto, String nombreUsuario, String email, String password, String password2, Rol rol) throws MiException {
 
@@ -48,7 +48,7 @@ public class UsuarioServicio implements UserDetailsService{
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
         usuario.setFechaAlta(new Date());
         usuario.setDarBaja(false);
-        usuario.setRol(rol); 
+        usuario.setRol(rol);
         Imagen imagen = imagenServicio.guardar(archivo);
 
         usuario.setImagen(imagen);
@@ -57,6 +57,9 @@ public class UsuarioServicio implements UserDetailsService{
     }
     public Usuario getOne(String id) {
         return usuarioRepositorio.getOne(id);
+    }
+    public Usuario getOneEmail(String email) {
+        return usuarioRepositorio.buscarPorEmail(email);
     }
     
     @Transactional
@@ -87,7 +90,7 @@ public class UsuarioServicio implements UserDetailsService{
         }
 
     }
-    
+
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public List<Usuario> listarUsuarios() {
 
@@ -97,8 +100,8 @@ public class UsuarioServicio implements UserDetailsService{
 
         return usuarios;
     }
-    
-   @Transactional
+
+    @Transactional
     public void eliminar(String id) throws MiException {
 
         Usuario usuario= getOne(id);
@@ -106,9 +109,9 @@ public class UsuarioServicio implements UserDetailsService{
         usuarioRepositorio.delete(usuario);
 
     }
-    
-    private void validar(String nombreCompleto,String nombreUsuario, String email,String password,String password2) throws MiException {
 
+    private void validar(String nombreCompleto,String nombreUsuario, String email,String password,String password2) throws MiException {
+       
         if (nombreCompleto.isEmpty()) {
             throw new MiException("El nombre no puede estar vacio");
         }
@@ -121,9 +124,12 @@ public class UsuarioServicio implements UserDetailsService{
         if (!password.equals(password2)) {
             throw new MiException(" Las contraseñas no coinciden");
         }
+        if (email.isEmpty() || email==null) {
+            throw new MiException("El email no puede estar vacio");
+        }
         
-    }    
-        
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario us = usuarioRepositorio.buscarPorEmail(email);
@@ -140,9 +146,8 @@ public class UsuarioServicio implements UserDetailsService{
             return null;
         }
 
-
     }
-         @Transactional
+    @Transactional
     public void cambiarEstado(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
@@ -163,8 +168,5 @@ public class UsuarioServicio implements UserDetailsService{
     public List<Publicacion> getPublicacionesPorUsuario(Usuario usuario) {
         return publicacionRepositorio.findByUsuario(usuario);
     }
-        
 
-    
- 
 }

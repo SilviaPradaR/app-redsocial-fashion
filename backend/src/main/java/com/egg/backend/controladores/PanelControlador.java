@@ -52,13 +52,21 @@ public class PanelControlador {
     @PostMapping("/registro")
     public String registro(@RequestParam String nombreCompleto, @RequestParam String nombreUsuario,
             @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam Rol rol, ModelMap modelo, MultipartFile archivo) {
-      
+        
         try {
-            usuarioServicio.registrar(archivo, nombreCompleto, nombreUsuario, email, password, password2, rol);
             
-            modelo.put("exito", "Usuario registrado correctamente!!!");
+           Usuario user= usuarioServicio.getOneEmail(email);
             
-            return "index.html";
+            if (user == null) {
+               usuarioServicio.registrar(archivo, nombreCompleto, nombreUsuario, email, password, password2, rol);
+            
+                modelo.put("exito", "Usuario registrado correctamente!!!"); 
+                modelo.put("nombre", nombreUsuario);
+                modelo.put("email", email);
+            }else{
+                throw new MiException("El email ya esta registrado");
+            }
+            
         } catch (MiException ex) {
             
             modelo.put("error", ex.getMessage());
@@ -66,6 +74,7 @@ public class PanelControlador {
             modelo.put("email", email);
             return "signup.html";
         }
+        return "index.html";
     } 
     
     @GetMapping("/login")
