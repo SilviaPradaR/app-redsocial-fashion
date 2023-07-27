@@ -29,25 +29,23 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarsExample09">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Usuarios</a>
-                         <ul class="dropdown-menu">
-                         <li><a class="dropdown-item" th:if="${session.usuariosession != null}" th:href="@{/listarusuarios}">Listar Usuarios</a></li>                   
-                         </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reportes</a>
-                        <ul class="dropdown-menu">
-                         <li><a class="dropdown-item" th:if="${session.usuariosession != null}" th:href="@{/listarreportes}">Listar Reportes</a></li>                   
-                         </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Publicaciones</a>
-                        <ul class="dropdown-menu">
-                         <li><a class="dropdown-item" th:if="${session.usuariosession != null}" th:href="@{/listarreportes}">Listar Publicaciones</a></li>                   
-                         </ul>                   
-                </ul>
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item me-3">
+            <a class="nav-link active" aria-current="page" href="#">GESTION DE REPORTES</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link active" aria-current="page" href="#">Reporte</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link" href="#usuarios">Usuarios</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link" href="#publicaciones">Publicaciones</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link" href="#comentarios">Comentarios</a>
+          </li>
+        </ul>
 
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
@@ -67,11 +65,26 @@
         </div>
     </nav>
 
-    <main class="vista-administrador d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <main >
       
-        <div class="">
-            <h1 class="titulo-principal">Últimas tendencias</h1>
-        </div>
+         <div class="vista-reporte d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+      
+    </div>
+
+    <div id="usuarios" class="vista-usuarios d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+      
+
+    </div>
+
+    <div id="publicaciones" class="vista-publicaciones d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+      
+    </div>
+
+    <div id="comentarios" class="vista-comentarios d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+      
+    </div>
+        
+        
         
     </main>
 
