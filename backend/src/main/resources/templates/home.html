@@ -2,18 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
     <link rel="stylesheet" href="/css/styles.css" />
-    <link rel="stylesheet" href="/css/home.css" /> 
+    <link rel="stylesheet" href="/css/home.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet" />
     <title>FashionNet</title>
-
+    <style>
+        .heart-btn.liked svg {
+            fill: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -31,15 +34,17 @@
             <div class="collapse navbar-collapse" id="navbarsExample09">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="">Inicio</a>
+                        <a class="nav-link" href="/inicio">Inicio</a>
                     </li>
                     <li class="nav-item me-3">
                         <a class="nav-link" href="">Explorar</a>
                     </li>
-                    <li class="nav-item me-3" th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('ADMIN', 'DISENIADOR')">
+                    <li class="nav-item me-3" th:if="${session.usuariosession != null}"
+                        sec:authorize="hasAnyRole('ADMIN', 'DISENIADOR')">
                         <a class="nav-link" href="/disenador/crear">Crear</a>
-                    </li>                     
-                    <li class="nav-item me-3" th:if="${session.usuariosession != null}" sec:authorize="hasRole('ADMIN')">
+                    </li>
+                    <li class="nav-item me-3" th:if="${session.usuariosession != null}"
+                        sec:authorize="hasRole('ADMIN')">
                         <a class="nav-link" href="/administrador/dashboard">Administrador</a>
                     </li>
                 </ul>
@@ -47,7 +52,8 @@
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle" />
+                        <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="foto-perfil" width="35"
+                            height="35" class="rounded-circle" id="img-cover" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
                         <li><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
@@ -367,33 +373,29 @@
          
     </main> -->
 
-    <div class="posts-container">
-        <section class="filtros">
-            aqui van los filtros
-        </section>
 
-        <section class="container cards-container">
+    <section class="cards-container">
+        <div class="container">
             <div class="row row-cols-1 row-cols-md-4 g-4">
                 <div th:each="publicacion : ${publicaciones}" class="col">
-                    <div class="card">
+                    <div class="card h-100">
                         <div class="card-header">
-                            <img src="/img/logo.png" alt="Logo" width="35" height="30" class="d-inline-block" />
-                            <span th:text="${publicacion.contenido}"></span>
-                            
+                            <img th:src="@{/imagen/perfil/__${publicacion.usuario.id}__}" alt="foto-perfil" width="35"
+                                height="35" class="d-inline-block rounded-circle" id="img-cover" />
+                            <span th:text="${publicacion.usuario.nombreUsuario}"></span>
                         </div>
-                        <img src="/img/fotoDefault.jpg" class="card-img-top" alt="...">
-    
-                        <div class="card-footer d-flex">
+                        <!-- <img src="/img/fotoDefault.jpg" class="card-img-top" alt="..."> -->
+                        <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" class="card-img-top" alt="">
+                        <div class="card-footer d-flex align-items-center">
                             <div class="btns-right">
-                                <button type="button" class="btn">
+                                <button type="button" class="btn like-btn heart-btn">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-heart" viewBox="0 0 16 16">
-                                        <path
-                                            d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
-                                        </path>
+                                        class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                     </svg>
                                 </button>
-                                <button type="button" class="btn">
+                                <button type="button" class="btn like-btn">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-chat" viewBox="0 0 16 16">
                                         <path
@@ -401,13 +403,9 @@
                                     </svg>
                                 </button>
                             </div>
-    
-                            <!-- <button type="button" class="btn" style="float: right;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grip-horizontal" viewBox="0 0 16 16">
-                                    <path d="M2 8a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                                  </svg>
-                            </button> -->
-                            <div class="dropup btns-left">
+
+
+                            <div class="dropup btns-left ms-sm-auto">
                                 <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-grip-horizontal" viewBox="0 0 16 16">
@@ -421,16 +419,18 @@
                                     <li><a class="dropdown-item" href="#">Cerrar</a></li>
                                 </ul>
                             </div>
-    
-    
+
+
                         </div>
                     </div>
                 </div>
-                
+
             </div>
-        </section>
-    </div>
-    
+        </div>
+
+    </section>
+
+
 
 
 
@@ -478,6 +478,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
+    <script>
+        const heartButtons = document.querySelectorAll(".heart-btn");
+        heartButtons.forEach((heartButton) => {
+        heartButton.addEventListener("click", () => {
+            heartButton.classList.toggle("liked");
+        });
+    });
+    </script>
 </body>
 
 </html>
