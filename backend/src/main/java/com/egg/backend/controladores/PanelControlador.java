@@ -34,15 +34,8 @@ public class PanelControlador {
     public String index(){
         
         return "index.html";        
-    }
-    
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/dashboard")
-    public String panelAdministrador() {
-
-        return "dashboard.html";//Tengo la duda si dejarlo en inicio o como dashboard.html
-    }
-    
+    }  
+      
     @GetMapping("/registrar")
     public String registrar(){
         
@@ -88,24 +81,16 @@ public class PanelControlador {
         return "login.html";
     }
     
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
     public String inicio(ModelMap modelo, HttpSession session){
         
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
-        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
-        
-        modelo.addAttribute("publicaciones", publicaciones);
-        if (logueado.getRol().toString().equals("ADMIN")) {
-            
-            return "redirect:/dashboard";
-            
-        }
-        
+
         return "home.html";
     }
             
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo,HttpSession session){
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
@@ -123,7 +108,7 @@ public class PanelControlador {
         return "usuario_modificar.html";
     }
     
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @PostMapping("/perfil/{id}")
     public String actualizar(@PathVariable String id, @RequestParam String nombreCompleto, @RequestParam String nombreUsuario,
             @RequestParam String email, @RequestParam String password, @RequestParam String password2,  Rol rol, ModelMap modelo, MultipartFile archivo) throws Exception {

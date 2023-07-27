@@ -38,6 +38,9 @@
                     </li>
                     <li class="nav-item me-3" th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('ADMIN', 'DISENIADOR')">
                         <a class="nav-link" href="/disenador/crear">Crear</a>
+                    </li>                     
+                    <li class="nav-item me-3" th:if="${session.usuariosession != null}" sec:authorize="hasRole('ADMIN')">
+                        <a class="nav-link" href="/administrador/dashboard">Administrador</a>
                     </li>
                 </ul>
 

@@ -166,3 +166,8 @@ nav a {
 .crear-container{
     background-image: url('../img/fondo1.png');    
 }
+/* -----------------FORM LOGIN------------------- */
+.vista-administrador {
+    font-family: 'Nunito', sans-serif;
+    background-image: url('../img/fondo1.png');
+}
