@@ -167,7 +167,16 @@ nav a {
     background-image: url('../img/fondo1.png');    
 }
 /* -----------------FORM LOGIN------------------- */
-.vista-administrador {
+.vista-reporte {
     font-family: 'Nunito', sans-serif;
     background-image: url('../img/fondo1.png');
+}
+.vista-usuarios{
+    background-image: url('../img/fondoAzul.png');
+}
+.vista-publicaciones{
+    background-image: url('../img/fondoBanner.png');
+}
+.vista-comentarios{
+    background-image: url('../img/fondoFaq.png');    
 }
