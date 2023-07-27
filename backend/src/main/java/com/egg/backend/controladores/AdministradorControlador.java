@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/administrador")
 public class AdministradorControlador {
 
     @Autowired
@@ -32,6 +32,12 @@ public class AdministradorControlador {
 
     @Autowired
     private ComentarioServicio comentarioServicio;
+    
+    @GetMapping("/dashboard")
+    public String administrador(){
+        
+        return "dashboard.html";        
+    }
 
     @GetMapping("/reportes")
     public String listarReportes(ModelMap modelo) {
