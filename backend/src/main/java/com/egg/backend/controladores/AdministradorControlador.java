@@ -78,7 +78,7 @@ public class AdministradorControlador {
 
         try {
 
-            publicacionServicio.darBaja(id);;
+            publicacionServicio.darBaja(id);
             modelo.put("Éxito", "El publicación fue dada de baja correctamente");
             return "redirect:/admin/reportes";
 
@@ -95,7 +95,7 @@ public class AdministradorControlador {
 
         try {
 
-            publicacionServicio.eliminar(id);;
+            publicacionServicio.eliminar(id);
             modelo.put("Éxito", "La publicación fue eliminada correctamente");
 
             return "reportes_lista.html";
@@ -166,21 +166,43 @@ public class AdministradorControlador {
         }
     }
 
+//    @GetMapping("/usuario_reporte_contador/{id}")
+//    public String contadorUsuario(@PathVariable String id, ModelMap modelo) {
+//        
+//        try {
+//            reporteServicio.contadorReporteUsuario(id);
+//            
+//            return "dashboard.html";
+//
+//        } catch (MiException ex) {
+//            
+//            modelo.put("error", ex.getMessage());
+//
+//            return "dashboard.html";
+//        }
+//    }
+    
     @GetMapping("/usuario_reporte_contador/{id}")
-    public String contadorUsuario(@PathVariable String id, ModelMap modelo) {
+    public String conteoReportesUsuario(@PathVariable String id, ModelMap modelo) throws MiException {
 
-        try {
-            reporteServicio.ContadorReporteUsuario(id);
-            modelo.put("Éxito", "El usuario fue eliminado correctamente");
+        modelo.put("cantidad", reporteServicio.contadorReporteUsuario(id));
 
-            return "dashboard.html";
-
-        } catch (MiException ex) {
-
-            modelo.put("error", ex.getMessage());
-
-            return "dashboard.html";
-        }
+        return "dashboard.html";
     }
 
+    @GetMapping("/comentario_reporte_contador/{id}")
+    public String conteoReportesComentario(@PathVariable String id, ModelMap modelo) throws MiException {
+
+        modelo.put("cantidad", reporteServicio.contadorReporteComentario(id));
+
+        return "dashboard.html";
+    }
+    
+    @GetMapping("/publicacion_reporte_contador/{id}")
+    public String conteoReportesPublicacion(@PathVariable String id, ModelMap modelo) throws MiException {
+
+        modelo.put("cantidad", reporteServicio.contadorReportePublicacion(id));
+
+        return "dashboard.html";
+    }
 }
