@@ -34,8 +34,6 @@ public class ReporteServicio {
     private ComentarioServicio comentarioServicio;
     @Autowired
     private UsuarioServicio usuarioServicio;
-    @Autowired
-    private ComentarioServicio comentarioServicio;
 
     @Transactional
     public void registrarReporte(String usuarioId, String publicacionId, String comentarioId, Categoria categoria, String descripcion) throws MiException {
