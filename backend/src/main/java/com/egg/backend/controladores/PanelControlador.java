@@ -119,7 +119,7 @@ public class PanelControlador {
             usuarioServicio.actualizar(archivo, id, nombreCompleto, nombreUsuario, email, password, password2, rol);
 
             modelo.put("éxito", "Usuario actualizado correctamente!");
-
+            
             return "home.html";
         } catch (MiException ex) {
 
@@ -150,6 +150,11 @@ public class PanelControlador {
 
         return "redirect:../listarusuarios";
     }
-    
+    @GetMapping("/perfil/{id}")
+    public String modificarUsuario(ModelMap modelo, @PathVariable String id) {
+       modelo.put("usuario", usuarioServicio.getOne(id));
+        
+        return "usuario_modificar.html";
+    }
 }
  
