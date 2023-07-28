@@ -80,12 +80,12 @@ public class AdministradorControlador {
 
             publicacionServicio.darBaja(id);;
             modelo.put("Éxito", "El publicación fue dada de baja correctamente");
-            return "redirect:/admin/reportes";
+            return "redirect:/administrador/dashboard";
 
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
-            return "redirect:/admin/reportes";
+            return "redirect:/administrador/dashboard";
         }
 
     }
@@ -98,13 +98,13 @@ public class AdministradorControlador {
             publicacionServicio.eliminar(id);;
             modelo.put("Éxito", "La publicación fue eliminada correctamente");
 
-            return "reportes_lista.html";
+            return "redirect:/administrador/dashboard";
 
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
 
-            return "reportes_lista.html";
+            return "redirect:/administrador/dashboard";
         }
     }
 
@@ -182,5 +182,5 @@ public class AdministradorControlador {
             return "dashboard.html";
         }
     }
-
+     
 }

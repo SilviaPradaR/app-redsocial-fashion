@@ -1,5 +1,6 @@
 package com.egg.backend.servicios;
 
+import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Reporte;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.enumeraciones.Categoria;
@@ -133,5 +134,5 @@ public class ReporteServicio {
         }
 
         return contador;
-    }
+    }         
 }
