@@ -170,7 +170,6 @@ public class AdministradorControlador {
     public String contadorUsuario(@PathVariable String id, ModelMap modelo) {
 
         try {
-            System.out.println("1");
             reporteServicio.ContadorReporteUsuario(id);
             modelo.put("Éxito", "El usuario fue eliminado correctamente");
 
