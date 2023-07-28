@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.egg.backend.enumeraciones.Rol;
+import com.egg.backend.servicios.LikeServicio;
 
 @Controller
 @RequestMapping("/")
@@ -29,6 +30,9 @@ public class PanelControlador {
     private UsuarioServicio usuarioServicio;
     @Autowired
     private PublicacionServicio publicacionServicio;
+    
+    @Autowired
+    private LikeServicio likeServicio;
     
     @GetMapping("/")
     public String index(){
@@ -149,6 +153,28 @@ public class PanelControlador {
         usuarioServicio.eliminar(id);
 
         return "redirect:../listarusuarios";
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
+    @GetMapping("/dar_like")
+    public String dar_like(ModelMap modelo,HttpSession session,String publicacionId) throws MiException{
+        
+        return "home.html";
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
+    @PostMapping("/darLike")
+    public String darLike(ModelMap modelo,HttpSession session,String publicacionId) {
+        
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            Publicacion publicacion = publicacionServicio.getOne(publicacionId);
+            likeServicio.darLike(usuario, publicacion, publicacionId);
+        } catch (Exception e) {
+            modelo.put("error", e.getMessage());
+        }
+        
+        return "home.html";
     }
     
 }
