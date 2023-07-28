@@ -162,9 +162,48 @@ nav a {
 .explore-container h2{
     font-size: 55px;
 }
+
 /* -----------------FORM CREAR POST------------------- */
 .crear-container{
-    background-image: url('../img/fondo1.png');    
+    position: relative;
+}
+.blurry-background {
+    background-image: url('../img/fondo_post.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(2px);
+    z-index: -1;
+  }
+.crear-container form{
+    padding: 30px;
+    border-radius: 10px;
+    background-color: white;
+}
+/* -----------------CONFIG IMG PERFIL Y IMG CARDS-------------------- */
+.card-img-top {
+    width: 100%; /* Ancho del 100% del contenedor */
+    height: 200px; /* Altura de 200px, ajusta este valor según tus necesidades */
+    object-fit: contain; /* Ajusta la imagen al tamaño del contenedor sin perder su proporción */
+    border-radius: 8px; /* Opcional: agrega bordes redondeados para un mejor aspecto */
+}
+#img-cover{
+    object-fit: cover;
+}
+/* -----------------CARDS VISTA HOME------------------- */
+
+.cards-container{
+    background-image: url('../img/fondoAbout.png');
+}
+.cards-container .card-footer{
+    padding: 3px 8px;
+}
+.like-btn{
+    padding: 0px 5px;
 }
 /* -----------------FORM LOGIN------------------- */
 .vista-reporte {
@@ -180,3 +219,20 @@ nav a {
 .vista-comentarios{
     background-image: url('../img/fondoFaq.png');    
 }
+/* -----------------listas admin------------------- */
+
+/*.flexible-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.flexible-table tr {
+  display: flex;
+}
+
+.flexible-table td {
+  flex: 1;  Distribuir el espacio de manera equitativa entre las celdas 
+  padding: 8px;
+  border: 1px solid #ccc;
+  min-height: 50px;  Tamaño mínimo de fila 
+}*/

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.servicios.LikeServicio;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/")
@@ -91,6 +92,13 @@ public class PanelControlador {
         
         
         List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
+         List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
+        for (int i = 0; i < publicaciones.size(); i += 3) {
+            publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+        }
+
+        modelo.addAttribute("publicacionesChunked", publicacionesChunked);
+        
         
         modelo.addAttribute("publicaciones", publicaciones);
         return "home.html";
@@ -123,8 +131,8 @@ public class PanelControlador {
             usuarioServicio.actualizar(archivo, id, nombreCompleto, nombreUsuario, email, password, password2, rol);
 
             modelo.put("éxito", "Usuario actualizado correctamente!");
-
-            return "home.html";
+            
+            return "redirect:../inicio";
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
@@ -176,6 +184,12 @@ public class PanelControlador {
         
         return "home.html";
     }
+    @GetMapping("/perfil/{id}")
+    public String modificarUsuario(ModelMap modelo, @PathVariable String id) {
+       modelo.put("usuario", usuarioServicio.getOne(id));
+        
+        return "usuario_modificar.html";
+    }
     
 }
- 
+
