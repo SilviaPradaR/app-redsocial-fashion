@@ -63,10 +63,15 @@ public class PublicacionServicio {
    }
 
     public List<Publicacion> listarPublicaciones(){
+        System.out.println("entro a listarPublicaciones");
         
         List<Publicacion> publicaciones = new ArrayList();
         
         publicaciones = publicacionRepositorio.findAll();
+        
+        System.out.println("PUBLICACIONES ------------");
+        System.out.println(publicaciones);
+        System.out.println("-------------------------------------------------");
         
         return publicaciones;
     }     
