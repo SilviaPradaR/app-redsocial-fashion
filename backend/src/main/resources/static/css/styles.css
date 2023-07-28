@@ -209,6 +209,7 @@ nav a {
 .vista-reporte {
     font-family: 'Nunito', sans-serif;
     background-image: url('../img/fondo1.png');
+    width: 100%;
 }
 .vista-usuarios{
     background-image: url('../img/fondoAzul.png');
@@ -219,7 +220,76 @@ nav a {
 .vista-comentarios{
     background-image: url('../img/fondoFaq.png');    
 }
-div.dataTables_wrapper {
-        width: 800px;
-        margin: 0 auto;
-    }
+
+.table-container {
+    width: 60%;
+    max-height: 33vw;
+    overflow: auto;    
+}
+
+.custom-table {
+    table-layout: auto; 
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.custom-table th {
+    font-family: "Bodoni MT", serif;
+    font-weight: bold;
+    background-color: #f9d9c2;
+    border-bottom: 2px solid #000;   
+}
+
+.custom-table td {
+    font-family: "Bodoni 72", serif;
+}
+
+.custom-table tbody tr {
+    background-color: white;
+}
+
+.custom-table tbody td:hover {
+    background-color: #ffe1cd;
+}
+
+.custom-table thead {
+    border-radius: 10px 10px 0 0;
+}
+
+.custom-table tbody {
+    border-radius: 0 0 10px 10px;
+}
+
+.sticky-head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #f9d9c2;
+    border-bottom: 2px solid #000;
+     /* Alejandro */
+}
+
+.sticky-head th {
+    font-weight: bold;
+    /* Alejandro */
+}
+
+/* -----------------listas admin------------------- */
+/**.flexible-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.flexible-table tr {
+  display: flex;
+}*/
+
+.flexible-table td {
+  flex: 1;   
+  padding: 8px;
+  border: 1px solid #ccc;
+  min-height: 50px;  
+}
+

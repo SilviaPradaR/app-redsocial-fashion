@@ -11,8 +11,7 @@
     <link rel="stylesheet" href="/css/home.css" /> 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet" />    
     <title>FashionNet</title>
 
 </head>
@@ -39,6 +38,7 @@
           </li>
           <li class="nav-item me-3">
             <a class="nav-link" href="#usuarios">Usuarios</a>
+                  
           </li>
           <li class="nav-item me-3">
             <a class="nav-link" href="#publicaciones">Publicaciones</a>
@@ -69,8 +69,9 @@
     <main >
       
          <div class="vista-reporte d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-             <table id="example" class="display nowrap" style="width:100%">
-        <thead>
+             <div class="table-container">
+             <table id="custom-table" class="custom-table flexible-table">
+        <thead class="sticky-head">
             <tr>
                 <th>ITEM REPORTE</th>
                 <th>CATEGORIA</th>
@@ -83,9 +84,9 @@
         <tbody th:each="reporte : ${reportes}">
             <tr>
                 <td>
-                    <span th:if="${reporte.usuario != null}" th:text="${reporte.usuario.nombre}"></span>
+                    <span th:if="${reporte.usuario != null}" th:text="${reporte.usuario.nombreCompleto}"></span>
                     <span th:if="${reporte.publicacion != null}" th:text="${reporte.publicacion.id}"></span>
-                    <span th:if="${reporte.comentario != null}" th:text="${reporte.comentario.id}">Texto del Comentario</span>
+                    <span th:if="${reporte.comentario != null}" th:text="${reporte.comentario.id}"></span>
                 </td>
                 <td th:text="${reporte.categoria}"></td>
                 <td th:text="${reporte.descripcion}"></td>
@@ -94,23 +95,75 @@
                 <td>Eliminar</td>               
             </tr>            
         </tbody>
-    </table>
-              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
-             <script>
-                 $(document).ready(function() {
-                 $('#example').DataTable({
-    scrollX: true,
-    scrollY: 200
-});
-});
-             </script>
-      
-    </div>
+    </table>    
+             
+  <script>
+    const tableRows = document.querySelectorAll("#custom-table tbody tr");
 
+    tableRows.forEach((row) => {
+        row.addEventListener("mouseover", () => {
+            row.style.backgroundColor = "#ffe1cd";
+        });
+
+        row.addEventListener("mouseout", () => {
+            row.style.backgroundColor = row.classList.contains("even")
+                ? "#f2f2f2"
+                : "#fff";
+        });
+    });
+</script>    
+    </div>
+</div>
     <div id="usuarios" class="vista-usuarios d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-      
+      <table class="table table-dark flexible-table">
+                    <thead class="encabezado" style="color:#ffc500">
+                        <tr>
+<!--                            <th scope="col">Id del Usuario</th>-->
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Foto de Perfil</th>
+                            <th scope="col">Rol</th>
+                            <th scope="col">Fecha de alta</th> 
+                            <th scope="col">Estado de Baja</th>                            
+                            <th scope="col">Cambiar Estado</th>
+                            <th scope="col">Modificar</th>
+                            <th scope="col">Cantidad de Reportes</th>
+                            <th scope="col">Eliminar</th>
+
+                        </tr>
+                    </thead>
+                    <tbody  th:each="usuario : ${usuarios}"> 
+                        <tr >
+                            <th scope="row" th:text="${usuario.nombreCompleto}"></th>
+
+                            <td th:text="${usuario.nombreUsuario}"></td>
+                            <td>
+
+                                <a><img class="avatar" th:if="${usuario.imagen != null}" th:src="@{/imagen/perfil/__${usuario.id}__}" style="width: 50px ;
+                                        height: 50px;
+                                        border-radius: 30%;
+                                        overflow: hidden;" alt="avatar"></a>
+
+                            <td th:text="${usuario.rol}"></td>
+                            <td th:text="${usuario.fechaAlta}"></td>
+                            <td th:text="${usuario.darBaja}"></td>
+                            <td >
+                                <a th:href= "@{/administrador/darBajaUsuario/__${usuario.id}__}">Cambiar</a>
+                            </td>
+                            
+                            <td>
+                                <a th:href= "@{/perfil/__${usuario.id}__}"> Modificar</a>
+                            </td>
+                            <td >
+                                 <a th:href= "@{/administrador/usuario_reporte_contador/__${usuario.id}__}"></a>
+                            </td>
+                            <td  >
+                                <a th:if="${usuario.rol != T(com.egg.backend.enumeraciones.Rol).ADMIN}"  th:href= "@{/administrador/usuario_eliminar/__${usuario.id}__}" onclick="return confirm('¿Está seguro de que desea eliminar la noticia?');">Eliminar </a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
 
     </div>
 
@@ -172,6 +225,18 @@
                                 <use href="#facebook" />
                             </svg></a></li>
                 </ul>
+                 <div th:if="${exito}!= null" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
+                    <div class="card-body">
+                        <h5 class="card-title">Exito!!! </h5>
+                        <p class="card-text" th:text="${exito}"></p>
+                    </div>
+                </div>
+                <div th:if="${error}!= null" class="card text-white bg-danger mb-3 mensajeError" >
+                    <div class="card-body">
+                        <h5 class="card-title">Error!!!</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
             </footer>
         </div>
     </div>
