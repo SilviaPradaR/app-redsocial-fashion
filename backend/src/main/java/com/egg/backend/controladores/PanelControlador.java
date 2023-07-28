@@ -7,6 +7,8 @@ import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
 import com.egg.backend.servicios.PublicacionServicio;
 import com.egg.backend.servicios.UsuarioServicio;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import com.egg.backend.enumeraciones.Rol;
+
 
 @Controller
 @RequestMapping("/")
@@ -87,6 +89,13 @@ public class PanelControlador {
         
         
         List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
+         List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
+        for (int i = 0; i < publicaciones.size(); i += 3) {
+            publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+        }
+
+        modelo.addAttribute("publicacionesChunked", publicacionesChunked);
+        
         
         modelo.addAttribute("publicaciones", publicaciones);
         return "home.html";
@@ -120,7 +129,7 @@ public class PanelControlador {
 
             modelo.put("éxito", "Usuario actualizado correctamente!");
             
-            return "home.html";
+            return "redirect:../inicio";
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
