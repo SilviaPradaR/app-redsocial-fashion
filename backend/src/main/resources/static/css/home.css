@@ -1,5 +1,5 @@
 .tendencias-container {
-    background-image: url("../img/fondoAzul.png");
+    background-image: url("../img/fondoCards.png");
 }
 .tendencias-container .carousel-image {
     height: calc(100vh - 60px);
@@ -15,7 +15,6 @@
 .tendencias-container .carousel {
     width: 70%;
     margin: auto;
-    padding-top: 2rem;
 }
 .tendencias-container .titulo-principal {
     font-size: 48px;
@@ -42,11 +41,26 @@
     padding-right: 3rem;
     
 }
-
+.tendencias-container .card-body{
+    border-top: 1px lightgrey solid;
+    padding: 8px
+}
+.tendencias-container .card-img-top{
+    height: 250px;
+}
 .cards-container .card{
     cursor: pointer;
 }
 .cards-container .card:hover{
     transform: scale(1);
     box-shadow: 5px 5px 15px;
+}
+.cards-container h3{
+    font-size: 40px;
+    padding: 40px 30px;
+    text-align: center;
+    color: #156669;
+}
+.cards-container .container{
+    padding-bottom: 40px;
 }

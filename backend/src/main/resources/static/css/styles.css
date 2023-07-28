@@ -197,7 +197,7 @@ nav a {
 /* -----------------CARDS VISTA HOME------------------- */
 
 .cards-container{
-    background-image: url('../img/fondo1.png');
+    background-image: url('../img/fondoAbout.png');
 }
 .cards-container .card-footer{
     padding: 3px 8px;
