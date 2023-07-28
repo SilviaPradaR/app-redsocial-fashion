@@ -34,7 +34,9 @@ public class AdministradorControlador {
     private ComentarioServicio comentarioServicio;
     
     @GetMapping("/dashboard")
-    public String administrador(){
+    public String administrador(ModelMap modelo){
+         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+        modelo.addAttribute("usuarios", usuarios);
         
         return "dashboard.html";        
     }
@@ -54,7 +56,7 @@ public class AdministradorControlador {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
         modelo.addAttribute("usuarios", usuarios);
 
-        return "usuarios_lista.html";
+        return "dashboard.html";
     }
     
     @GetMapping("/publicaciones")
@@ -77,10 +79,10 @@ public class AdministradorControlador {
     
     @GetMapping("/darBajaUsuario/{id}")
     public String darBajaUsuario(@PathVariable String id) { // le falta controlar la excepcion en el servicio si es que va
-
+        
         usuarioServicio.cambiarEstado(id);
 
-        return "redirect:/admin/reportes";
+        return "redirect:/administrador/dashboard";
     }
     
     @GetMapping("/darBajaComentario/{id}")
@@ -153,21 +155,21 @@ public class AdministradorControlador {
         }
     }
 
-    @GetMapping("/usuario/eliminar/{id}")
+    @GetMapping("/usuario_eliminar/{id}")
     public String eliminarUsuario(@PathVariable String id, ModelMap modelo) {
-
+        
         try {
-
+            
             usuarioServicio.eliminar(id);
             modelo.put("Éxito", "El usuario fue eliminado correctamente");
 
-            return "reportes_lista.html";
+            return "redirect:/administrador/dashboard";
 
         } catch (MiException ex) {
-
+           
             modelo.put("error", ex.getMessage());
 
-            return "reportes_lista.html";
+            return "redirect:/administrador/dashboard";
         }
     }
 
@@ -192,5 +194,23 @@ public class AdministradorControlador {
             return "reportes_lista";
         }
     }
+    @GetMapping("/usuario_reporte_contador/{id}")
+    public String contadorUsuario(@PathVariable String id, ModelMap modelo) {
+        
+        try {
+            System.out.println("1");
+            reporteServicio.ContadorReporteUsuario(id);
+            modelo.put("Éxito", "El usuario fue eliminado correctamente");
+
+            return "dashboard.html";
+
+        } catch (MiException ex) {
+            
+            modelo.put("error", ex.getMessage());
+
+            return "dashboard.html";
+        }
+    }
+    
 
 }

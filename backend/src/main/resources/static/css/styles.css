@@ -219,3 +219,20 @@ nav a {
 .vista-comentarios{
     background-image: url('../img/fondoFaq.png');    
 }
+/* -----------------listas admin------------------- */
+
+/*.flexible-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.flexible-table tr {
+  display: flex;
+}
+
+.flexible-table td {
+  flex: 1;  Distribuir el espacio de manera equitativa entre las celdas 
+  padding: 8px;
+  border: 1px solid #ccc;
+  min-height: 50px;  Tamaño mínimo de fila 
+}*/

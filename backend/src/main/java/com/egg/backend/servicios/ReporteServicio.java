@@ -1,6 +1,7 @@
 package com.egg.backend.servicios;
 
 import com.egg.backend.entidades.Reporte;
+import com.egg.backend.entidades.Usuario;
 import com.egg.backend.enumeraciones.Categoria;
 import com.egg.backend.excepciones.MiException;
 import com.egg.backend.repositorios.ComentarioRepositorio;
@@ -117,5 +118,20 @@ public class ReporteServicio {
             throw new MiException("La id no puede estar vacia");
         }
 
+    }
+    public int ContadorReporteUsuario(String usuarioId) throws MiException {
+
+        Usuario usuario = usuarioRepositorio.getOne(usuarioId);
+        List<Reporte> reportes = listarReportes();
+        int contador = 1;
+
+        for (Reporte x : reportes) {
+            if (x.getUsuario() == usuario) {
+                
+                contador ++;
+            }
+        }
+
+        return contador;
     }
 }
