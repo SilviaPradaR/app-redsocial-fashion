@@ -45,7 +45,7 @@ public class ReporteServicio {
             reporte.setPublicacion(publicacionServicio.getOne(publicacionId));
         }
         if (comentarioId != null) {
-            //reporte.setComentario(comentarioServicio.getOne(comentarioId));
+            reporte.setComentario(comentarioServicio.getOne(comentarioId));
         }
         reporte.setCategoria(categoria);
         reporte.setDescripcion(descripcion);
