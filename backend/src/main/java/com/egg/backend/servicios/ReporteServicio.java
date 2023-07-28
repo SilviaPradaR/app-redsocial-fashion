@@ -31,6 +31,8 @@ public class ReporteServicio {
     @Autowired
     private PublicacionServicio publicacionServicio;
     @Autowired
+    private ComentarioServicio comentarioServicio;
+    @Autowired
     private UsuarioServicio usuarioServicio;
     @Autowired
     private ComentarioServicio comentarioServicio;
