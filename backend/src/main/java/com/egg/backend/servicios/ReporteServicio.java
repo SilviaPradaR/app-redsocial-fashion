@@ -32,7 +32,8 @@ public class ReporteServicio {
     private PublicacionServicio publicacionServicio;
     @Autowired
     private UsuarioServicio usuarioServicio;
- 
+    @Autowired
+    private ComentarioServicio comentarioServicio;
 
     @Transactional
     public void registrarReporte(String usuarioId, String publicacionId, String comentarioId, Categoria categoria, String descripcion) throws MiException {
@@ -46,7 +47,9 @@ public class ReporteServicio {
             reporte.setPublicacion(publicacionServicio.getOne(publicacionId));
         }
         if (comentarioId != null) {
-//            reporte.setComentario(comentarioServicio.getOne(comentarioId));
+
+            reporte.setComentario(comentarioServicio.getOne(comentarioId));
+
         }
         reporte.setCategoria(categoria);
         reporte.setDescripcion(descripcion);
@@ -72,7 +75,7 @@ public class ReporteServicio {
                 reporte.setPublicacion(publicacionServicio.getOne(publicacionId));
             }
             if (comentarioId != null) {
-//                reporte.setComentario(comentarioServicio.getOne(comentarioId));
+                reporte.setComentario(comentarioServicio.getOne(comentarioId));
             }
 
             reporte.setCategoria(categoria);

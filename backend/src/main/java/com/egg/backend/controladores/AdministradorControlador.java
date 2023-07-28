@@ -63,12 +63,12 @@ public class AdministradorControlador {
 
             comentarioServicio.darBaja(id);
             modelo.put("Éxito", "El comentario fue dado de baja correctamente");
-            return "redirect:/admin/reportes";
+            return "redirect:/administrador/dashboard";
 
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
-            return "redirect:/admin/reportes";
+            return "redirect:/administrador/dashboard";
         }
 
     }
