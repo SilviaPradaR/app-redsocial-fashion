@@ -36,45 +36,16 @@ public class AdministradorControlador {
     @GetMapping("/dashboard")
     public String administrador(ModelMap modelo) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-        modelo.addAttribute("usuarios", usuarios);
-
-        return "dashboard.html";
-    }
-
-    @GetMapping("/reportes")
-    public String listarReportes(ModelMap modelo) {
-
-        List<Reporte> reportes = reporteServicio.listarReportes();
-        modelo.addAttribute("reportes", reportes);
-
-        return "reportes_lista.html";
-    }
-
-    @GetMapping("/usuarios")
-    public String listarUsuarios(ModelMap modelo) {
-
-        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-        modelo.addAttribute("usuarios", usuarios);
-
-        return "dashboard.html";
-    }
-
-    @GetMapping("/publicaciones")
-    public String listarPublicaciones(ModelMap modelo) {
-
         List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
-        modelo.addAttribute("publicaciones", publicaciones);
-
-        return "publicaciones_lista.html";
-    }
-
-    @GetMapping("/comentarios")
-    public String listarComentarios(ModelMap modelo) {
-
+        List<Reporte> reportes = reporteServicio.listarReportes();
         List<Comentario> comentarios = comentarioServicio.listarComentarios();
+        
+        modelo.addAttribute("usuarios", usuarios);
+        modelo.addAttribute("publicaciones", publicaciones);
+        modelo.addAttribute("reportes", reportes);
         modelo.addAttribute("comentarios", comentarios);
 
-        return "comentarios_lista.html";
+        return "dashboard.html";
     }
 
     @GetMapping("/darBajaUsuario/{id}")
@@ -119,7 +90,7 @@ public class AdministradorControlador {
 
     }
 
-    @GetMapping("/publicacion/eliminar/{id}")
+    @GetMapping("/publicacion_eliminar/{id}")
     public String eliminarPublicacion(@PathVariable String id, ModelMap modelo) {
 
         try {
@@ -137,7 +108,7 @@ public class AdministradorControlador {
         }
     }
 
-    @GetMapping("/comentario/eliminar/{id}")
+    @GetMapping("/comentario_eliminar/{id}")
     public String eliminarComentario(@PathVariable String id, ModelMap modelo) {
 
         try {
@@ -173,7 +144,7 @@ public class AdministradorControlador {
         }
     }
 
-    @GetMapping("/reportes/eliminar/{id}")
+    @GetMapping("/reportes_eliminar/{id}")
     public String eliminarReporte(@PathVariable String id, ModelMap modelo) {
 
         try {
@@ -210,6 +181,7 @@ public class AdministradorControlador {
 //            return "dashboard.html";
 //        }
 //    }
+    
     @GetMapping("/usuario_reporte_contador/{id}")
     public String conteoReportesUsuario(@PathVariable String id, ModelMap modelo) throws MiException {
 
