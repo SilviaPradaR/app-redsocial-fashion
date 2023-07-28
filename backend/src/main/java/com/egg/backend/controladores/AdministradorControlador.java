@@ -32,59 +32,31 @@ public class AdministradorControlador {
 
     @Autowired
     private ComentarioServicio comentarioServicio;
-    
+
     @GetMapping("/dashboard")
-    public String administrador(ModelMap modelo){
-         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-        modelo.addAttribute("usuarios", usuarios);
-        
-        return "dashboard.html";        
-    }
-
-    @GetMapping("/reportes")
-    public String listarReportes(ModelMap modelo) {
-
-        List<Reporte> reportes = reporteServicio.listarReportes();
-        modelo.addAttribute("reportes", reportes);
-
-        return "listar_reportes.html";
-    }
-
-    @GetMapping("/usuarios")
-    public String listarUsuarios(ModelMap modelo) {
+    public String administrador(ModelMap modelo) {
 
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
+        List<Reporte> reportes = reporteServicio.listarReportes();
+        List<Comentario> comentarios = comentarioServicio.listarComentarios();
+        
         modelo.addAttribute("usuarios", usuarios);
+        modelo.addAttribute("publicaciones", publicaciones);
+        modelo.addAttribute("reportes", reportes);
+        modelo.addAttribute("comentarios", comentarios);
 
         return "dashboard.html";
     }
-    
-    @GetMapping("/publicaciones")
-    public String listarPublicaciones(ModelMap modelo) {
 
-        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
-        modelo.addAttribute("publicaciones", publicaciones);
-
-        return "publicaciones_lista.html";
-    }
-    
-    @GetMapping("/comentarios")
-    public String listarComentarios(ModelMap modelo) {
-
-        List<Comentario> comentarios = comentarioServicio.listarComentarios();
-        modelo.addAttribute("comentarios", comentarios);
-
-        return "comentarios_lista.html";
-    }
-    
     @GetMapping("/darBajaUsuario/{id}")
     public String darBajaUsuario(@PathVariable String id) { // le falta controlar la excepcion en el servicio si es que va
-        
+
         usuarioServicio.cambiarEstado(id);
 
         return "redirect:/administrador/dashboard";
     }
-    
+
     @GetMapping("/darBajaComentario/{id}")
     public String darBajaComentario(@PathVariable String id, ModelMap modelo) {
 
@@ -92,39 +64,39 @@ public class AdministradorControlador {
 
             comentarioServicio.darBaja(id);
             modelo.put("Éxito", "El comentario fue dado de baja correctamente");
-            return "redirect:/admin/reportes";
+            return "redirect:/administrador/dashboard";
 
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
-            return "redirect:/admin/reportes";
+            return "redirect:/administrador/dashboard";
         }
 
     }
-    
+
     @GetMapping("/darBajaPublicacion/{id}")
     public String darBajaPublicacion(@PathVariable String id, ModelMap modelo) {
 
         try {
 
-            publicacionServicio.darBaja(id);;
+            publicacionServicio.darBaja(id);
             modelo.put("Éxito", "El publicación fue dada de baja correctamente");
-            return "redirect:/admin/reportes";
+            return "redirect:/administrador/dashboard";
 
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
-            return "redirect:/admin/reportes";
+            return "redirect:/administrador/dashboard";
         }
 
     }
-    
-    @GetMapping("/publicacion/eliminar/{id}")
+
+    @GetMapping("/publicacion_eliminar/{id}")
     public String eliminarPublicacion(@PathVariable String id, ModelMap modelo) {
 
         try {
 
-            publicacionServicio.eliminar(id);;
+            publicacionServicio.eliminar(id);
             modelo.put("Éxito", "La publicación fue eliminada correctamente");
 
             return "reportes_lista.html";
@@ -137,7 +109,7 @@ public class AdministradorControlador {
         }
     }
 
-    @GetMapping("/comentario/eliminar/{id}")
+    @GetMapping("/comentario_eliminar/{id}")
     public String eliminarComentario(@PathVariable String id, ModelMap modelo) {
 
         try {
@@ -157,23 +129,23 @@ public class AdministradorControlador {
 
     @GetMapping("/usuario_eliminar/{id}")
     public String eliminarUsuario(@PathVariable String id, ModelMap modelo) {
-        
+
         try {
-            
+
             usuarioServicio.eliminar(id);
             modelo.put("Éxito", "El usuario fue eliminado correctamente");
 
             return "redirect:/administrador/dashboard";
 
         } catch (MiException ex) {
-           
+
             modelo.put("error", ex.getMessage());
 
             return "redirect:/administrador/dashboard";
         }
     }
 
-    @GetMapping("/reportes/eliminar/{id}")
+    @GetMapping("/reportes_eliminar/{id}")
     public String eliminarReporte(@PathVariable String id, ModelMap modelo) {
 
         try {
@@ -194,23 +166,44 @@ public class AdministradorControlador {
             return "reportes_lista";
         }
     }
+
+//    @GetMapping("/usuario_reporte_contador/{id}")
+//    public String contadorUsuario(@PathVariable String id, ModelMap modelo) {
+//        
+//        try {
+//            reporteServicio.contadorReporteUsuario(id);
+//            
+//            return "dashboard.html";
+//
+//        } catch (MiException ex) {
+//            
+//            modelo.put("error", ex.getMessage());
+//
+//            return "dashboard.html";
+//        }
+//    }
+    
     @GetMapping("/usuario_reporte_contador/{id}")
-    public String contadorUsuario(@PathVariable String id, ModelMap modelo) {
-        
-        try {
-            System.out.println("1");
-            reporteServicio.ContadorReporteUsuario(id);
-            modelo.put("Éxito", "El usuario fue eliminado correctamente");
+    public String conteoReportesUsuario(@PathVariable String id, ModelMap modelo) throws MiException {
 
-            return "dashboard.html";
+        modelo.put("cantidad", reporteServicio.contadorReporteUsuario(id));
 
-        } catch (MiException ex) {
-            
-            modelo.put("error", ex.getMessage());
+        return "dashboard.html";
+    }
 
-            return "dashboard.html";
-        }
+    @GetMapping("/comentario_reporte_contador/{id}")
+    public String conteoReportesComentario(@PathVariable String id, ModelMap modelo) throws MiException {
+
+        modelo.put("cantidad", reporteServicio.contadorReporteComentario(id));
+
+        return "dashboard.html";
     }
     
+    @GetMapping("/publicacion_reporte_contador/{id}")
+    public String conteoReportesPublicacion(@PathVariable String id, ModelMap modelo) throws MiException {
 
+        modelo.put("cantidad", reporteServicio.contadorReportePublicacion(id));
+
+        return "dashboard.html";
+    }
 }

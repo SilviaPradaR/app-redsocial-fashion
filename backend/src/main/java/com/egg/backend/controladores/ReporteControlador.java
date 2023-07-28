@@ -58,11 +58,11 @@ public class ReporteControlador {
                 reporteServicio.registrarReporte(id, null, null, categoria, descripcion);
             }
 
-            /*Optional<Comentario>respuestaComentario= comentarioRepositorio.findById(id);
+            Optional<Comentario>respuestaComentario= comentarioRepositorio.findById(id);
         
             if (respuestaComentario.isPresent()) {
                 reporteServicio.registrarReporte(null, null,id,categoria,descripcion);
-            }*/
+            }
             
             Optional<Publicacion> respuestaPublicacion = publicacionRepositorio.findById(id);
 
