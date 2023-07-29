@@ -127,7 +127,7 @@ public class ReporteServicio {
 
         Usuario usuario = usuarioRepositorio.getOne(usuarioId);
         List<Reporte> reportes = listarReportes();
-        int contador = 1;
+        int contador = 0;              
 
         for (Reporte x : reportes) {
             if (x.getUsuario() == usuario) {
@@ -142,7 +142,7 @@ public class ReporteServicio {
 
         Comentario comentario = comentarioRepositorio.getOne(comentarioId);
         List<Reporte> reportes = listarReportes();
-        int contador = 1;
+        int contador = 0;
 
         for (Reporte x : reportes) {
             if (x.getComentario() == comentario) {
@@ -157,7 +157,7 @@ public class ReporteServicio {
 
         Publicacion publicacion = publicacionRepositorio.getOne(publicacionId);
         List<Reporte> reportes = listarReportes();
-        int contador = 1;
+        int contador = 0;
 
         for (Reporte x : reportes) {
             if (x.getPublicacion() == publicacion) {
