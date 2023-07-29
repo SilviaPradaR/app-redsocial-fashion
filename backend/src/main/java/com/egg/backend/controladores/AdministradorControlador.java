@@ -9,7 +9,9 @@ import com.egg.backend.servicios.ComentarioServicio;
 import com.egg.backend.servicios.PublicacionServicio;
 import com.egg.backend.servicios.ReporteServicio;
 import com.egg.backend.servicios.UsuarioServicio;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,16 +36,45 @@ public class AdministradorControlador {
     private ComentarioServicio comentarioServicio;
 
     @GetMapping("/dashboard")
-    public String administrador(ModelMap modelo) {
-        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
-        List<Reporte> reportes = reporteServicio.listarReportes();
-        List<Comentario> comentarios = comentarioServicio.listarComentarios();
+    public String administrador(ModelMap modelo) throws MiException {
         
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+        
+        Map<String, Integer> conteoRepUsuario = new HashMap<>();
+        for (Usuario u : usuarios) {
+
+            int conteo = reporteServicio.contadorReporteUsuario(u.getId());
+            conteoRepUsuario.put(u.getId(), conteo);
+        }
+        
+        List<Publicacion > publicaciones = publicacionServicio.listarPublicaciones();
+        
+        Map<String, Integer> conteoRepPublicacion = new HashMap<>();
+        for (Publicacion p : publicaciones) {
+
+            int conteo = reporteServicio.contadorReportePublicacion(p.getId());
+            conteoRepPublicacion.put(p.getId(), conteo);
+        }
+        
+        List<Comentario> comentarios = comentarioServicio.listarComentarios(); 
+        
+        Map<String, Integer> conteoRepComentario = new HashMap<>();
+        for (Comentario c : comentarios) {
+
+            int conteo = reporteServicio.contadorReporteComentario(c.getId());
+            conteoRepComentario.put(c.getId(), conteo);
+        }
+        
+        List<Reporte> reportes = reporteServicio.listarReportes();
+
         modelo.addAttribute("usuarios", usuarios);
         modelo.addAttribute("publicaciones", publicaciones);
-        modelo.addAttribute("reportes", reportes);
         modelo.addAttribute("comentarios", comentarios);
+        modelo.addAttribute("reportes", reportes);
+        
+        modelo.addAttribute("conteoUsuario", conteoRepUsuario);
+        modelo.addAttribute("conteoPublicacion", conteoRepPublicacion);
+        modelo.addAttribute("conteoComentario", conteoRepComentario);
 
         return "dashboard.html";
     }
@@ -165,46 +196,4 @@ public class AdministradorControlador {
             return "reportes_lista";
         }
     }
-
-//    @GetMapping("/usuario_reporte_contador/{id}")
-//    public String contadorUsuario(@PathVariable String id, ModelMap modelo) {
-//        
-//        try {
-//            reporteServicio.contadorReporteUsuario(id);
-//            
-//            return "dashboard.html";
-//
-//        } catch (MiException ex) {
-//            
-//            modelo.put("error", ex.getMessage());
-//
-//            return "dashboard.html";
-//        }
-//    }
-    
-    @GetMapping("/usuario_reporte_contador/{id}")
-    public String conteoReportesUsuario(@PathVariable String id, ModelMap modelo) throws MiException {
-
-        modelo.put("cantidad", reporteServicio.contadorReporteUsuario(id));
-
-        return "dashboard.html";
-    }
-
-
-    @GetMapping("/comentario_reporte_contador/{id}")
-    public String conteoReportesComentario(@PathVariable String id, ModelMap modelo) throws MiException {
-
-        modelo.put("cantidad", reporteServicio.contadorReporteComentario(id));
-
-        return "dashboard.html";
-    }
-    
-    @GetMapping("/publicacion_reporte_contador/{id}")
-    public String conteoReportesPublicacion(@PathVariable String id, ModelMap modelo) throws MiException {
-
-        modelo.put("cantidad", reporteServicio.contadorReportePublicacion(id));
-
-        return "dashboard.html";
-    }
-    
 }
