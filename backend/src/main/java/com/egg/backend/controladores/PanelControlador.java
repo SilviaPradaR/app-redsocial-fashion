@@ -177,7 +177,7 @@ public class PanelControlador {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
             Publicacion publicacion = publicacionServicio.getOne(publicacionId);
-            likeServicio.darLike(usuario, publicacion, publicacionId);
+            likeServicio.darLike(usuario, publicacion);
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
         }

@@ -19,7 +19,7 @@
             <div class="form-container col-md-8 offset-md-2 col-lg-6 offset-lg-3">
                 <div class="form-header text-center">
                     <a href="/"><img src="/img/logo.png" alt="logo" style="width: 50px ;" /></a>
-                    <h4>Bienvenido a FashionNet</h4>
+                    <h4>Editar Perfil</h4>
                 </div>
                 <form class="row" th:action="@{/perfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
                          <input hidden th:value="${id}" name="id">
@@ -97,7 +97,7 @@
                 <div class="links-footer text-center TyC">
                     Al hacer click en Enviar usted acepta nuestros términos y condiciones y política de privacidad
                     <hr>
-                    <p>Ya tienes una cuenta?<a href="/login"> Ingresa aquí!</a></p>
+<!--                    <p>Ya tienes una cuenta?<a href="/login"> Ingresa aquí!</a></p>-->
                 </div>
             </div>
         </div>
