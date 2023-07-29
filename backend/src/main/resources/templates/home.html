@@ -145,7 +145,7 @@
                         <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" class="card-img-top" alt="">
                         <div class="card-footer d-flex align-items-center">
                             <div class="btns-right">
-                                <button type="button" class="btn like-btn heart-btn">
+                                <button type="button" class="btn like-btn heart-btn" th:href= "@{/darLike}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-heart-fill" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"

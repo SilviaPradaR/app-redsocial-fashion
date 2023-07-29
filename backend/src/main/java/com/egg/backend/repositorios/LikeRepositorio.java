@@ -13,7 +13,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LikeRepositorio extends JpaRepository<Like, String>{
     
-    
-    public Like buscarLike(Usuario usuario, Publicacion publicacion);
-    
 }
