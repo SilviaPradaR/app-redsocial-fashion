@@ -99,13 +99,13 @@ public class AdministradorControlador {
             publicacionServicio.eliminar(id);
             modelo.put("Éxito", "La publicación fue eliminada correctamente");
 
-            return "reportes_lista.html";
+            return "redirect:/administrador/dashboard";
 
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
 
-            return "reportes_lista.html";
+            return "redirect:/administrador/dashboard";
         }
     }
 
@@ -191,6 +191,7 @@ public class AdministradorControlador {
         return "dashboard.html";
     }
 
+
     @GetMapping("/comentario_reporte_contador/{id}")
     public String conteoReportesComentario(@PathVariable String id, ModelMap modelo) throws MiException {
 
@@ -206,4 +207,5 @@ public class AdministradorControlador {
 
         return "dashboard.html";
     }
+    
 }
