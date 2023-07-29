@@ -155,7 +155,7 @@ public class AdministradorControlador {
 
             // List<Reporte> reportes = reporteServicio.listarReportes();
             // modelo.addAttribute("reportes", reportes);
-            return "reportes_lista.html";
+            return "dashboard.html";
 
         } catch (MiException ex) {
 
@@ -163,7 +163,7 @@ public class AdministradorControlador {
 
             // List<Reporte> reportes = reporteServicio.listarReportes();
             // modelo.addAttribute("reportes", reportes);
-            return "reportes_lista";
+            return "dashboard.html";
         }
     }
 

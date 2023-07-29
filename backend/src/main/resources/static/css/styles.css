@@ -276,6 +276,26 @@ nav a {
     /* Alejandro */
 }
 
+.btn-dar-baja {
+    color: #fff; /* Color del texto */
+    background-color: #007bff; /* Color de fondo del enlace */
+    border: 1px solid #007bff; /* Borde del enlace */
+    padding: 5px 10px; /* Espaciado interno del enlace */
+    text-decoration: none; /* Quitar subrayado del enlace */
+    border-radius: 5px; /* Radio de borde del enlace */
+}
+
+/* Estilos cuando el enlace está siendo presionado */
+.btn-dar-baja:active {
+    background-color: #9333ff;
+    border: 1px solid #9333ff;
+}
+
+.eliminar {
+    background-color: #ff3300;
+    border: 1px solid #ff3300;
+}
+
 /* -----------------listas admin------------------- */
 /**.flexible-table {
   width: 100%;

@@ -78,7 +78,7 @@
                 <th>DESCRIPCION</th>
                 <th>ACEPTAR</th>
                 <th>DESESTIMAR</th>
-                <th>ELIMINAR</th>                
+<!--                <th>ELIMINAR</th>                -->
             </tr>
         </thead>
         <tbody th:each="reporte : ${reportes}">
@@ -90,9 +90,15 @@
                 </td>
                 <td th:text="${reporte.categoria}"></td>
                 <td th:text="${reporte.descripcion}"></td>
-                <td>Aceptar</td>
-                <td>Desestimar</td>
-                <td>Eliminar</td>               
+                <td>
+                   <a class="btn-dar-baja" href="#" 
+                        data-id="${reporte.usuario.id}" 
+                        data-tipo="${reporte.usuario != null ? 'USUARIO' : (reporte.publicacion != null ? 'PUBLICACION' : (reporte.comentario != null ? 'COMENTARIO' : ''))}">
+                        Aceptar
+                   </a>
+                </td>
+               <td><a class="btn-dar-baja eliminar" th:href= "@{/administrador/reportes_eliminar/__${reporte.id}__}" onclick="return confirm('¿Está seguro de que desea DESESTIMAR el reporte?');">Eliminar </a></td>
+                <td th:if="${reporte.usuario != null}" th:text="${reporte.usuario.id}"></td>    >             
             </tr>            
         </tbody>
     </table>    
@@ -111,7 +117,29 @@
                 : "#fff";
         });
     });
-</script>    
+    
+    const btnDarBaja = document.querySelectorAll(".btn-dar-baja");
+
+    btnDarBaja.forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+            event.preventDefault();
+            const id = btn.getAttribute("data-id");
+            const tipo = btn.getAttribute("data-tipo");
+            
+            console.log("Valor de id:", id)
+            console.log("Valor de tipo:", tipo)
+
+            if (tipo === "USUARIO") {
+                window.location.href = `/administrador/darBajaUsuario/${id}`;
+            } else if (tipo === "PUBLICACION") {
+                window.location.href = `/administrador/darBajaPublicacion/${id}`;
+            } else if (tipo === "COMENTARIO") {
+                window.location.href = `/administrador/darBajaComentario/${id}`;
+            }
+        });
+    });
+    </script>  
+
     </div>
 </div>
     <div id="usuarios" class="vista-usuarios d-flex justify-content-center align-items-center" style="min-height: 100vh;">
