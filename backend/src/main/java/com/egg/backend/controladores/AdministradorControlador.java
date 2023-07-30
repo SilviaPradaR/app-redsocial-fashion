@@ -147,13 +147,13 @@ public class AdministradorControlador {
             comentarioServicio.eliminarComentario(id);
             modelo.put("Éxito", "El comentario fue eliminado correctamente");
 
-            return "reportes_lista.html";
+            return "redirect:/administrador/dashboard";
 
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
 
-            return "reportes_lista.html";
+            return "redirect:/administrador/dashboard";
         }
     }
 
@@ -185,7 +185,7 @@ public class AdministradorControlador {
 
             // List<Reporte> reportes = reporteServicio.listarReportes();
             // modelo.addAttribute("reportes", reportes);
-            return "reportes_lista.html";
+            return "redirect:/administrador/dashboard";
 
         } catch (MiException ex) {
 
@@ -193,7 +193,7 @@ public class AdministradorControlador {
 
             // List<Reporte> reportes = reporteServicio.listarReportes();
             // modelo.addAttribute("reportes", reportes);
-            return "reportes_lista";
+           return "redirect:/administrador/dashboard";
         }
     }
 }

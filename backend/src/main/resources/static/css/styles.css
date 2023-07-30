@@ -205,10 +205,24 @@ nav a {
 .like-btn{
     padding: 0px 5px;
 }
-/* -----------------FORM LOGIN------------------- */
+/* -----------------FORM DASHBOARD------------------- */
+ #comentarios,
+#usuarios,
+#publicaciones, 
+#reportes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .bienvenida {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
 .vista-reporte {
     font-family: 'Nunito', sans-serif;
     background-image: url('../img/fondo1.png');
+    width: 100%;
 }
 .vista-usuarios{
     background-image: url('../img/fondoAzul.png');
@@ -219,20 +233,105 @@ nav a {
 .vista-comentarios{
     background-image: url('../img/fondoFaq.png');    
 }
-/* -----------------listas admin------------------- */
 
-/*.flexible-table {
+.table-container {
+    width: 60%;
+    max-height: 33vw;
+    overflow: auto;    
+}
+
+.custom-table {
+    table-layout: auto; 
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.custom-table th {
+    font-family: "Bodoni MT", serif;
+    font-weight: bold;
+    background-color: #f9d9c2;
+    border-bottom: 2px solid #000;   
+}
+
+.custom-table td {
+    font-family: "Bodoni 72", serif;
+}
+
+.custom-table tbody tr {
+    background-color: white;
+}
+
+.custom-table tbody td:hover {
+    background-color: #ffe1cd;
+}
+
+.custom-table thead {
+    border-radius: 10px 10px 0 0;
+}
+
+.custom-table tbody {
+    border-radius: 0 0 10px 10px;
+}
+
+.sticky-head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #f9d9c2;
+    border-bottom: 2px solid #000;
+     /* Alejandro */
+}
+
+.sticky-head th {
+    font-weight: bold;
+    /* Alejandro */
+}
+
+.btn-dar-baja {
+    color: #fff; /* Color del texto */
+    background-color: #007bff; /* Color de fondo del enlace */
+    border: 1px solid #007bff; /* Borde del enlace */
+    padding: 5px 10px; /* Espaciado interno del enlace */
+    text-decoration: none; /* Quitar subrayado del enlace */
+    border-radius: 5px; /* Radio de borde del enlace */
+}
+
+/* Estilos cuando el enlace está siendo presionado */
+.btn-dar-baja:active {
+    background-color: #9333ff;
+    border: 1px solid #9333ff;
+}
+
+.btn-eliminar:active {
+    background-color: #9333ff;
+    border: 1px solid #9333ff;
+}
+
+.btn-eliminar {
+    color: #fff;
+    background-color: #ff3300;
+    border: 1px solid #ff3300;
+    padding: 5px 10px; /* Espaciado interno del enlace */
+    text-decoration: none; /* Quitar subrayado del enlace */
+    border-radius: 5px; 
+}
+
+/* -----------------listas admin------------------- */
+/**.flexible-table {
   width: 100%;
   border-collapse: collapse;
 }
 
 .flexible-table tr {
   display: flex;
-}
+}*/
 
-.flexible-table td {
-  flex: 1;  Distribuir el espacio de manera equitativa entre las celdas 
+.flexible-table td,thead {
+  flex: 1;   
   padding: 8px;
   border: 1px solid #ccc;
-  min-height: 50px;  Tamaño mínimo de fila 
-}*/
+  min-height: 50px;  
+}
+

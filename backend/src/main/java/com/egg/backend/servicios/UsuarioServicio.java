@@ -155,12 +155,12 @@ public class UsuarioServicio implements UserDetailsService{
 
             Usuario usuario = respuesta.get();
 
-            if (usuario.getDarBaja()) {
+            if (!usuario.getDarBaja()) {
 
-                usuario.setDarBaja(false);
+                usuario.setDarBaja(Boolean.TRUE);
 
             } else {
-                usuario.setDarBaja(true);
+                usuario.setDarBaja(Boolean.FALSE);
             }
         }
     }
