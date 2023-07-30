@@ -163,8 +163,8 @@
                                 <a th:href= "@{/perfil/__${usuario.id}__}"> Modificar</a>
                             </td>
                             <td >
-                                 <a th:href= "@{/administrador/usuario_reporte_contador/__${usuario.id}__}"></a>
-                            </td>
+                                 <p th:text= "${conteoUsuario [usuario.id]}"></p>
+                               </td>
                             <td  >
                                 <a th:if="${usuario.rol != T(com.egg.backend.enumeraciones.Rol).ADMIN}"  th:href= "@{/administrador/usuario_eliminar/__${usuario.id}__}" onclick="return confirm('¿Está seguro de que desea eliminar a este usuario?');">Eliminar </a>
                             </td>
