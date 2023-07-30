@@ -66,11 +66,11 @@ public class CategoriaServicio {
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public List<Categoria> listarCategoria() {
 
-        List<Categoria> categoria = new ArrayList();
+        List<Categoria> categorias = new ArrayList();
 
-        categoria = categoriaRepositorio.findAll();
+        categorias = categoriaRepositorio.findAll();
 
-        return categoria;
+        return categorias;
     }
     
 }
