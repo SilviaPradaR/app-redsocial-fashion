@@ -1,10 +1,12 @@
 package com.egg.backend.controladores;
 
+import com.egg.backend.entidades.Categoria;
 import com.egg.backend.entidades.Comentario;
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Reporte;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.excepciones.MiException;
+import com.egg.backend.servicios.CategoriaServicio;
 import com.egg.backend.servicios.ComentarioServicio;
 import com.egg.backend.servicios.PublicacionServicio;
 import com.egg.backend.servicios.ReporteServicio;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -34,6 +37,8 @@ public class AdministradorControlador {
 
     @Autowired
     private ComentarioServicio comentarioServicio;
+    @Autowired
+    private CategoriaServicio categoriaServicio;
 
     @GetMapping("/dashboard")
     public String administrador(ModelMap modelo) throws MiException {
@@ -66,12 +71,13 @@ public class AdministradorControlador {
         }
         
         List<Reporte> reportes = reporteServicio.listarReportes();
+        List<Categoria> categorias = categoriaServicio.listarCategoria();
 
         modelo.addAttribute("usuarios", usuarios);
         modelo.addAttribute("publicaciones", publicaciones);
         modelo.addAttribute("comentarios", comentarios);
         modelo.addAttribute("reportes", reportes);
-        
+        modelo.addAttribute("categorias", categorias);
         modelo.addAttribute("conteoUsuario", conteoRepUsuario);
         modelo.addAttribute("conteoPublicacion", conteoRepPublicacion);
         modelo.addAttribute("conteoComentario", conteoRepComentario);
@@ -177,7 +183,7 @@ public class AdministradorControlador {
 
     @GetMapping("/reportes_eliminar/{id}")
     public String eliminarReporte(@PathVariable String id, ModelMap modelo) {
-
+        
         try {
 
             reporteServicio.eliminarReporte(id);
@@ -194,6 +200,49 @@ public class AdministradorControlador {
             // List<Reporte> reportes = reporteServicio.listarReportes();
             // modelo.addAttribute("reportes", reportes);
            return "redirect:/administrador/dashboard";
+        }
+    }
+       @GetMapping("/crearCategoria")
+    public String crearCategoria(){
+        
+        
+
+        
+        return "redirect:/administrador/dashboard";
+    }
+    @PostMapping("/crearCategoria")
+    public String crearCategoria(String nombre, ModelMap modelo){
+        
+          try {
+
+            categoriaServicio.crearCategoria(nombre);
+            modelo.put("Éxito", "La categoria fue creada correctamente");
+
+            return "redirect:/administrador/dashboard";
+
+        } catch (MiException ex) {
+
+            modelo.put("error", ex.getMessage());
+            modelo.put("nombre", nombre);
+            return "redirect:/administrador/dashboard";
+        }
+        
+    }
+    @GetMapping("/categoria_eliminar/{id}")
+    public String eliminarCategoria(@PathVariable String id, ModelMap modelo) {
+
+        try {
+
+            categoriaServicio.eliminarCategoria(id);
+            modelo.put("Éxito", "La categoria fue eliminada correctamente");
+
+            return "redirect:/administrador/dashboard";
+
+        } catch (MiException ex) {
+
+            modelo.put("error", ex.getMessage());
+
+            return "redirect:/administrador/dashboard";
         }
     }
 }
