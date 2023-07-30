@@ -21,6 +21,12 @@
                 <h4>Bienvenido de vuelta</h4>
             </div>
             <form action="/logincheck" method="POST">
+                <div th:if="${error != null}" class="card text-white bg-danger mb-3 mensajeError">
+                    <div class="card-body">
+                        <h6 class="card-title">Error 👎</h6>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo</label>
                     <input type="email" name="email" class="form-control" id="correo" aria-describedby="emailHelp" required />

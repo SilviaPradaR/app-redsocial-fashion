@@ -80,7 +80,7 @@ public class PanelControlador {
         
         if (error !=null) {
             
-            modelo.put("error", "Usuario o contraseña invalido");            
+            modelo.put("error", "Usuario y/o contraseña inválido");            
         }
         
         return "login.html";
