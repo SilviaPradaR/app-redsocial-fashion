@@ -27,7 +27,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class UsuarioServicio implements UserDetailsService{
+public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
@@ -36,7 +36,8 @@ public class UsuarioServicio implements UserDetailsService{
     private PublicacionRepositorio publicacionRepositorio;
 
     @Transactional
-    public void registrar(MultipartFile archivo, String nombreCompleto, String nombreUsuario, String email, String password, String password2, Rol rol) throws MiException {
+    public void registrar(MultipartFile archivo, String nombreCompleto, String nombreUsuario, String email,
+            String password, String password2, Rol rol) throws MiException {
 
         validar(nombreCompleto, nombreUsuario, email, password, password2);
 
@@ -55,40 +56,59 @@ public class UsuarioServicio implements UserDetailsService{
 
         usuarioRepositorio.save(usuario);
     }
+
     public Usuario getOne(String id) {
         return usuarioRepositorio.getOne(id);
     }
+
     public Usuario getOneEmail(String email) {
         return usuarioRepositorio.buscarPorEmail(email);
     }
-    
+
     @Transactional
-    public void actualizar(MultipartFile archivo, String id, String nombreCompleto, String nombreUsuario, String email, String password, String password2, Rol rol) throws MiException {
+    public void actualizar(MultipartFile archivo, String id, String nombreCompleto, String nombreUsuario, String email,
+            String password, String password2, Rol rol) throws MiException {
 
-        validar(nombreCompleto, nombreUsuario, email, password, password2);
+        if (archivo != null) {
+            validar(nombreCompleto, nombreUsuario, email, password, password2);
 
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-        if (respuesta.isPresent()) {
+            Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+            if (respuesta.isPresent()) {
 
-            Usuario usuario = respuesta.get();
-            usuario.setNombreCompleto(nombreCompleto);
-            usuario.setNombreUsuario(nombreUsuario);
-            usuario.setEmail(email);
+                Usuario usuario = respuesta.get();
+                usuario.setNombreCompleto(nombreCompleto);
+                usuario.setNombreUsuario(nombreUsuario);
+                usuario.setEmail(email);
 
-            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setRol(rol);
-            String idImagen = null;
+                usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+                usuario.setRol(rol);
+                String idImagen = null;
 
-            if (usuario.getImagen() != null) {
-                idImagen = usuario.getImagen().getId();
+                if (usuario.getImagen() != null) {
+                    idImagen = usuario.getImagen().getId();
+                }
+
+                Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
+                usuario.setImagen(imagen);
+
+                usuarioRepositorio.save(usuario);
             }
+        } else {
 
-            Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-            usuario.setImagen(imagen);
+            validar(nombreCompleto, nombreUsuario, email, password, password2);
+            Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+            if (respuesta.isPresent()) {
+                Usuario usuario = respuesta.get();
+                usuario.setNombreCompleto(nombreCompleto);
+                usuario.setNombreUsuario(nombreUsuario);
+                usuario.setEmail(email);
 
-            usuarioRepositorio.save(usuario);
+                usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+                usuario.setRol(rol);
+
+                usuarioRepositorio.save(usuario);
+            }
         }
-
     }
 
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
@@ -104,30 +124,31 @@ public class UsuarioServicio implements UserDetailsService{
     @Transactional
     public void eliminar(String id) throws MiException {
 
-        Usuario usuario= getOne(id);
+        Usuario usuario = getOne(id);
 
         usuarioRepositorio.delete(usuario);
 
     }
 
-    private void validar(String nombreCompleto,String nombreUsuario, String email,String password,String password2) throws MiException {
-       
+    private void validar(String nombreCompleto, String nombreUsuario, String email, String password, String password2)
+            throws MiException {
+
         if (nombreCompleto.isEmpty()) {
             throw new MiException("El nombre no puede estar vacio");
         }
         if (nombreUsuario.isEmpty()) {
             throw new MiException("El nombre de usuario no puede estar vacio");
         }
-        if (password.isEmpty() || password.length()<5) {
+        if (password.isEmpty() || password.length() < 5) {
             throw new MiException("La contraseña no puede ser menor a 5 caracteres");
         }
         if (!password.equals(password2)) {
             throw new MiException(" Las contraseñas no coinciden");
         }
-        if (email.isEmpty() || email==null) {
+        if (email.isEmpty() || email == null) {
             throw new MiException("El email no puede estar vacio");
         }
-        
+
     }
 
     @Override
@@ -147,6 +168,7 @@ public class UsuarioServicio implements UserDetailsService{
         }
 
     }
+
     @Transactional
     public void cambiarEstado(String id) {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
