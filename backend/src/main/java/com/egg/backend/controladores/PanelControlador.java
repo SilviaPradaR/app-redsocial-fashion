@@ -80,7 +80,7 @@ public class PanelControlador {
         
         if (error !=null) {
             
-            modelo.put("error", "Usuario o contraseña invalido");            
+            modelo.put("error", "Usuario y/o contraseña inválido");            
         }
         
         return "login.html";
@@ -118,7 +118,7 @@ public class PanelControlador {
     @GetMapping("/editar_perfil")
     public String editarperfil(ModelMap modelo,HttpSession session){
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        modelo.put("usuario", usuario);
+        modelo.put("usuario", usuario);       
         return "usuario_modificar.html";
     }
     
@@ -128,6 +128,9 @@ public class PanelControlador {
             @RequestParam String email, @RequestParam String password, @RequestParam String password2,  Rol rol, ModelMap modelo, MultipartFile archivo) throws Exception {
 
         try {
+            if (archivo.isEmpty()) {
+                archivo = null;
+            }
             usuarioServicio.actualizar(archivo, id, nombreCompleto, nombreUsuario, email, password, password2, rol);
 
             modelo.put("éxito", "Usuario actualizado correctamente!");
