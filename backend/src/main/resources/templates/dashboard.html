@@ -51,14 +51,15 @@
           </li>
         </ul>
 
-                <div class="dropdown text-end">
+                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle" />
+                        <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="foto-perfil" width="35"
+                            height="35" class="rounded-circle" id="img-cover" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
                         <li><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
-                        
+                        <li><a class="dropdown-item" href="/editar_perfil">Editar perfil</a></li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
@@ -72,9 +73,8 @@
     <main >
       
          <div id="reportes" class="vista-reporte d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-             <div class="bienvenida">
-             <h3 class="titulo-principal">¡Bienvenido!</h3>
-            <p>Aquí puedes gestionar y supervisar los reportes de los usuarios de forma rápida y sencilla</p>
+             <div class="bienvenida">            
+            <p>Aquí puedes gestionar y supervisar los reportes de los usuarios a otros usuarios, publicaciones y comentarios de forma rápida y sencilla</p>
             <h3 class="titulo-principal">Lista de reportes</h3>
          </div>
              <div class="table-container">
@@ -85,6 +85,7 @@
                 <th scope="col">ITEM REPORTE</th>
                 <th scope="col">CATEGORIA REPORTE</th>
                 <th scope="col">DESCRIPCION DEL REPORTE</th>
+                <th scope="col">ESTADO</th>
                 <th scope="col">ACEPTAR</th>
                 <th scope="col">DESESTIMAR</th>
 <!--                <th>ELIMINAR</th>                -->
@@ -105,6 +106,11 @@
                 <td th:text="${reporte.categoria}"></td>
                 <td th:text="${reporte.descripcion}"></td>
                 <td>
+                    <span th:if="${reporte.usuario != null}" th:text="${reporte.usuario.darBaja}"></span>
+                    <span th:if="${reporte.publicacion != null}" th:text="${reporte.publicacion.darBaja}"></span>
+                    <span th:if="${reporte.comentario != null}" th:text="${reporte.comentario.darBaja}"></span>
+                </td>
+                <td>
                    <a class="btn-dar-baja btn-reporte" href="#" 
                         th:data-id="${reporte.usuario != null ? reporte.usuario.id : (reporte.publicacion != null ? reporte.publicacion.id : (reporte.comentario != null ? reporte.comentario.id : ''))}" 
                         th:data-tipo="${reporte.usuario != null ? 'USUARIO' : (reporte.publicacion != null ? 'PUBLICACION' : (reporte.comentario != null ? 'COMENTARIO' : ''))}">
@@ -121,32 +127,32 @@
     </div>
 </div>
     <div id="usuarios" class="vista-usuarios d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="bienvenida">
-        <h3 class="titulo-principal">¡Toma el control! </h3>
+        <div class="bienvenida">        
             <p>Desde aquí, puedes realizar diversas acciones como dar de baja, editar, eliminar y analizar datos de los usuarios</p>
             <h3 class="titulo-principal">Lista de Usuarios</h3>
-    </div>>
-      <table class="table table-dark flexible-table">
-                    <thead class="encabezado" style="color:#ffc500">
+    </div>
+       <div class="table-container">
+             <table id="custom-table" class="custom-table flexible-table">
+        <thead class="sticky-head">
                         <tr>
 <!--                            <th scope="col">Id del Usuario</th>-->
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Usuario</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Foto de Perfil</th>
-                            <th scope="col">Rol</th>
-                            <th scope="col">Fecha de alta</th> 
-                            <th scope="col">Estado de Baja</th>                            
-                            <th scope="col">Cambiar Estado</th>
-                            <th scope="col">Modificar</th>
-                            <th scope="col">Cantidad de Reportes</th>
-                            <th scope="col">Eliminar</th>
+                            <th scope="col">NOMBRE</th>
+                            <th scope="col">USUARIO</th>
+                            <th scope="col">EMAIL</th>
+                            <th scope="col">FOTO PERFIL</th>
+                            <th scope="col">ROL</th>
+                            <th scope="col">FECHA ALTA</th> 
+                            <th scope="col">CANTIDAD DE REPORTES</th>
+                            <th scope="col">ESTADO</th>                            
+                            <th scope="col">DAR BAJA</th>
+                            <th scope="col">MODIFICAR</th>                            
+                            <th scope="col">ELIMINAR</th>
 
                         </tr>
                     </thead>
                     <tbody  th:each="usuario : ${usuarios}"> 
                         <tr >
-                            <th scope="row" th:text="${usuario.nombreCompleto}"></th>
+                            <td th:text="${usuario.nombreCompleto}"></td>
 
                             <td th:text="${usuario.nombreUsuario}"></td>
                             <td th:text="${usuario.email}"></td>
@@ -159,53 +165,53 @@
 
                             <td th:text="${usuario.rol}"></td>
                             <td th:text="${usuario.fechaAlta}"></td>
+                             <td >
+                                 <p th:text= "${conteoUsuario [usuario.id]}"></p>
+                               </td>
                             <td th:text="${usuario.darBaja}"></td>
                             <td >
-                                <a th:href= "@{/administrador/darBajaUsuario/__${usuario.id}__}">Cambiar</a>
+                                <a class="btn-dar-baja" th:href= "@{/administrador/darBajaUsuario/__${usuario.id}__}">Cambiar</a>
                             </td>
                             
                             <td>
-                                <a th:href= "@{/perfil/__${usuario.id}__}"> Modificar</a>
-                            </td>
-                            <td >
-                                 <p th:text= "${conteoUsuario [usuario.id]}"></p>
-                               </td>
-                            <td  >
-                                <a th:if="${usuario.rol != T(com.egg.backend.enumeraciones.Rol).ADMIN}"  th:href= "@{/administrador/usuario_eliminar/__${usuario.id}__}" onclick="return confirm('¿Está seguro de que desea eliminar a este usuario?');">Eliminar </a>
+                                <a class="btn-dar-baja" th:href= "@{/perfil/__${usuario.id}__}"> Modificar</a>
+                            </td>                           
+                            <td>
+                                <a class="btn-eliminar" th:if="${usuario.rol != T(com.egg.backend.enumeraciones.Rol).ADMIN}"  th:href= "@{/administrador/usuario_eliminar/__${usuario.id}__}" onclick="return confirm('¿Está seguro de que desea ELIMINAR a este usuario?');">Eliminar </a>
                             </td>
                         </tr>
 
                     </tbody>
                 </table>
-
+</div>
     </div>
 
     <div id="publicaciones" class="vista-publicaciones d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="bienvenida">
-        <h3 class="titulo-principal">¡El poder está en tus manos!</h3>
+        <div class="bienvenida">        
             <p>Recuerda que el contenido de las publicaciones son muy importante para nosotros
                 ; desde aquí, puedes realizar diversas acciones como dar de baja, eliminar y analizar datos de las publicaciones</p>
             <h3 class="titulo-principal">Lista de publicaciones</h3>
             </div>
-       <table class="table table-dark flexible-table">
-                    <thead class="encabezado" style="color:#ffc500">
+       <div class="table-container">
+             <table id="custom-table" class="custom-table flexible-table">
+        <thead class="sticky-head">
                         <tr>
 <!--                            <th scope="col">Id del Usuario</th>-->
-                            <th scope="col">Usuario</th>
-                            <th scope="col">Imagen</th>
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Contenido</th>
-                            <th scope="col">Fecha de Publicacion</th> 
-                            <th scope="col">Estado de Baja</th>                            
-                            <th scope="col">Cambiar Estado</th>
-                            <th scope="col">Cantidad de Reportes</th>
-                            <th scope="col">Eliminar</th>
+                            <th scope="col">USUARIO</th>
+                            <th scope="col">IMAGEN</th>
+                            <th scope="col">CATEGORIA</th>
+                            <th scope="col">CONTENIDO</th>
+                            <th scope="col">FECHA PUBLICACION</th> 
+                            <th scope="col">CANTIDAD DE REPORTES</th>
+                            <th scope="col">ESTADO</th>                            
+                            <th scope="col">DAR BAJA</th>                            
+                            <th scope="col">ELIMINAR</th>
 
                         </tr>
                     </thead>
                     <tbody  th:each="publicacion : ${publicaciones}"> 
                         <tr >
-                            <th scope="row" th:each="usuario : ${publicacion.usuario}" th:text="${usuario.nombreUsuario}"></th>
+                            <td scope="row" th:each="usuario : ${publicacion.usuario}" th:text="${usuario.nombreUsuario}"></td>
                             
                             <td>
 
@@ -217,31 +223,29 @@
                             <td th:each="categoria : ${publicacion.categoria}" th:text="${categoria.nombre}"></td>
                             <td th:text="${publicacion.contenido}"></td>
                             <td th:text="${publicacion.fechaPublicacion}"></td>
-                            <td th:text="${publicacion.darBaja}"></td>
-                            <td >
-                                <a th:href= "@{/administrador/darBajaPublicacion/__${publicacion.id}__}">Cambiar</a>
-                            </td>
-                            
-                            <td>
+                             <td>
                                 
                                 <p th:text= "${conteoPublicacion [publicacion.id]}"></p>
                                   
                             </td>
-                            <td  >
-                                <a th:href= "@{/administrador/publicacion_eliminar/__${publicacion.id}__}" onclick="return confirm('¿Está seguro de que desea eliminar la publicacion?');">Eliminar </a>
+                            <td th:text="${publicacion.darBaja}"></td>
+                            <td>
+                                <a class="btn-dar-baja" th:href= "@{/administrador/darBajaPublicacion/__${publicacion.id}__}">Cambiar</a>
+                            </td>                          
+                            <td>
+                                <a class="btn-eliminar" th:href= "@{/administrador/publicacion_eliminar/__${publicacion.id}__}" onclick="return confirm('¿Está seguro de que desea eliminar la publicacion?');">Eliminar </a>
                             </td>
                         </tr>
 
                     </tbody>
                 </table>
+           </div>
     </div>
 
     <div id="comentarios" class="vista-comentarios d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-       <div class="bienvenida">
-        <h3 class="titulo-principal">¡Eficiencia y control en un solo lugar!</h3>
+       <div class="bienvenida">        
         <p>Elimina comentarios innecesarios y destaca aquellos que impulsan el éxito de nuestra plataforma. 
-            Tu análisis permitirá entender mejor a nuestros usuarios y mejorar continuamente sus experiencias. 
-            ¡Adelante, siente el poder de moldear nuestro futuro a través de sus valiosos comentarios! 
+            Tu análisis permitirá entender mejor a nuestros usuarios y mejorar continuamente sus experiencias.             
         </p>
         <h3 class="titulo-principal">Lista de Comentarios</h3>
     </div>
