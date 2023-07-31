@@ -1,12 +1,15 @@
 package com.egg.backend.servicios;
 
 import com.egg.backend.entidades.Publicacion;
+import com.egg.backend.repositorios.CategoriaRepositorio;
 import com.egg.backend.repositorios.PublicacionRepositorio;
 import com.egg.backend.entidades.Categoria;
 import com.egg.backend.entidades.Usuario;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,18 +25,24 @@ public class PublicacionServicio {
     @Autowired
     private PublicacionRepositorio publicacionRepositorio;
     @Autowired
+    private CategoriaRepositorio categoriaRepositorio;
+    @Autowired
     private ImagenServicio imagenServicio;
     
     @Transactional
     public void crearPublicacion(Usuario usuario, String contenido,
-    MultipartFile imagen) throws MiException{ //configurar categoria
+    MultipartFile imagen, String idCategoria) throws MiException{
                          
-//        validar(imagen, categoria);
-        
-        Publicacion publicacion = new Publicacion();
-        
-        publicacion.setUsuario(usuario);
-        // publicacion.setCategoria(categoria); al configurar categoria descomentar        
+        validar(imagen, idCategoria);
+        Optional<Categoria> respuesta = categoriaRepositorio.findById(idCategoria);
+        Categoria categoria = new Categoria();
+        if(respuesta.isPresent()){
+            categoria = respuesta.get();
+        }
+
+        Publicacion publicacion = new Publicacion();        
+        publicacion.setUsuario(usuario);       
+        publicacion.setCategoria(categoria);       
         publicacion.setContenido(contenido);              
         publicacion.setFechaPublicacion(new Date());
         publicacion.setDarBaja(Boolean.FALSE);
@@ -42,16 +51,16 @@ public class PublicacionServicio {
         publicacionRepositorio.save(publicacion); 
     }
 
-//        private void validar(Imagen imagen,Categoria categoria ) throws MiException {
-//                
-//        if (imagen == null) {
-//            throw new MiException("imagen no puede ser nula");
-//        }
-//        if (categoria == null) {
-//            throw new MiException("La categoria no puede ser nula");
-//        }
-//        
-//    }
+       private void validar(MultipartFile imagen,String idCategoria) throws MiException {
+               
+       if (imagen == null) {
+           throw new MiException("imagen no puede ser nula");
+       }
+       if(idCategoria.isEmpty() || idCategoria == null){
+        throw new MiException("el categoría no puede ser nulo o estar vacio");
+    }
+       
+   }
 
     public List<Publicacion> listarPublicaciones(){
         
@@ -61,6 +70,22 @@ public class PublicacionServicio {
         
         return publicaciones;
     }     
+    
+    @Transactional
+    public void darBaja(String id) throws MiException {
+
+        Optional<Publicacion> respuesta = publicacionRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+            Publicacion publicacion = respuesta.get();
+
+            if (!publicacion.getDarBaja()) {
+                publicacion.setDarBaja(Boolean.TRUE);
+            } else {
+                publicacion.setDarBaja(Boolean.FALSE);
+            }
+        }
+    }
 
      @Transactional
     public void eliminar(String id) throws MiException {

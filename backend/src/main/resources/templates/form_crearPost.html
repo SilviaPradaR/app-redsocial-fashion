@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet" />
     <title>Document</title>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg" id="nav-scrolled" aria-label="Eleventh navbar example">
         <div class="container-fluid">
@@ -26,7 +27,7 @@
             <div class="collapse navbar-collapse" id="navbarsExample09">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item me-3">
-                        <a class="nav-link" href="">Inicio</a>
+                        <a class="nav-link" href="/inicio">Inicio</a>
                     </li>
                     <li class="nav-item me-3">
                         <a class="nav-link" href="">Explorar</a>
@@ -39,15 +40,16 @@
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle" />
+                        <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="foto-perfil" width="35"
+                            height="35" class="rounded-circle" id="img-cover" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
-                        <li><a class="dropdown-item" href="#">Mi perfil</a></li>
-                        <li><a class="dropdown-item" href="#">Editar perfil</a></li>
+                        <li><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
+                        <li><a class="dropdown-item" href="/editar_perfil">Editar perfil</a></li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
-                        <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                        <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
                     </ul>
                 </div>
             </div>
@@ -55,18 +57,18 @@
     </nav>
 
     <section class="crear-container d-flex justify-content-center align-items-center vh-100">
-        
+        <div class="blurry-background"></div>
         <form action="/disenador/publicacion" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="categoria" class="form-label">Categoria(*)</label>
-                <select name="categoria" id="categoria"  class="form-select" aria-label="Default select example">
+                <select name="idCategoria" id="categoria" class="form-select" aria-label="Default select example">
                     <option selected>Seleccione...</option>
-                    <option value="maquillaje">Maquillaje</option>
-                    <option value="accesorios">Accesorios</option>
-                    <option value="ropa">Ropa</option>
-                    <option value="calzado">Calzado</option>    
-                  </select>
-            </div>            
+                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                        th:text="${categoria.nombre}">
+                    </option>
+                </select>
+            </div>
+            
             <div class="mb-3">
                 <label for="contenido" class="form-label">Contenido</label>
                 <textarea type="text" name="contenido" class="form-control" id="clave" required></textarea>
@@ -82,4 +84,5 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
 </body>
+
 </html>

@@ -1,6 +1,9 @@
 package com.egg.backend.servicios;
 
+import com.egg.backend.entidades.Comentario;
+import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Reporte;
+import com.egg.backend.entidades.Usuario;
 import com.egg.backend.enumeraciones.Categoria;
 import com.egg.backend.excepciones.MiException;
 import com.egg.backend.repositorios.ComentarioRepositorio;
@@ -28,6 +31,8 @@ public class ReporteServicio {
     @Autowired
     private PublicacionServicio publicacionServicio;
     @Autowired
+    private ComentarioServicio comentarioServicio;
+    @Autowired
     private UsuarioServicio usuarioServicio;
 
     @Transactional
@@ -42,7 +47,9 @@ public class ReporteServicio {
             reporte.setPublicacion(publicacionServicio.getOne(publicacionId));
         }
         if (comentarioId != null) {
-            //reporte.setComentario(comentarioServicio.getOne(comentarioId));
+
+            reporte.setComentario(comentarioServicio.getOne(comentarioId));
+
         }
         reporte.setCategoria(categoria);
         reporte.setDescripcion(descripcion);
@@ -68,7 +75,7 @@ public class ReporteServicio {
                 reporte.setPublicacion(publicacionServicio.getOne(publicacionId));
             }
             if (comentarioId != null) {
-                //reporte.setComentario(comentarioServicio.getOne(comentarioId));
+                reporte.setComentario(comentarioServicio.getOne(comentarioId));
             }
 
             reporte.setCategoria(categoria);
@@ -118,4 +125,48 @@ public class ReporteServicio {
         }
 
     }
+    public int contadorReporteUsuario(String usuarioId) throws MiException {
+
+        Usuario usuario = usuarioRepositorio.getOne(usuarioId);
+        List<Reporte> reportes = listarReportes();
+        int contador = 0;              
+
+        for (Reporte x : reportes) {
+            if (x.getUsuario() == usuario) {
+                
+                contador ++;
+            }
+        }
+        return contador;
+    }
+    
+    public int contadorReporteComentario(String comentarioId) throws MiException {
+
+        Comentario comentario = comentarioRepositorio.getOne(comentarioId);
+        List<Reporte> reportes = listarReportes();
+        int contador = 0;
+
+        for (Reporte x : reportes) {
+            if (x.getComentario() == comentario) {
+                
+                contador ++;
+            }
+        }
+        return contador;
+    }
+    
+    public int contadorReportePublicacion(String publicacionId) throws MiException {
+
+        Publicacion publicacion = publicacionRepositorio.getOne(publicacionId);
+        List<Reporte> reportes = listarReportes();
+        int contador = 0;
+
+        for (Reporte x : reportes) {
+            if (x.getPublicacion() == publicacion) {
+                
+                contador ++;
+            }
+        }
+        return contador;
+    }         
 }
