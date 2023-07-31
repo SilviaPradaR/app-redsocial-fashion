@@ -58,7 +58,8 @@
                             height="35" class="rounded-circle" id="img-cover" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
-                        <li><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
+                        <li th:if="${session.usuariosession != null}"
+                        sec:authorize="hasRole('DISENIADOR')"><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
                         <li><a class="dropdown-item" href="/editar_perfil">Editar perfil</a></li>
                         <li>
                             <hr class="dropdown-divider" />
@@ -78,16 +79,16 @@
             <h3 class="titulo-principal">Lista de reportes</h3>
          </div>
              <div class="table-container">
-             <table id="custom-table" class="custom-table flexible-table">
-        <thead class="sticky-head">
+             <table id="custom-table" class="custom-table flexible-table ">
+        <thead class="sticky-head ">
             <tr>
                 <th scope="col">TIPO DE ENTIDAD REPORTADA</th>
                 <th scope="col">ITEM REPORTE</th>
                 <th scope="col">CATEGORIA REPORTE</th>
                 <th scope="col">DESCRIPCION DEL REPORTE</th>
-                <th scope="col">ESTADO</th>
-                <th scope="col">ACEPTAR</th>
-                <th scope="col">DESESTIMAR</th>
+                <th scope="col">ESTADO </th>
+                <th scope="col"> ACEPTAR</th>
+                <th scope="col"> DESESTIMAR</th>
 <!--                <th>ELIMINAR</th>                -->
             </tr>
         </thead>
@@ -133,7 +134,7 @@
     </div>
        <div class="table-container">
              <table id="custom-table" class="custom-table flexible-table">
-        <thead class="sticky-head">
+        <thead class="sticky-head ">
                         <tr>
 <!--                            <th scope="col">Id del Usuario</th>-->
                             <th scope="col">NOMBRE</th>
@@ -141,7 +142,7 @@
                             <th scope="col">EMAIL</th>
                             <th scope="col">FOTO PERFIL</th>
                             <th scope="col">ROL</th>
-                            <th scope="col">FECHA ALTA</th> 
+                            <th scope="col">FECHA DE ALTA</th> 
                             <th scope="col">CANTIDAD DE REPORTES</th>
                             <th scope="col">ESTADO</th>                            
                             <th scope="col">DAR BAJA</th>
@@ -271,7 +272,9 @@
                     <span th:each="categoria : ${publicacion.categoria}" th:text="${categoria.nombre}"></span>
                 </td>           
                 <td th:each="usuario : ${comentario.usuario}" th:text="${usuario.nombreCompleto}"></td>
-                 <td><a th:href= "@{/administrador/comentario_reporte_contador/__${comentario.id}__}"></a></td>
+                 <td>
+                      <p th:text= "${conteoComentario [comentario.id]}"></p>
+                 </td>
                  <td th:text="${comentario.darBaja}"></td>
                 <td>
                    <a class="btn-dar-baja" href="#" th:href= "@{/administrador/darBajaComentario/__${comentario.id}__}">
@@ -293,9 +296,10 @@
             <p>Aquí puedes ver todas las Categorias, eliminar y Crear Nuevas Categorias segun se requiera.</p>
             <h3 class="titulo-principal">Lista de Categorias</h3>
          </div>
-         <div>
-         <table class="table table-dark flexible-table" >
-                    <thead class="encabezado" style="color:#ffc500">
+        
+         <div class="table-container">           
+             <table id="custom-table" class="custom-table flexible-table">
+                    <thead class="sticky-head">
                         <tr>
 
                             <th scope="col">Categoria</th>
@@ -308,16 +312,17 @@
                             <th scope="row" th:text="${categoria.nombre}"></th>
                             
                             <td  >
-                                <a th:href= "@{/administrador/categoria_eliminar/__${categoria.id}__}" onclick="return confirm('¿Está seguro de que desea eliminar la categoria?');">Eliminar </a>
+                                <a class="btn-eliminar"th:href= "@{/administrador/categoria_eliminar/__${categoria.id}__}" onclick="return confirm('¿Está seguro de que desea eliminar la categoria?');">Eliminar </a>
                             </td>
                         </tr>
 
                     </tbody>
                 </table>
          </div>
-         <div>
-         <table class="table table-dark flexible-table">
-                    <thead class="encabezado" style="color:#ffc500">
+         
+         <br>
+         <div class="table-container">           
+             <table id="custom-table" class="custom-table flexible-table">
                         <tr>
 
                             <th scope="col">Crear Categoria</th>
@@ -332,7 +337,7 @@
                                <form th:action="@{/administrador/crearCategoria}" method="POST">
                                         
                                         <input type="text" class="form-group" name="nombre" >
-                                        <button type="submit" class="btn btn-link">Cargar</button>
+                                        <button  class="btn-dar-baja" type="submit" >Cargar</button>
                                     </form>
                             </td>
                         </tr>
@@ -340,6 +345,7 @@
                     </tbody>
                 </table>
          </div>
+         
     </div>   
         
         
