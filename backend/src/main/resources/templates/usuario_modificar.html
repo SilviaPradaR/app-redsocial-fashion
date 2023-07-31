@@ -66,6 +66,7 @@
                         <input class="form-control form-control-sm" name="archivo" type="file" id="formFile"
                             th:value="@{/imagen/perfil/__${usuario.id}__}">
                     </div>
+                    
                     <div class="col-md-12">
                         <span>Seleccione cómo desea registrarse (*):</span>
                         <div class="d-flex flex-row mt-1">
@@ -85,9 +86,9 @@
                             </div>
                         </div>
                         <div class="form-check col-md-6">
-                            <input class="form-check-input" type="radio" name="rol" th:value="${rol}"
-                                id="flexRadioDefault2" required>
-                            <label class="form-check-label" for="flexRadioDefault2">
+                            <input class="form-check-input" type="radio" name="rol" th:value="${usuario.rol}"
+                                id="flexRadioDefault3" required>
+                            <label class="form-check-label" for="flexRadioDefault3" >
                                 No cambiar rol
                             </label>
                         </div>
