@@ -1,6 +1,7 @@
 package com.egg.backend.servicios;
 
 import com.egg.backend.repositorios.ComentarioRepositorio;
+import com.egg.backend.repositorios.PublicacionRepositorio;
 import com.egg.backend.entidades.Comentario;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.entidades.Publicacion;
@@ -18,6 +19,9 @@ public class ComentarioServicio {
 
     @Autowired
     private ComentarioRepositorio comentarioRepositorio;
+    
+    @Autowired
+    private PublicacionRepositorio publicacionRepositorio;
 
     @Transactional
     public void crearComentario(Usuario usuario, Publicacion publicacion, String contenido) throws MiException {
@@ -80,4 +84,19 @@ public class ComentarioServicio {
         
         return comentarios;
     }
+    
+    public int contadorComentariosPublicacion(String publicacionId) throws MiException {
+
+        Publicacion publicacion = publicacionRepositorio.getOne(publicacionId);
+        List<Comentario> comentarios = listarComentarios();
+        int contador = 0;
+
+        for (Comentario c : comentarios) {
+            if (c.getPublicacion() == publicacion) {
+                
+                contador ++;
+            }
+        }
+        return contador;
+    }  
 }
