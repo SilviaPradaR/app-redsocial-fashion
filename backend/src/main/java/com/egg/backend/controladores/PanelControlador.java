@@ -1,6 +1,7 @@
 
 package com.egg.backend.controladores;
 
+import com.egg.backend.entidades.Like;
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.enumeraciones.Rol;
@@ -22,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.servicios.LikeServicio;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -88,7 +91,7 @@ public class PanelControlador {
     
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
-    public String inicio(ModelMap modelo, HttpSession session){
+    public String inicio(ModelMap modelo, HttpSession session) throws MiException{
         
         
         List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
@@ -96,10 +99,16 @@ public class PanelControlador {
         for (int i = 0; i < publicaciones.size(); i += 3) {
             publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
         }
+        
+          Map<String, Integer> conteoLike = new HashMap<>();
+          for (Publicacion p : publicaciones) {
 
+            int conteo = likeServicio.contadorLike(p.getId());
+            conteoLike.put(p.getId(), conteo);
+        }
         modelo.addAttribute("publicacionesChunked", publicacionesChunked);
         
-        
+        modelo.addAttribute("conteoLike", conteoLike);
         modelo.addAttribute("publicaciones", publicaciones);
         return "home.html";
     }
