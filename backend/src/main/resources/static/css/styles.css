@@ -33,6 +33,22 @@ nav a {
 .nav-btns:hover {
     background-color:#c070c0f1;
 }
+
+.custom-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff; 
+    z-index: 1000; 
+    /* Alejandro */
+}
+
+.dashboard-content {
+    padding-top: 70px; 
+/*     Alejandro */
+}
+
 .banner-container,
 .aboutUs-container,
 .faq-container{    
@@ -291,15 +307,14 @@ nav a {
 }
 
 .btn-dar-baja {
-    color: #fff; /* Color del texto */
-    background-color: #007bff; /* Color de fondo del enlace */
-    border: 1px solid #007bff; /* Borde del enlace */
-    padding: 5px 10px; /* Espaciado interno del enlace */
-    text-decoration: none; /* Quitar subrayado del enlace */
-    border-radius: 5px; /* Radio de borde del enlace */
+    color: #fff; 
+    background-color: #007bff; 
+    border: 1px solid #007bff; 
+    padding: 5px 10px; 
+    text-decoration: none; 
+    border-radius: 5px; 
 }
 
-/* Estilos cuando el enlace está siendo presionado */
 .btn-dar-baja:active {
     background-color: #9333ff;
     border: 1px solid #9333ff;
@@ -314,8 +329,8 @@ nav a {
     color: #fff;
     background-color: #ff3300;
     border: 1px solid #ff3300;
-    padding: 5px 10px; /* Espaciado interno del enlace */
-    text-decoration: none; /* Quitar subrayado del enlace */
+    padding: 5px 10px; 
+    text-decoration: none; 
     border-radius: 5px; 
 }
 
