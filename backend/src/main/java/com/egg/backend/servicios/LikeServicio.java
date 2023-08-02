@@ -7,6 +7,7 @@ import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.excepciones.MiException;
 import com.egg.backend.repositorios.LikeRepositorio;
+import com.egg.backend.repositorios.PublicacionRepositorio;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,8 @@ public class LikeServicio {
     private LikeRepositorio likeRepositorio;
     @Autowired
     private UsuarioServicio usuarioServicio;
+    @Autowired
+    private PublicacionRepositorio publicacionRepositorio;
     
     @Transactional
     public void darLike (Usuario usuario, Publicacion publicacion) throws MiException {
@@ -81,6 +84,21 @@ public class LikeServicio {
         
         return likeRepositorio.existsByUsuarioAndPublicacion(usuario, publicacion);
     }
+    
+    public int contadorLike(String publicacionId) throws MiException {
 
+        Publicacion publicacion = publicacionRepositorio.getOne(publicacionId);
+        List<Like> likes = listarLikes();
+        int contador = 0;
+
+        for (Like x : likes) {
+            if (x.getPublicacion() == publicacion) {
+                
+                contador ++;
+            }
+        }
+        return contador;
+        
+    }
 
 }
