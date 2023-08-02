@@ -8,6 +8,7 @@ import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
 import com.egg.backend.servicios.PublicacionServicio;
 import com.egg.backend.servicios.UsuarioServicio;
+import com.egg.backend.servicios.ComentarioServicio;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,15 @@ public class PanelControlador {
     
     @Autowired
     private UsuarioServicio usuarioServicio;
+    
     @Autowired
     private PublicacionServicio publicacionServicio;
     
     @Autowired
     private LikeServicio likeServicio;
+    
+    @Autowired
+    private ComentarioServicio comentarioServicio;
     
     @GetMapping("/")
     public String index(){
@@ -95,7 +100,7 @@ public class PanelControlador {
         
         
         List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
-         List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
+        List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
         for (int i = 0; i < publicaciones.size(); i += 3) {
             publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
         }
@@ -106,10 +111,19 @@ public class PanelControlador {
             int conteo = likeServicio.contadorLike(p.getId());
             conteoLike.put(p.getId(), conteo);
         }
-        modelo.addAttribute("publicacionesChunked", publicacionesChunked);
+          
+          Map<String, Integer> conteoComentariosPub = new HashMap<>();
+        for (Publicacion p : publicaciones) {
+
+            int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
+            conteoComentariosPub.put(p.getId(), conteo);
+        }
         
+        modelo.addAttribute("publicacionesChunked", publicacionesChunked);        
         modelo.addAttribute("conteoLike", conteoLike);
+        modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
         modelo.addAttribute("publicaciones", publicaciones);
+        
         return "home.html";
     }
             
