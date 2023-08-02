@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LikeRepositorio extends JpaRepository<Like, String>{
-    
+    boolean existsByUsuarioAndPublicacion(Usuario usuario, Publicacion publicacion);
 }

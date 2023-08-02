@@ -174,18 +174,18 @@ public class PanelControlador {
     }
     
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
-    @PostMapping("/darLike")
-    public String darLike(ModelMap modelo,HttpSession session,String publicacionId) {
+    @PostMapping("/darLike/{id}")
+    public String darLike(ModelMap modelo,HttpSession session,@PathVariable String id) {
         
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-            Publicacion publicacion = publicacionServicio.getOne(publicacionId);
+            Publicacion publicacion = publicacionServicio.getOne(id);
             likeServicio.darLike(usuario, publicacion);
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
         }
         
-        return "home.html";
+        return "redirect:/inicio";
     }
     @GetMapping("/perfil/{id}")
     public String modificarUsuario(ModelMap modelo, @PathVariable String id) {
