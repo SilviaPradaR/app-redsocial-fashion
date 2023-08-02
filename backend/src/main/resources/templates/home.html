@@ -53,7 +53,8 @@
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="foto-perfil" width="35"
-                            height="35" class="rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/>
+                            height="35" class="rounded-circle" id="img-cover"
+                            onerror="this.src='/img/fotoDefault.jpg'" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
                         <li><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
@@ -72,16 +73,16 @@
         <div class="tendencias-container d-flex align-items-center px-5 py-5">
             <div class="tendencias-content">
                 <h2 class="titulo-principal">Tu dosis diaria de inspiración</h2>
-            <p>Prepárate para deslumbrarte con las publicaciones más impactantes</p>
+                <p>Prepárate para deslumbrarte con las publicaciones más impactantes</p>
             </div>
-            
+
             <div id="carouselExample" class="carousel carousel-dark slide">
                 <div class="carousel-inner">
-                   
+
                     <div th:each="chunk, iterStat : ${publicacionesChunked}"
                         th:classappend="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
                         <div class="cards-wrapper">
-                           
+
                             <div th:each="publicacion : ${chunk}" class="card h-100">
 
                                 <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" class="card-img-top" alt="">
@@ -112,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -141,17 +142,19 @@
                             <img th:src="@{/imagen/perfil/__${publicacion.usuario.id}__}" alt="foto-perfil" width="35"
                                 height="35" class="d-inline-block rounded-circle" id="img-cover" />
                             <span th:text="${publicacion.usuario.nombreUsuario}"></span>
-                        </div>                       
+                        </div>                        
                         <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" class="card-img-top" alt="">
                         <div class="card-footer d-flex align-items-center">
                             <div class="btns-right">
-                                <button type="button" class="btn like-btn heart-btn" th:href= "@{/darLike}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                    </svg>
-                                </button>
+                                <form th:action="@{/darLike/__${publicacion.id}__}" method="post">
+                                    <button type="submit" class="btn like-btn heart-btn" >                                        
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                        </svg>
+                                    </button>
+                                </form>                                
                                 <button type="button" class="btn like-btn">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-chat" viewBox="0 0 16 16">

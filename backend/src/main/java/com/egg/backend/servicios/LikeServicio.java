@@ -26,7 +26,7 @@ public class LikeServicio {
     @Transactional
     public void darLike (Usuario usuario, Publicacion publicacion) throws MiException {
         
-        if (!validarLike(publicacion, usuario)) {
+        if (!usuarioDioLike(usuario, publicacion)) {
             
             Like like = new Like();
         
@@ -43,26 +43,17 @@ public class LikeServicio {
         
                    
     }
-    
-    @Transactional
-    public void eliminarLike(String id) throws MiException {
-
-        Like like = likeRepositorio.getById(id);
-
-        likeRepositorio.delete(like);
-    }  
+ 
     @Transactional
     public void quitarLike(Usuario usuario, Publicacion publicacion) throws MiException {
         List<Like> likes = listarLikes();
         
-         for (Like x : likes) {
-            if (x.getUsuario() == usuario && x.getPublicacion() == publicacion ) {
+        for (Like x : likes) {            
+            if (x.getUsuario().getId().equals(usuario.getId())  && x.getPublicacion().getId().equals(publicacion.getId()) ) {
                 likeRepositorio.delete(x);
                 
             }
-        }
-
-        
+        }        
     }  
         
     public Long ContadorLikes() throws MiException {
@@ -84,19 +75,12 @@ public class LikeServicio {
         
         return likeRepositorio.getOne(id);
     }
+
     
-    public boolean validarLike(Publicacion publicacion,Usuario usuario){
+    public boolean usuarioDioLike(Usuario usuario, Publicacion publicacion) {
         
-       
-        return likeRepositorio.existsById(publicacion.getId())&& likeRepositorio.existsById(usuario.getId());
-//        if (like.getUsuario()==null && like.getPublicacion()==null) {
-//            
-//            return true;
-//        }else{
-//            return false;
-//        }
- 
-        
+        return likeRepositorio.existsByUsuarioAndPublicacion(usuario, publicacion);
     }
+
 
 }
