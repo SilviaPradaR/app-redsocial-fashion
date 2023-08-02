@@ -1,12 +1,14 @@
 
 package com.egg.backend.controladores;
 
+import com.egg.backend.entidades.Like;
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
 import com.egg.backend.servicios.PublicacionServicio;
 import com.egg.backend.servicios.UsuarioServicio;
+import com.egg.backend.servicios.ComentarioServicio;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.servicios.LikeServicio;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -29,11 +33,15 @@ public class PanelControlador {
     
     @Autowired
     private UsuarioServicio usuarioServicio;
+    
     @Autowired
     private PublicacionServicio publicacionServicio;
     
     @Autowired
     private LikeServicio likeServicio;
+    
+    @Autowired
+    private ComentarioServicio comentarioServicio;
     
     @GetMapping("/")
     public String index(){
@@ -88,19 +96,34 @@ public class PanelControlador {
     
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
-    public String inicio(ModelMap modelo, HttpSession session){
+    public String inicio(ModelMap modelo, HttpSession session) throws MiException{
         
         
         List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
-         List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
+        List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
         for (int i = 0; i < publicaciones.size(); i += 3) {
             publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
         }
+        
+          Map<String, Integer> conteoLike = new HashMap<>();
+          for (Publicacion p : publicaciones) {
 
-        modelo.addAttribute("publicacionesChunked", publicacionesChunked);
+            int conteo = likeServicio.contadorLike(p.getId());
+            conteoLike.put(p.getId(), conteo);
+        }
+          
+          Map<String, Integer> conteoComentariosPub = new HashMap<>();
+        for (Publicacion p : publicaciones) {
+
+            int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
+            conteoComentariosPub.put(p.getId(), conteo);
+        }
         
-        
+        modelo.addAttribute("publicacionesChunked", publicacionesChunked);        
+        modelo.addAttribute("conteoLike", conteoLike);
+        modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
         modelo.addAttribute("publicaciones", publicaciones);
+        
         return "home.html";
     }
             

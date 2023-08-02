@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg" id="nav-scrolled" aria-label="Eleventh navbar example">
+    <nav class="navbar navbar-expand-lg custom-navbar" id="nav-scrolled" aria-label="Eleventh navbar example">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <img src="/img/logo.png" alt="Logo" width="45" height="40" class="d-inline-block" />
@@ -71,7 +71,7 @@
         </div>
     </nav>
 
-    <main >
+    <main class="dashboard-content">
       
          <div id="reportes" class="vista-reporte d-flex justify-content-center align-items-center" style="min-height: 100vh;">
              <div class="bienvenida">            
@@ -87,8 +87,8 @@
                 <th scope="col">CATEGORIA REPORTE</th>
                 <th scope="col">DESCRIPCION DEL REPORTE</th>
                 <th scope="col">ESTADO </th>
-                <th scope="col"> ACEPTAR</th>
-                <th scope="col"> DESESTIMAR</th>
+                <th scope="col">DAR BAJA</th>
+                <th scope="col">DESESTIMAR</th>
 <!--                <th>ELIMINAR</th>                -->
             </tr>
         </thead>
@@ -115,7 +115,7 @@
                    <a class="btn-dar-baja btn-reporte" href="#" 
                         th:data-id="${reporte.usuario != null ? reporte.usuario.id : (reporte.publicacion != null ? reporte.publicacion.id : (reporte.comentario != null ? reporte.comentario.id : ''))}" 
                         th:data-tipo="${reporte.usuario != null ? 'USUARIO' : (reporte.publicacion != null ? 'PUBLICACION' : (reporte.comentario != null ? 'COMENTARIO' : ''))}">
-                        Aceptar
+                        Cambiar
                    </a>
                 </td>
                <td><a class="btn-eliminar" th:href= "@{/administrador/reportes_eliminar/__${reporte.id}__}" onclick="return confirm('¿Está seguro de que desea DESESTIMAR el reporte?');">Eliminar </a></td>
@@ -302,14 +302,14 @@
                     <thead class="sticky-head">
                         <tr>
 
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Eliminar</th>
+                            <th scope="col">CATEGORÍA</th>
+                            <th scope="col">ELIMINAR</th>
 
                         </tr>
                     </thead>
                     <tbody  th:each="categoria : ${categorias}"> 
                         <tr >
-                            <th scope="row" th:text="${categoria.nombre}"></th>
+                            <td scope="row" th:text="${categoria.nombre}"></td>
                             
                             <td  >
                                 <a class="btn-eliminar"th:href= "@{/administrador/categoria_eliminar/__${categoria.id}__}" onclick="return confirm('¿Está seguro de que desea eliminar la categoria?');">Eliminar </a>
@@ -325,13 +325,13 @@
              <table id="custom-table" class="custom-table flexible-table">
                         <tr>
 
-                            <th scope="col">Crear Categoria</th>
+                            <th scope="col">CREAR CATEGORÍA</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody  > 
                         <tr >
-                            <th scope="row" >Ingresar nombre de categoria nueva</th>
+                            <td scope="row" >Ingresar nombre de categoria nueva</td>
                             
                             <td  >
                                <form th:action="@{/administrador/crearCategoria}" method="POST">
