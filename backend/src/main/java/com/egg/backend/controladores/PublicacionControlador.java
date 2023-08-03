@@ -4,17 +4,12 @@ import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.entidades.Categoria;
 import com.egg.backend.entidades.Comentario;
-import com.egg.backend.entidades.Imagen;
 import com.egg.backend.excepciones.MiException;
-import com.egg.backend.repositorios.PublicacionRepositorio;
 import com.egg.backend.servicios.CategoriaServicio;
 import com.egg.backend.servicios.ComentarioServicio;
 import com.egg.backend.servicios.LikeServicio;
 import com.egg.backend.servicios.PublicacionServicio;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -62,8 +57,6 @@ public class PublicacionControlador {
         int conteo = likeServicio.contadorLike(publicacion.getId());
         int conteoComentarios = comentarioServicio.contadorComentariosPublicacion(id);
         
-        System.out.println("conteoLike: " + conteo);
-
         modelo.addAttribute("publicacion", publicacion);
         modelo.addAttribute("comentarios", comentariosPublicacion);
         modelo.addAttribute("conteoLike", conteo);      
@@ -107,5 +100,4 @@ public class PublicacionControlador {
         publicacionServicio.eliminar(id);
         return "redirect:../../perfil";
     }
-;
 }
