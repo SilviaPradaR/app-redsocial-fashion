@@ -1,15 +1,14 @@
-
 package com.egg.backend.controladores;
 
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.entidades.Categoria;
-import com.egg.backend.entidades.Imagen;
+import com.egg.backend.entidades.Comentario;
 import com.egg.backend.excepciones.MiException;
-import com.egg.backend.repositorios.PublicacionRepositorio;
 import com.egg.backend.servicios.CategoriaServicio;
+import com.egg.backend.servicios.ComentarioServicio;
+import com.egg.backend.servicios.LikeServicio;
 import com.egg.backend.servicios.PublicacionServicio;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,53 +31,73 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/disenador")
 public class PublicacionControlador {
+
     @Autowired
     private CategoriaServicio categoriaServicio;
     @Autowired
     private PublicacionServicio publicacionServicio;
-  
+    @Autowired
+    private LikeServicio likeServicio;
+    @Autowired
+    private ComentarioServicio comentarioServicio;
+
     @GetMapping("/crear")
-    public String registrar(ModelMap modelo){
+    public String registrar(ModelMap modelo) {
         List<Categoria> categorias = categoriaServicio.listarCategoria();
-        
+
         modelo.addAttribute("categorias", categorias);
         return "form_crearPost.html";
     }
 
-   @PostMapping("/publicacion")
-   public String publicacion(HttpSession session, String contenido,
-           @RequestParam MultipartFile imagen, ModelMap modelo, String idCategoria) { 
-     
+    @GetMapping("/ver/{id}")
+    public String registrar(@PathVariable String id, ModelMap modelo) throws MiException {
+        
+        Publicacion publicacion = publicacionServicio.getOne(id);
+        List<Comentario> comentariosPublicacion = comentarioServicio.listarComentariosPublicacion(id);                                
+        int conteo = likeServicio.contadorLike(publicacion.getId());
+        int conteoComentarios = comentarioServicio.contadorComentariosPublicacion(id);
+        
+        modelo.addAttribute("publicacion", publicacion);
+        modelo.addAttribute("comentarios", comentariosPublicacion);
+        modelo.addAttribute("conteoLike", conteo);      
+        modelo.addAttribute("conteoComentarios", conteoComentarios);              
 
-       try {
-        Usuario logueado = (Usuario) session.getAttribute("usuariosession"); 
-           publicacionServicio.crearPublicacion(logueado, contenido, imagen, idCategoria);
+        return "publicacion_detalle.html";
+    }
 
-           modelo.put("exito", "La publicación fue cargada exitosamente!!!");
+    @PostMapping("/publicacion")
+    public String publicacion(HttpSession session, String contenido,
+            @RequestParam MultipartFile imagen, ModelMap modelo, String idCategoria) {
 
-       } catch (MiException ex) {
+        try {
+            Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+            publicacionServicio.crearPublicacion(logueado, contenido, imagen, idCategoria);
+
+            modelo.put("exito", "La publicación fue cargada exitosamente!!!");
+
+        } catch (MiException ex) {
             Logger.getLogger(PublicacionControlador.class.getName()).log(Level.SEVERE, null, ex);
-           modelo.put("error", ex.getMessage());
+            modelo.put("error", ex.getMessage());
 
-           return "home.html";
-       }
+            return "home.html";
+        }
 
-       return "redirect:../perfil";
-   }
-      
-   @GetMapping("/listar")
-   public String listar(ModelMap modelo) {
+        return "redirect:../perfil";
+    }
 
-       List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
+    @GetMapping("/listar")
+    public String listar(ModelMap modelo) {
 
-       modelo.addAttribute("publicaciones", publicaciones);
+        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
 
-       return "listarPublicaciones.html";
-   }
- 
-   @GetMapping("/eliminar/{id}")
-   public String eliminar(@PathVariable String id, ModelMap modelo) throws MiException{
-       publicacionServicio.eliminar(id);
-       return "redirect:../../perfil";
-   };
+        modelo.addAttribute("publicaciones", publicaciones);
+
+        return "listarPublicaciones.html";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable String id, ModelMap modelo) throws MiException {
+        publicacionServicio.eliminar(id);
+        return "redirect:../../perfil";
+    }
 }

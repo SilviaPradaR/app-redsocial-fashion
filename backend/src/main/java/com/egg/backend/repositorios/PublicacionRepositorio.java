@@ -1,5 +1,6 @@
 package com.egg.backend.repositorios;
 
+import com.egg.backend.entidades.Categoria;
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 
@@ -17,4 +18,7 @@ public interface PublicacionRepositorio extends JpaRepository<Publicacion, Strin
     public List<Publicacion> buscarPorFecha(@Param("fechaPublicacion")Date fechaPublicacion);
 
     public List<Publicacion> findByUsuario(Usuario usuario);
+    
+    @Query("Select p from Publicacion p where p.categoria.nombre = :nombre")
+    public List<Publicacion> buscarPorCategoria(@Param("nombre") String nombre);
 }
