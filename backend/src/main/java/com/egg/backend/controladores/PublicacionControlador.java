@@ -56,22 +56,18 @@ public class PublicacionControlador {
 
     @GetMapping("/ver/{id}")
     public String registrar(@PathVariable String id, ModelMap modelo) throws MiException {
-        System.out.println("id publicacion: " + id);
-
+        
         Publicacion publicacion = publicacionServicio.getOne(id);
-        List<Comentario> comentarios = comentarioServicio.listarComentarios(); 
-                                
+        List<Comentario> comentariosPublicacion = comentarioServicio.listarComentariosPublicacion(id);                                
         int conteo = likeServicio.contadorLike(publicacion.getId());
+        int conteoComentarios = comentarioServicio.contadorComentariosPublicacion(id);
         
         System.out.println("conteoLike: " + conteo);
 
         modelo.addAttribute("publicacion", publicacion);
-        modelo.addAttribute("comentarios", comentarios);
-               
-        System.out.println("Comentarios: " + comentarios);
-        modelo.addAttribute("conteoLike", conteo);
-        
-        
+        modelo.addAttribute("comentarios", comentariosPublicacion);
+        modelo.addAttribute("conteoLike", conteo);      
+        modelo.addAttribute("conteoComentarios", conteoComentarios);              
 
         return "publicacion_detalle.html";
     }
