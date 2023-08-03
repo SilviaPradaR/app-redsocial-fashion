@@ -131,6 +131,8 @@ public class PanelControlador {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
         List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+        
         modelo.addAttribute("publicaciones", publicaciones);
         Map<String, Integer> conteoLike = new HashMap<>();
         for (Publicacion p : publicaciones) {
@@ -146,6 +148,14 @@ public class PanelControlador {
             int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
             conteoComentariosPub.put(p.getId(), conteo);
             modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
+        }
+        
+        Map<String, Integer> conteoComentariosDiseniador = new HashMap<>();
+        for (Usuario u : usuarios) {
+
+            int conteo = comentarioServicio.contadorComentariosDiseniador(u.getId());
+            conteoComentariosPub.put(u.getId(), conteo);
+            modelo.addAttribute("sumatoriaComentarios", conteoComentariosDiseniador);            
         }
 
         return "perfil.html";
