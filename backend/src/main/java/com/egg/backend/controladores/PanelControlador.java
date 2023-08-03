@@ -139,6 +139,15 @@ public class PanelControlador {
             conteoLike.put(p.getId(), conteo);
             modelo.addAttribute("conteoLike", conteoLike);
         }
+
+        Map<String, Integer> conteoComentariosPub = new HashMap<>();
+        for (Publicacion p : publicaciones) {
+
+            int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
+            conteoComentariosPub.put(p.getId(), conteo);
+            modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
+        }
+
         return "perfil.html";
     }
 
