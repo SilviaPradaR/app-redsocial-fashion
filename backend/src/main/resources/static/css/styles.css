@@ -361,7 +361,7 @@ nav a {
 }  
 header{
     width: 60%;
-    margin: auto;
+    /* margin: auto; */
     transform: translateY(50px);
     /* padding: 20px 0; */
 }

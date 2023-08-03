@@ -172,26 +172,42 @@ public class PanelControlador {
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
         modelo.addAttribute("categorias", categorias);
         modelo.addAttribute("publicaciones", publicaciones);
+
         return "home.html";
 
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, HttpSession session
-    ) {
+    public String perfil(ModelMap modelo, HttpSession session) throws MiException {
+
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
         List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);
         modelo.addAttribute("publicaciones", publicaciones);
+
+        Map<String, Integer> conteoLike = new HashMap<>();
+        for (Publicacion p : publicaciones) {
+
+            int conteo = likeServicio.contadorLike(p.getId());
+            conteoLike.put(p.getId(), conteo);
+            modelo.addAttribute("conteoLike", conteoLike);
+        }
+
+        Map<String, Integer> conteoComentariosPub = new HashMap<>();
+        for (Publicacion p : publicaciones) {
+
+            int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
+            conteoComentariosPub.put(p.getId(), conteo);
+            modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
+        }
 
         return "perfil.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
     @GetMapping("/editar_perfil")
-    public String editarperfil(ModelMap modelo, HttpSession session
-    ) {
+    public String editarperfil(ModelMap modelo, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.put("usuario", usuario);
         return "usuario_modificar.html";
@@ -199,13 +215,8 @@ public class PanelControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @PostMapping("/perfil/{id}")
-    public String actualizar(@PathVariable String id,
-            @RequestParam String nombreCompleto,
-            @RequestParam String nombreUsuario,
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam String password2, Rol rol,
-             ModelMap modelo, MultipartFile archivo) throws Exception {
+    public String actualizar(@PathVariable String id, @RequestParam String nombreCompleto, @RequestParam String nombreUsuario,
+            @RequestParam String email, @RequestParam String password, @RequestParam String password2, Rol rol, ModelMap modelo, MultipartFile archivo) throws Exception {
 
         try {
             if (archivo.isEmpty()) {
@@ -249,17 +260,14 @@ public class PanelControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
     @GetMapping("/dar_like")
-    public String dar_like(ModelMap modelo, HttpSession session,
-             String publicacionId) throws MiException {
 
+    public String dar_like(ModelMap modelo, HttpSession session, String publicacionId) throws MiException {
         return "home.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
     @PostMapping("/darLike/{id}")
-    public String darLike(ModelMap modelo, HttpSession session,
-             @PathVariable String id
-    ) {
+    public String darLike(ModelMap modelo, HttpSession session, @PathVariable String id) {
 
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
@@ -273,9 +281,7 @@ public class PanelControlador {
     }
 
     @GetMapping("/perfil/{id}")
-    public String modificarUsuario(ModelMap modelo,
-            @PathVariable String id
-    ) {
+    public String modificarUsuario(ModelMap modelo, @PathVariable String id) {
         modelo.put("usuario", usuarioServicio.getOne(id));
 
         return "usuario_modificar.html";
