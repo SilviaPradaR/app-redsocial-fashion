@@ -85,6 +85,22 @@ public class ComentarioServicio {
         return comentarios;
     }
     
+    public List<Comentario> listarComentariosPublicacion(String publicacionId) {
+        
+        Publicacion publicacion = publicacionRepositorio.getOne(publicacionId);
+        List<Comentario> comentarios = new ArrayList();
+        comentarios = comentarioRepositorio.findAll();
+        List<Comentario> comentariosPub = new ArrayList();
+        
+        for (Comentario c : comentarios) {
+            if (c.getPublicacion() == publicacion) {
+                
+                comentariosPub.add(c);
+            }
+        }        
+        return comentariosPub;
+    }
+    
     public int contadorComentariosPublicacion(String publicacionId) throws MiException {
 
         Publicacion publicacion = publicacionRepositorio.getOne(publicacionId);
