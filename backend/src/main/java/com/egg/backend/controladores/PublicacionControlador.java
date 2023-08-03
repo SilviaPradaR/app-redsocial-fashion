@@ -60,18 +60,14 @@ public class PublicacionControlador {
 
         Publicacion publicacion = publicacionServicio.getOne(id);
         List<Comentario> comentarios = comentarioServicio.listarComentarios(); 
-        
-        List<Comentario> comentariosPublicacion = comentarioServicio.listarComentariosPublicacion(id); 
-                        
+                                
         int conteo = likeServicio.contadorLike(publicacion.getId());
         
         System.out.println("conteoLike: " + conteo);
 
         modelo.addAttribute("publicacion", publicacion);
         modelo.addAttribute("comentarios", comentarios);
-        
-        modelo.addAttribute("comentariosPublicacion", comentariosPublicacion);
-        
+               
         System.out.println("Comentarios: " + comentarios);
         modelo.addAttribute("conteoLike", conteo);
         
