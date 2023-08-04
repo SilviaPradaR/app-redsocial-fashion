@@ -31,7 +31,6 @@ public class ComentarioControlador {
 
     @PostMapping("/crearComentario")
     public String edicion(@RequestParam String contenido, Publicacion publicacion, ModelMap modelo, HttpSession session) {
-
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
