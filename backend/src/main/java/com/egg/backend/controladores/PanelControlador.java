@@ -1,5 +1,6 @@
 package com.egg.backend.controladores;
 
+import com.egg.backend.entidades.Categoria;
 import com.egg.backend.entidades.Like;
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
@@ -21,10 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.egg.backend.enumeraciones.Rol;
+import com.egg.backend.repositorios.UsuarioRepositorio;
+import com.egg.backend.servicios.CategoriaServicio;
 import com.egg.backend.servicios.LikeServicio;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -41,6 +45,9 @@ public class PanelControlador {
 
     @Autowired
     private ComentarioServicio comentarioServicio;
+
+    @Autowired
+    private CategoriaServicio categoriaServicio;
 
     @GetMapping("/")
     public String index() {
@@ -95,45 +102,77 @@ public class PanelControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
-    public String inicio(ModelMap modelo, HttpSession session) throws MiException {
+    public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre) throws MiException {
 
-        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
-        List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
-        for (int i = 0; i < publicaciones.size(); i += 3) {
-            publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+        List<Categoria> categorias = categoriaServicio.listarCategoria();
+        List<Publicacion> publicaciones= publicacionServicio.listarPublicaciones();
+        List<Publicacion> publicacionesFiltradas;
+        
+        
+        
+        if (nombre == null) {
+            
+            publicacionesFiltradas= publicaciones;
+        }else if(nombre == "descendente"){
+            
+           publicacionesFiltradas=publicacionServicio.getByFechaDesc();
+                
+        }else if(nombre =="ascendente"){
+            
+            publicacionesFiltradas=publicacionServicio.getByFechaAsc();
+                
+        /*}else if(nombre == "likes"){
+            
+                   
+        }else if(nombre == "autor"){
+            
+                */   
+        }else{
+            publicacionesFiltradas=publicacionServicio.getOneCategoria(nombre);
         }
+        
+       
+           List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
+            for (int i = 0; i < publicaciones.size(); i += 3) {
+                publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+            }
 
-        Map<String, Integer> conteoLike = new HashMap<>();
-        for (Publicacion p : publicaciones) {
+            Map<String, Integer> conteoLike = new HashMap<>();
+            for (Publicacion p : publicaciones) {
 
-            int conteo = likeServicio.contadorLike(p.getId());
-            conteoLike.put(p.getId(), conteo);
-        }
+                int conteo = likeServicio.contadorLike(p.getId());
+                conteoLike.put(p.getId(), conteo);
+            }
 
-        Map<String, Integer> conteoComentariosPub = new HashMap<>();
-        for (Publicacion p : publicaciones) {
+            Map<String, Integer> conteoComentariosPub = new HashMap<>();
+            for (Publicacion p : publicaciones) {
 
-            int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
-            conteoComentariosPub.put(p.getId(), conteo);
-        }
-
+                int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
+                conteoComentariosPub.put(p.getId(), conteo);
+            }
+        
         modelo.addAttribute("publicacionesChunked", publicacionesChunked);
         modelo.addAttribute("conteoLike", conteoLike);
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
+        modelo.addAttribute("categorias", categorias);
         modelo.addAttribute("publicaciones", publicaciones);
+        modelo.addAttribute("publicacionesFiltradas", publicacionesFiltradas);
 
         return "home.html";
+        
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) throws MiException {
+
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
         List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
         
         modelo.addAttribute("publicaciones", publicaciones);
+
         Map<String, Integer> conteoLike = new HashMap<>();
         for (Publicacion p : publicaciones) {
 
@@ -195,7 +234,8 @@ public class PanelControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listausuarios")
-    public String listarUsuarios(ModelMap modelo) {
+    public String listarUsuarios(ModelMap modelo
+    ) {
 
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
 
@@ -215,8 +255,8 @@ public class PanelControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR', 'ROLE_ADMIN')")
     @GetMapping("/dar_like")
-    public String dar_like(ModelMap modelo, HttpSession session, String publicacionId) throws MiException {
 
+    public String dar_like(ModelMap modelo, HttpSession session, String publicacionId) throws MiException {
         return "home.html";
     }
 
