@@ -99,4 +99,19 @@ public class PublicacionServicio {
     public Publicacion getOne(String id) {
         return publicacionRepositorio.getOne(id);
     }
+    
+    public List<Publicacion> getOneCategoria(String nombre) {
+        return publicacionRepositorio.buscarPorCategoria(nombre); 
+    }
+    
+    public List<Publicacion> getByFechaDesc() {
+        return publicacionRepositorio.FechaDesc();
+    }
+     public List<Publicacion> getByFechaAsc() {
+        return publicacionRepositorio.FechaAsc();
+    }
+   
+    public List<Publicacion> obtenerPublicacionesConMasLikes() {
+        return publicacionRepositorio.buscarPublicacionesConMasLikes();
+    }
 }
