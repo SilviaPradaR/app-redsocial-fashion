@@ -31,7 +31,7 @@ public class ComentarioControlador {
 
     @PostMapping("/crearComentario")
     public String edicion(@RequestParam String contenido, Publicacion publicacion, ModelMap modelo, HttpSession session) {
-
+        System.out.println("Entro a crear comentario");
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
 
