@@ -120,6 +120,21 @@ public class UsuarioServicio implements UserDetailsService {
 
         return usuarios;
     }
+    
+    @Transactional
+    public List<Usuario> listarDiseniadores() {
+
+        List<Usuario> usuarios = listarUsuarios();
+        List<Usuario> diseniadores = new ArrayList();
+
+        for (Usuario u : usuarios) {
+            if (u.getRol() == Rol.DISENIADOR){
+                
+                diseniadores.add(u);                 
+            }
+        }
+        return diseniadores;
+    }
 
     @Transactional
     public void eliminar(String id) throws MiException {
