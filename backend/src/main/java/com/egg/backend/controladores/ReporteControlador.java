@@ -15,6 +15,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,12 +41,12 @@ public class ReporteControlador {
     @Autowired
     private PublicacionRepositorio publicacionRepositorio;
 
-    @GetMapping("/registrarReporte")
-    public String registrarReporte() {
-
-        return "reporte_form.html";
-
-    }
+//    @GetMapping("/registrarReporte")
+//    public String registrarReporte() {
+//
+//        return "reporte_form.html";
+//
+//    }
 
     @PostMapping("/registroReporte")
     public String registroReporte(@RequestParam String id, @RequestParam Categoria categoria, String descripcion, ModelMap modelo) {
@@ -70,12 +71,12 @@ public class ReporteControlador {
                 reporteServicio.registrarReporte(null, id, null, categoria, descripcion);
             }
 
-            modelo.put("exito", "reporte enviado correctamente");
-            return "inicio.html";
+            modelo.put("exito", "reporte enviado correctamente");             
+            return "redirect:/inicio";
 
         } catch (MiException e) {
-            modelo.put("error al encontrar id", e.getMessage());
-            return "reporte_form.html";
+            modelo.put("error al encontrar id", e.getMessage());        
+            return "redirect:/reporte/registroReporte";
         }
         
 
