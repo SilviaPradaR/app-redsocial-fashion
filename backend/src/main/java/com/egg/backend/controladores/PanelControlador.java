@@ -120,9 +120,8 @@ public class PanelControlador {
             
             publicacionesFiltradas=publicacionServicio.getByFechaAsc();
                 
-        /*}else if(nombre == "likes"){
-            
-        */           
+        }else if(nombre == "likes"){
+            publicacionesFiltradas=publicacionServicio.getByMasLikes();
         }else if(nombre == "autor"){
             
             Usuario diseniador = usuarioServicio.getOne(idDiseniador);
