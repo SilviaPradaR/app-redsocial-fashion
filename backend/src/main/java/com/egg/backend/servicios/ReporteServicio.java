@@ -112,12 +112,7 @@ public class ReporteServicio {
     }
 
     private void validar(String usuarioId, String publicacionId, String comentarioId, Categoria categoria, String descripcion) throws MiException {
-        
-        System.out.println(usuarioId);
-        System.out.println(publicacionId);
-        System.out.println(comentarioId);
-        System.out.println(categoria);
-        System.out.println(descripcion);
+
 
         if ((usuarioId == null || usuarioId.isEmpty()) && (publicacionId == null || publicacionId.isEmpty()) && (comentarioId == null || comentarioId.isEmpty())) {
             throw new MiException("La id no puede estar vacia");
