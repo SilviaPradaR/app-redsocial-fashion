@@ -103,4 +103,12 @@ public class PublicacionServicio {
     public List<Publicacion> getOneCategoria(String nombre) {
         return publicacionRepositorio.buscarPorCategoria(nombre); 
     }
+    
+    public List<Publicacion> getByFechaDesc() {
+        return publicacionRepositorio.FechaDesc();
+    }
+     public List<Publicacion> getByFechaAsc() {
+        return publicacionRepositorio.FechaAsc();
+    }
+   
 }

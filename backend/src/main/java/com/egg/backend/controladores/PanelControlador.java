@@ -105,76 +105,61 @@ public class PanelControlador {
     public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre) throws MiException {
 
         List<Categoria> categorias = categoriaServicio.listarCategoria();
-        List<Publicacion> publicaciones;
-        List<List<Publicacion>> publicacionesChunked;
-        Map<String, Integer> conteoLike;
-        Map<String, Integer> conteoComentariosPub;
+        List<Publicacion> publicaciones= publicacionServicio.listarPublicaciones();
+        List<Publicacion> publicacionesFiltradas;
+        
+        
+        
         if (nombre == null) {
-            publicaciones = publicacionServicio.listarPublicaciones();
-
-            publicacionesChunked = new ArrayList<>();
-            for (int i = 0; i < publicaciones.size(); i += 3) {
-                publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
-            }
-
-            conteoLike = new HashMap<>();
-            for (Publicacion p : publicaciones) {
-
-                int conteo = likeServicio.contadorLike(p.getId());
-                conteoLike.put(p.getId(), conteo);
-            }
-
-            conteoComentariosPub = new HashMap<>();
-            for (Publicacion p : publicaciones) {
-
-                int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
-                conteoComentariosPub.put(p.getId(), conteo);
-            }
-        } else {
-            publicaciones = publicacionServicio.listarPublicaciones();
-
-            publicacionesChunked = new ArrayList<>();
-            for (int i = 0; i < publicaciones.size(); i += 3) {
-                publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
-            }
-            conteoLike = new HashMap<>();
-            for (Publicacion p : publicaciones) {
-
-                int conteo = likeServicio.contadorLike(p.getId());
-                conteoLike.put(p.getId(), conteo);
-            }
-
-            conteoComentariosPub = new HashMap<>();
-            for (Publicacion p : publicaciones) {
-
-                int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
-                conteoComentariosPub.put(p.getId(), conteo);
-            }
-            publicaciones = publicacionServicio.getOneCategoria(nombre);
-
-            conteoLike = new HashMap<>();
-            for (Publicacion p : publicaciones) {
-
-                int conteo = likeServicio.contadorLike(p.getId());
-                conteoLike.put(p.getId(), conteo);
-            }
-
-            conteoComentariosPub = new HashMap<>();
-            for (Publicacion p : publicaciones) {
-
-                int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
-                conteoComentariosPub.put(p.getId(), conteo);
-            }
+            
+            publicacionesFiltradas= publicaciones;
+        }else if(nombre == "descendente"){
+            
+           publicacionesFiltradas=publicacionServicio.getByFechaDesc();
+                
+        }else if(nombre =="ascendente"){
+            
+            publicacionesFiltradas=publicacionServicio.getByFechaAsc();
+                
+        /*}else if(nombre == "likes"){
+            
+                   
+        }else if(nombre == "autor"){
+            
+                */   
+        }else{
+            publicacionesFiltradas=publicacionServicio.getOneCategoria(nombre);
         }
+        
+       
+           List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
+            for (int i = 0; i < publicaciones.size(); i += 3) {
+                publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+            }
 
+            Map<String, Integer> conteoLike = new HashMap<>();
+            for (Publicacion p : publicaciones) {
+
+                int conteo = likeServicio.contadorLike(p.getId());
+                conteoLike.put(p.getId(), conteo);
+            }
+
+            Map<String, Integer> conteoComentariosPub = new HashMap<>();
+            for (Publicacion p : publicaciones) {
+
+                int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
+                conteoComentariosPub.put(p.getId(), conteo);
+            }
+        
         modelo.addAttribute("publicacionesChunked", publicacionesChunked);
         modelo.addAttribute("conteoLike", conteoLike);
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
         modelo.addAttribute("categorias", categorias);
         modelo.addAttribute("publicaciones", publicaciones);
+        modelo.addAttribute("publicacionesFiltradas", publicacionesFiltradas);
 
         return "home.html";
-
+        
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")

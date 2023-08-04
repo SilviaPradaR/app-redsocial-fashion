@@ -133,9 +133,24 @@
     <section class="cards-container">
         <h3>Descubre una colección increíble de contenido creativo y sorprendente que te dejará
             sin aliento</h3>
+        
+        
+        <form action="/inicio" method="GET">
+            <div class="mb-3">
+                <label for="categoria" class="form-label">Categoria(*)</label>
+                <select name="nombre" id="categoria" class="form-select" aria-label="Default select example">
+                    <option selected>Seleccione...</option>
+                    <option th:each="categoria : ${categorias}" th:value="${categoria.nombre}"
+                        th:text="${categoria.nombre}">
+                    </option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
         <div class="container">
             <div class="row row-cols-1 row-cols-md-4 g-4">
-                <div th:each="publicacion : ${publicaciones}" class="col">
+                <div th:each="publicacion : ${publicacionesFiltradas}" class="col">
                     <div class="card h-100">
                         <div class="card-header">
                             <img th:src="@{/imagen/perfil/__${publicacion.usuario.id}__}" alt="foto-perfil" width="35"
