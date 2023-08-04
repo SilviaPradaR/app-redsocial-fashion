@@ -101,8 +101,12 @@
                 </td>
                 <td>
                     <span th:if="${reporte.usuario != null}" th:text="${reporte.usuario.nombreCompleto}"></span>
-                    <span th:if="${reporte.publicacion != null}" th:text="${reporte.publicacion.id}"></span>
-                    <span th:if="${reporte.comentario != null}" th:text="${reporte.comentario.id}"></span>
+                    <span th:if="${reporte.publicacion != null}" th:each="publicacion : ${reporte.publicacion}">
+                         <span th:each="categoria : ${publicacion.categoria}" th:text="${categoria.nombre}"></span>
+                    </span>
+                    <span th:if="${reporte.comentario != null}" th:each="comentario : ${reporte.comentario}">
+                         <span th:each="usuario : ${comentario.usuario}" th:text="${usuario.nombreCompleto}"></span>
+                    </span>
                 </td>
                 <td th:text="${reporte.categoria}"></td>
                 <td th:text="${reporte.descripcion}"></td>
