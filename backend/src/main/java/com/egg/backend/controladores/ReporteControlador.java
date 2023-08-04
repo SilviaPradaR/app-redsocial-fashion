@@ -71,15 +71,11 @@ public class ReporteControlador {
                 reporteServicio.registrarReporte(null, id, null, categoria, descripcion);
             }
 
-            modelo.put("exito", "reporte enviado correctamente");
-             System.out.println(id);
-             System.out.println(categoria);
-             System.out.println(descripcion);
-            return "redirect:../../inicio";
+            modelo.put("exito", "reporte enviado correctamente");             
+            return "redirect:/inicio";
 
         } catch (MiException e) {
-            modelo.put("error al encontrar id", e.getMessage());
-        System.out.println("Error al registrar reporte: " + e.getMessage());
+            modelo.put("error al encontrar id", e.getMessage());        
             return "redirect:/reporte/registroReporte";
         }
         

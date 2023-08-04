@@ -272,10 +272,12 @@
                     <option th:each="categoria : ${T(com.egg.backend.enumeraciones.Categoria).values()}"
                              th:value="${categoria}" th:text="${categoria}"></option>
                     </select>
+                    <br>
                     <textarea name="descripcion" class="form-control" rows="3" placeholder="Describe el reporte"></textarea>
-                    <button type="submit" class="btn btn-primary">Enviar Reporte</button>
+                    <button type="submit" class="btn btn-login d-block">Enviar Reporte</button>
                 </form>
             </div>
+                    </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
@@ -299,8 +301,7 @@
         $(".report-link").click(function() {
             var publicacionId = $(this).data("id");
             console.log(publicacionId);
-            $("#reportModal input[name='id']").val(publicacionId);
-            console.log(publicacionId);
+            $("#reportModal input[name='id']").val(publicacionId);            
         });
     });
     </script>
