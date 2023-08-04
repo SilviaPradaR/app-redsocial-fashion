@@ -102,12 +102,12 @@ public class PanelControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
-    public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre, Usuario diseniador) throws MiException {
+    public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre, String idDiseniador) throws MiException {
 
         List<Categoria> categorias = categoriaServicio.listarCategoria();
         List<Usuario> diseniadores = usuarioServicio.listarDiseniadores();
         List<Publicacion> publicaciones= publicacionServicio.listarPublicaciones();
-        List<Publicacion> publicacionesFiltradas;      
+        List<Publicacion> publicacionesFiltradas;     
         
         if (nombre == null) {
             
@@ -125,6 +125,7 @@ public class PanelControlador {
         */           
         }else if(nombre == "autor"){
             
+            Usuario diseniador = usuarioServicio.getOne(idDiseniador);
             publicacionesFiltradas = publicacionServicio.getByAuthor(diseniador);            
                   
         }else{

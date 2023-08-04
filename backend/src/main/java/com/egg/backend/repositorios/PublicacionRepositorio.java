@@ -33,5 +33,5 @@ public interface PublicacionRepositorio extends JpaRepository<Publicacion, Strin
     
     @Query("Select p from Publicacion p where p.usuario = :usuario")
     public List<Publicacion> buscarPorAutor(@Param("usuario") Usuario usuario);
-
+    
 }
