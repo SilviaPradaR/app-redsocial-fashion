@@ -99,4 +99,7 @@ public class PublicacionServicio {
     public Publicacion getOne(String id) {
         return publicacionRepositorio.getOne(id);
     }
+    public List<Publicacion> obtenerPublicacionesConMasLikes() {
+        return publicacionRepositorio.buscarPublicacionesConMasLikes();
+    }
 }
