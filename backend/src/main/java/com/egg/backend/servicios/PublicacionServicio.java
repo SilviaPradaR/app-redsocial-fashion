@@ -111,4 +111,7 @@ public class PublicacionServicio {
         return publicacionRepositorio.FechaAsc();
     }
    
+    public List<Publicacion> obtenerPublicacionesConMasLikes() {
+        return publicacionRepositorio.buscarPublicacionesConMasLikes();
+    }
 }

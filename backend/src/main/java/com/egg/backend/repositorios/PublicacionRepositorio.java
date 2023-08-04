@@ -15,10 +15,10 @@ import org.springframework.stereotype.Repository;
 public interface PublicacionRepositorio extends JpaRepository<Publicacion, String> {
 
     @Query("SELECT p FROM Publicacion p WHERE p.fechaPublicacion = :fechaPublicacion")
-    public List<Publicacion> buscarPorFecha(@Param("fechaPublicacion")Date fechaPublicacion);
+    public List<Publicacion> buscarPorFecha(@Param("fechaPublicacion") Date fechaPublicacion);
 
     public List<Publicacion> findByUsuario(Usuario usuario);
-    
+
     @Query("Select p from Publicacion p where p.categoria.nombre = :nombre")
     public List<Publicacion> buscarPorCategoria(@Param("nombre") String nombre);
     
@@ -27,4 +27,8 @@ public interface PublicacionRepositorio extends JpaRepository<Publicacion, Strin
     
     @Query("Select p from Publicacion p order by p.fechaPublicacion asc")
     public List<Publicacion> FechaAsc();
+
+   @Query("SELECT p FROM Publicacion p LEFT JOIN Like l GROUP BY p.id, p.contenido, p.fechaPublicacion ORDER BY COUNT(l.id) DESC")
+    public List<Publicacion> buscarPublicacionesConMasLikes();
+
 }
