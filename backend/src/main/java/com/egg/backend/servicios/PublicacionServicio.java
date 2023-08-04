@@ -114,4 +114,8 @@ public class PublicacionServicio {
     public List<Publicacion> obtenerPublicacionesConMasLikes() {
         return publicacionRepositorio.buscarPublicacionesConMasLikes();
     }
+    
+    public List<Publicacion> getByAuthor(Usuario usuario) {
+        return publicacionRepositorio.buscarPorAutor(usuario); 
+    }
 }
