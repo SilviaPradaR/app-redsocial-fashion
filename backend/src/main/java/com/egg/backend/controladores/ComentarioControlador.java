@@ -4,6 +4,7 @@ import com.egg.backend.servicios.ComentarioServicio;
 import com.egg.backend.entidades.Usuario;
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.excepciones.MiException;
+import com.egg.backend.servicios.PublicacionServicio;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,9 @@ public class ComentarioControlador {
 
     @Autowired
     private ComentarioServicio comentarioServicio;
+    
+    @Autowired
+    private PublicacionServicio publicacionServicio;
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR')")
     @GetMapping("/comentar")
@@ -30,9 +34,10 @@ public class ComentarioControlador {
     }
 
     @PostMapping("/crearComentario")
-    public String edicion(@RequestParam String contenido, Publicacion publicacion, ModelMap modelo, HttpSession session) {
+    public String crearComentario(@RequestParam String contenido, @RequestParam String idPublicacion, ModelMap modelo, HttpSession session) {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            Publicacion publicacion = publicacionServicio.getOne(idPublicacion);
 
             comentarioServicio.crearComentario(usuario, publicacion, contenido);
 
@@ -42,10 +47,10 @@ public class ComentarioControlador {
 
             modelo.put("Error", ex.getMessage());
 
-            return "comentario_form.html";
+            return "redirect:../disenador/ver/" + idPublicacion;
 
         }
-        return "index.html"; //CONTROLAR-----------------------------------------------------------------
+        return "redirect:../disenador/ver/" + idPublicacion;
     }
 
     @GetMapping("/eliminarComentario/{id}")
