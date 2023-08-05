@@ -118,21 +118,5 @@ public class ComentarioServicio {
             }
         }
         return contador;
-    }  
-    
-    public int contadorComentariosDiseniador(String diseniadorId) throws MiException {
-        
-        Usuario usuario = usuarioRepositorio.getById(diseniadorId);        
-        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
-        int cantidad = 0, total = 0;
-        
-        for (Publicacion p : publicaciones) {
-            if (p.getUsuario() == usuario) {
-                                
-                cantidad = contadorComentariosPublicacion(p.getId());
-                total += cantidad;
-            }
-        }
-        return total;
-    }
+    }    
 }
