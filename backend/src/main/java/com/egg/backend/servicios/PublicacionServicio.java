@@ -118,4 +118,8 @@ public class PublicacionServicio {
     public List<Publicacion> getByAuthor(Usuario usuario) {
         return publicacionRepositorio.buscarPorAutor(usuario); 
     }
+    
+    public List<Publicacion> orderByAuthor() {
+        return publicacionRepositorio.ordenarAlfabeticamente(); 
+    }
 }

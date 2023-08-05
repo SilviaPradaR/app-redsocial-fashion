@@ -109,6 +109,8 @@ public class PanelControlador {
         List<Publicacion> publicaciones= publicacionServicio.listarPublicaciones();
         List<Publicacion> publicacionesFiltradas;     
         
+        nombre = "alfabetico";
+        
         if (nombre == null) {
             
             publicacionesFiltradas= publicaciones;
@@ -122,10 +124,13 @@ public class PanelControlador {
                 
         }else if(nombre == "likes"){
             publicacionesFiltradas=publicacionServicio.getByMasLikes();
+        
         }else if(nombre == "autor"){
-            
             Usuario diseniador = usuarioServicio.getOne(idDiseniador);
             publicacionesFiltradas = publicacionServicio.getByAuthor(diseniador);            
+                  
+        }else if(nombre == "alfabetico"){
+            publicacionesFiltradas = publicacionServicio.orderByAuthor();            
                   
         }else{
             
