@@ -1,10 +1,8 @@
 package com.egg.backend.controladores;
 
 import com.egg.backend.entidades.Categoria;
-import com.egg.backend.entidades.Like;
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
-import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
 import com.egg.backend.servicios.PublicacionServicio;
 import com.egg.backend.servicios.UsuarioServicio;
@@ -22,13 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.egg.backend.enumeraciones.Rol;
-import com.egg.backend.repositorios.UsuarioRepositorio;
 import com.egg.backend.servicios.CategoriaServicio;
 import com.egg.backend.servicios.LikeServicio;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -108,9 +104,7 @@ public class PanelControlador {
         List<Usuario> diseniadores = usuarioServicio.listarDiseniadores();
         List<Publicacion> publicaciones= publicacionServicio.listarPublicaciones();
         List<Publicacion> publicacionesFiltradas;     
-        
-        nombre = "alfabetico";
-        
+                
         if (nombre == null) {
             
             publicacionesFiltradas= publicaciones;
