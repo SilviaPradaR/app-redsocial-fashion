@@ -175,30 +175,28 @@ public class PanelControlador {
         
         modelo.addAttribute("publicaciones", publicaciones);
 
+        int sumatoriaLikes = 0;
         Map<String, Integer> conteoLike = new HashMap<>();
         for (Publicacion p : publicaciones) {
 
             int conteo = likeServicio.contadorLike(p.getId());
             conteoLike.put(p.getId(), conteo);
+            sumatoriaLikes += conteo;            
             modelo.addAttribute("conteoLike", conteoLike);
+            modelo.addAttribute("sumatoriaLikes", sumatoriaLikes);
         }
 
+        int sumatoriaComentarios = 0;
         Map<String, Integer> conteoComentariosPub = new HashMap<>();
         for (Publicacion p : publicaciones) {
 
             int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
-            conteoComentariosPub.put(p.getId(), conteo);
+            conteoComentariosPub.put(p.getId(), conteo);            
+            sumatoriaComentarios += conteo;            
             modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
-        }
+            modelo.addAttribute("sumatoriaComentarios", sumatoriaComentarios);            
+        }   
         
-        Map<String, Integer> conteoComentariosDiseniador = new HashMap<>();
-        for (Usuario u : usuarios) {
-
-            int conteo = comentarioServicio.contadorComentariosDiseniador(u.getId());
-            conteoComentariosPub.put(u.getId(), conteo);
-            modelo.addAttribute("sumatoriaComentarios", conteoComentariosDiseniador);            
-        }
-
         return "perfil.html";
     }
 
