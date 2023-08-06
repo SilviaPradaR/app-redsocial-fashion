@@ -34,4 +34,7 @@ public interface PublicacionRepositorio extends JpaRepository<Publicacion, Strin
     @Query("Select p from Publicacion p where p.usuario = :usuario")
     public List<Publicacion> buscarPorAutor(@Param("usuario") Usuario usuario);
     
+    @Query("SELECT p FROM Publicacion p LEFT JOIN Usuario u ON p.usuario = u ORDER BY u.nombreUsuario")
+    public List<Publicacion> ordenarAlfabeticamente();           
+    
 }

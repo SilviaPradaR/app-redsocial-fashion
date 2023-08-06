@@ -9,6 +9,7 @@ import com.egg.backend.repositorios.ComentarioRepositorio;
 import com.egg.backend.repositorios.PublicacionRepositorio;
 import com.egg.backend.repositorios.ReporteRepositorio;
 import com.egg.backend.repositorios.UsuarioRepositorio;
+import com.egg.backend.servicios.ComentarioServicio;
 import com.egg.backend.servicios.ReporteServicio;
 
 import java.util.Optional;
@@ -40,6 +41,9 @@ public class ReporteControlador {
 
     @Autowired
     private PublicacionRepositorio publicacionRepositorio;
+    
+    @Autowired
+    private ComentarioServicio comentarioServicio;
 
 //    @GetMapping("/registrarReporte")
 //    public String registrarReporte() {
@@ -54,25 +58,26 @@ public class ReporteControlador {
         try {
             
             Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(id);
+            Optional<Comentario>respuestaComentario= comentarioRepositorio.findById(id);
+            Optional<Publicacion> respuestaPublicacion = publicacionRepositorio.findById(id);            
 
             if (respuestaUsuario.isPresent()) {
                 reporteServicio.registrarReporte(id, null, null, categoria, descripcion);
-            }
-
-            Optional<Comentario>respuestaComentario= comentarioRepositorio.findById(id);
-        
-            if (respuestaComentario.isPresent()) {
-                reporteServicio.registrarReporte(null, null,id,categoria,descripcion);
-            }
-            
-            Optional<Publicacion> respuestaPublicacion = publicacionRepositorio.findById(id);
-
-            if (respuestaPublicacion.isPresent()) {
-                reporteServicio.registrarReporte(null, id, null, categoria, descripcion);
-            }
-
-            modelo.put("exito", "reporte enviado correctamente");             
+                    modelo.put("exito", "reporte enviado correctamente");             
             return "redirect:../inicio";
+            }else if (respuestaComentario.isPresent()) {
+                reporteServicio.registrarReporte(null, null,id,categoria,descripcion);
+                String idPublicacion = respuestaComentario.get().getPublicacion().getId();
+                    modelo.put("exito", "reporte enviado correctamente");             
+            return "redirect:../disenador/ver/"+idPublicacion;
+            }else if (respuestaPublicacion.isPresent()) {
+                reporteServicio.registrarReporte(null, id, null, categoria, descripcion);
+                modelo.put("exito", "reporte enviado correctamente");             
+            return "redirect:../inicio";
+            }else{
+                modelo.put("error", "No encontró ningún tipo de entidad con el ID proporcionado");
+               return "redirect:../inicio"; 
+            }            
 
         } catch (MiException e) {
             modelo.put("error al encontrar id", e.getMessage());        

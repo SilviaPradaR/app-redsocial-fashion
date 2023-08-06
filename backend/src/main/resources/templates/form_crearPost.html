@@ -41,7 +41,7 @@
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="foto-perfil" width="35"
-                            height="35" class="rounded-circle" id="img-cover" />
+                            height="35" class="rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
                         <li><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
