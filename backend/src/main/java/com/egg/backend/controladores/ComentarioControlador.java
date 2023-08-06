@@ -54,20 +54,20 @@ public class ComentarioControlador {
     }
 
     @GetMapping("/eliminarComentario/{id}")
-    public String eliminar(@PathVariable String id, ModelMap modelo) {
+    public String eliminar(@PathVariable String id, @RequestParam String idPublicacion, ModelMap modelo) {
 
         try {
 
             comentarioServicio.eliminarComentario(id);
             modelo.put("Éxito", "El comentario fue eliminado correctamente");
 
-            return ".html"; // COMPLETAR-----------------------------------------------------------------
+            return "redirect:../disenador/ver/" + idPublicacion;
 
         } catch (MiException ex) {
 
             modelo.put("Error", ex.getMessage());
 
-            return ".html"; // COMPLETAR-----------------------------------------------------------------
+            return "redirect:../disenador/ver/" + idPublicacion;
         }
     }
 
