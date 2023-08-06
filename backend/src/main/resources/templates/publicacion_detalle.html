@@ -73,7 +73,7 @@
                                  height="35" class="rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end text-small">
-                            <li><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
+                            <li th:if="${session.usuariosession != null}" sec:authorize="hasRole('DISENIADOR')"><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
                             <li><a class="dropdown-item" href="/editar_perfil">Editar perfil</a></li>
                             <li>
                                 <hr class="dropdown-divider" />
@@ -127,14 +127,15 @@
                                  position: absolute;">
                                 <div class="btns-right d-flex">
                                     <form th:action="@{/darLike/__${publicacion.id}__}" method="post">
-                                        <button type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
+                                        <button th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                  fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
+                                            <path  fill-rule="evenodd"
                                                   d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                             </svg>
-                                            <span th:text="${conteoLike}"></span>
+                                            
                                         </button>
+                                        <span th:text="${conteoLike}"></span>
                                     </form>                                
                                     <button type="button" class="btn like-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -146,14 +147,14 @@
                                     </button>
                                 </div>
                                 <p class="card-text" style="margin-top: 5px;"><small class="text-body-secondary" th:text="${#dates.format(publicacion.fechaPublicacion, 'dd-MMM-yyyy')}"></small></p>
-                                <form th:action="@{/comentario/crearComentario}" method="post">
+                                <form th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')"th:action="@{/comentario/crearComentario}" method="post">
                                     <input hidden th:value="${publicacion.id}" name="idPublicacion">
                                     <div class="input-group mb-3">
 
                                         <span class="input-group-text" id="basic-addon1"><img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="foto-perfil" width="35"
                                                                                               height="35" class="rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/></span>
                                         <input type="text" name="contenido" class="form-control" placeholder="Agrega un comentario..." aria-label="Username" aria-describedby="basic-addon1" required>
-                                        <button type="submit" class="btn btn-outline-secondary" style="border-color: #dee2e6;">
+                                        <button  type="submit" class="btn btn-outline-secondary" style="border-color: #dee2e6;">
                                             <a class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cursor-fill" viewBox="0 0 16 16">
                                                 <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"/>
                                                 </svg></a>
