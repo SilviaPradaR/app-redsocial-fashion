@@ -100,7 +100,7 @@
                                     <div class="row">
                                         <div class="col-10">
                                             <img th:src="@{/imagen/perfil/__${publicacion.usuario.id}__}" alt="foto-perfil" width="35"
-                                                 height="35" class="d-inline-block rounded-circle" id="img-cover" />
+                                                 height="35" class="d-inline-block rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/>
                                             <span th:text="${publicacion.usuario.nombreUsuario}"></span>
                                         </div>
                                     </div>
@@ -127,7 +127,7 @@
                                  position: absolute;">
                                 <div class="btns-right d-flex">
                                     <form th:action="@{/darLike/__${publicacion.id}__}" method="post">
-                                        <button type="submit" class="btn like-btn heart-btn" >                                        
+                                        <button type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                  fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd"
