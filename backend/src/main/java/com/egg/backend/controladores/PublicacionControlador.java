@@ -9,7 +9,10 @@ import com.egg.backend.servicios.CategoriaServicio;
 import com.egg.backend.servicios.ComentarioServicio;
 import com.egg.backend.servicios.LikeServicio;
 import com.egg.backend.servicios.PublicacionServicio;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -50,18 +53,22 @@ public class PublicacionControlador {
     }
 
     @GetMapping("/ver/{id}")
-    public String registrar(@PathVariable String id, ModelMap modelo) throws MiException {
-        
+    public String registrar(@PathVariable String id, ModelMap modelo,HttpSession session) throws MiException {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         Publicacion publicacion = publicacionServicio.getOne(id);
         List<Comentario> comentariosPublicacion = comentarioServicio.listarComentariosPublicacion(id);                                
         int conteo = likeServicio.contadorLike(publicacion.getId());
         int conteoComentarios = comentarioServicio.contadorComentariosPublicacion(id);
+        Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();  
+        boolean usuarioDioLike = likeServicio.usuarioDioLike(usuario, publicacion);
+        usuarioDioLikeMap.put(publicacion.getId(), usuarioDioLike);  
         
         modelo.addAttribute("publicacion", publicacion);
         modelo.addAttribute("comentarios", comentariosPublicacion);
         modelo.addAttribute("conteoLike", conteo);      
         modelo.addAttribute("conteoComentarios", conteoComentarios);              
-
+        modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
+        
         return "publicacion_detalle.html";
     }
 

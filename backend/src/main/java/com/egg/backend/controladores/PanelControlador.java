@@ -99,12 +99,15 @@ public class PanelControlador {
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
     public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre, String idDiseniador) throws MiException {
-
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         List<Categoria> categorias = categoriaServicio.listarCategoria();
         List<Usuario> diseniadores = usuarioServicio.listarDiseniadores();
         List<Publicacion> publicaciones= publicacionServicio.listarPublicaciones();
         List<Publicacion> publicacionesFiltradas;     
-                
+        Map<String, Integer> conteoComentariosPub = new HashMap<>();
+        Map<String, Integer> conteoLike = new HashMap<>();
+        Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();    
+
         if (nombre == null) {
             
             publicacionesFiltradas= publicaciones;
@@ -129,28 +132,22 @@ public class PanelControlador {
         }else{
             
             publicacionesFiltradas=publicacionServicio.getOneCategoria(nombre);
-        }
-        
+        }        
        
-           List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
+        List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
             for (int i = 0; i < publicaciones.size(); i += 3) {
                 publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
             }
 
-            Map<String, Integer> conteoLike = new HashMap<>();
             for (Publicacion p : publicaciones) {
-
-                int conteo = likeServicio.contadorLike(p.getId());
-                conteoLike.put(p.getId(), conteo);
+                int conteoLikes = likeServicio.contadorLike(p.getId());
+                conteoLike.put(p.getId(), conteoLikes);
+                int conteoComent = comentarioServicio.contadorComentariosPublicacion(p.getId());
+                conteoComentariosPub.put(p.getId(), conteoComent);
+                boolean usuarioDioLike = likeServicio.usuarioDioLike(usuario, p);
+                usuarioDioLikeMap.put(p.getId(), usuarioDioLike);
             }
-
-            Map<String, Integer> conteoComentariosPub = new HashMap<>();
-            for (Publicacion p : publicaciones) {
-
-                int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
-                conteoComentariosPub.put(p.getId(), conteo);
-            }
-        
+       
         modelo.addAttribute("publicacionesChunked", publicacionesChunked);
         modelo.addAttribute("conteoLike", conteoLike);
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
@@ -158,6 +155,7 @@ public class PanelControlador {
         modelo.addAttribute("usuarios", diseniadores);
         modelo.addAttribute("publicaciones", publicaciones);
         modelo.addAttribute("publicacionesFiltradas", publicacionesFiltradas);
+        modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
 
         return "home.html";
         
@@ -168,34 +166,33 @@ public class PanelControlador {
     public String perfil(ModelMap modelo, HttpSession session) throws MiException {
 
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-        List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);
-        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-        
+        List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);      
         modelo.addAttribute("publicaciones", publicaciones);
-
+        
+        int sumatoriaComentarios = 0;
         int sumatoriaLikes = 0;
         Map<String, Integer> conteoLike = new HashMap<>();
-        for (Publicacion p : publicaciones) {
-
-            int conteo = likeServicio.contadorLike(p.getId());
-            conteoLike.put(p.getId(), conteo);
-            sumatoriaLikes += conteo;            
-            modelo.addAttribute("conteoLike", conteoLike);
-            modelo.addAttribute("sumatoriaLikes", sumatoriaLikes);
-        }
-
-        int sumatoriaComentarios = 0;
         Map<String, Integer> conteoComentariosPub = new HashMap<>();
+        Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();   
+    
         for (Publicacion p : publicaciones) {
-
-            int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
+            int conteoLikes = likeServicio.contadorLike(p.getId());
+            conteoLike.put(p.getId(), conteoLikes);
+            sumatoriaLikes += conteoLikes; 
+             int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
             conteoComentariosPub.put(p.getId(), conteo);            
-            sumatoriaComentarios += conteo;            
-            modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
-            modelo.addAttribute("sumatoriaComentarios", sumatoriaComentarios);            
-        }   
+            sumatoriaComentarios += conteo;
+            boolean usuarioDioLike = likeServicio.usuarioDioLike(usuario, p);
+            usuarioDioLikeMap.put(p.getId(), usuarioDioLike);                      
+            
+        }        
         
+        modelo.addAttribute("conteoLike", conteoLike);
+        modelo.addAttribute("sumatoriaLikes", sumatoriaLikes);
+        modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
+        modelo.addAttribute("sumatoriaComentarios", sumatoriaComentarios); 
+        modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
+
         return "perfil.html";
     }
 
