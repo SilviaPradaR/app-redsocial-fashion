@@ -410,6 +410,11 @@ header{
     font-size: 16px;
     margin-bottom: 5px;
 }
-
+.errorMensaje {
+    color: #000;
+/*    -webkit-text-stroke: 1px black;*/
+    font-size: x-large;
+  
+}
 
 
