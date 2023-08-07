@@ -162,10 +162,9 @@ public class PanelControlador {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
-    @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, HttpSession session) throws MiException {
-
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+    @GetMapping("/perfil/{idUsuario}")
+    public String perfil(ModelMap modelo, @PathVariable String idUsuario) throws MiException {       
+        Usuario usuario = usuarioServicio.getOne(idUsuario);
         List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);      
         modelo.addAttribute("publicaciones", publicaciones);
         
@@ -192,6 +191,7 @@ public class PanelControlador {
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
         modelo.addAttribute("sumatoriaComentarios", sumatoriaComentarios); 
         modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
+        modelo.addAttribute("usuario", usuario);
 
         return "perfil.html";
     }
@@ -271,7 +271,7 @@ public class PanelControlador {
         return "redirect:/inicio";
     }
 
-    @GetMapping("/perfil/{id}")
+    @GetMapping("/editar_perfil/{id}")
     public String modificarUsuario(ModelMap modelo, @PathVariable String id) {
         modelo.put("usuario", usuarioServicio.getOne(id));
 
