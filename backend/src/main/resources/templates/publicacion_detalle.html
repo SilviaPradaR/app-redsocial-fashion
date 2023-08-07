@@ -8,33 +8,13 @@
               integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/styles.css" />
-        <!--<link rel="stylesheet" href="/css/home.css" />-->
+        <link rel="stylesheet" href="/css/publicacion_detalle.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <title>FashionNet</title>
-        <style>
-            .heart-btn.liked svg {
-                fill: red;
-            }
-        </style>
     </head>
-
-    <style>
-        .cards-container .card:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        .cards-container .card {
-            cursor: initial;
-        }
-
-        .card-body {
-            padding: 0px;
-        }
-    </style>
 
     <body>
         <nav class="navbar navbar-expand-lg" id="nav-scrolled" aria-label="Eleventh navbar example">
@@ -108,57 +88,57 @@
             </div>
         </nav>
 
-        <main class="main-container cards-container" style="padding: 40px 0;">
-
-
-            <div class="card mb-3" style="width: 70%; margin: auto;">
-                <div class="row g-0">
-                    <div class="col-md-7" style="border: 1px rgba(0, 0, 0, 0.175) solid;">
-                        <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" style="width: 100%" class="img-fluid rounded-start" alt="...">
+        <main class="main-container cards-container main_container">
+            <div class="card mb-3 card_container">
+                <div class="row g-0 card_row">
+                    <div class="col-md-7 card_col7">
+                        <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" class="img-fluid rounded-start card_col7_img" alt="...">
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-5 card_col5">
                         <div class="card-body">
-                            <div style="background-color: rgba( 33,37,41 , 0.03);">
-                                <div class="container" style="padding: 20px; border-bottom: 1px rgba(0, 0, 0, 0.175) solid;">
-                                    <div class="row">
-                                        <div class="col-10">
-                                            <img th:src="@{/imagen/perfil/__${publicacion.usuario.id}__}" alt="foto-perfil" width="35"
-                                                 height="35" class="d-inline-block rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/>
-                                            <span th:text="${publicacion.usuario.nombreUsuario}"></span>
+                            <div class="card_col5_header">
+                                <div class="container card_col5_headerName">
+                                    <img th:src="@{/imagen/perfil/__${publicacion.usuario.id}__}" alt="foto-perfil" width="35"
+                                         height="35" class="d-inline-block rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/>
+                                    <span th:text="${publicacion.usuario.nombreUsuario}"></span>
+                                </div>
+                            </div>
+                            <div class="card_col5_body">
+                                <div class="d-flex card_col5_bodyContainer" th:each="comentario : ${comentarios}">
+                                    <div class="row card_col5_bodyComment">
+                                        <div class="col-2">
+                                            <img th:src="@{/imagen/perfil/__${comentario.usuario.id}__}" alt="foto-perfil" width="35"
+                                                 height="35" class="rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="card-text" th:text="${comentario.contenido}"></p>
+                                        </div>
+                                        <div class="col-2">
+                                            <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-square" viewBox="0 0 16 16">
+                                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                                </svg>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${comentario.id}">Reportar</a></li>
+                                                <li><a class="dropdown-item" href="#">Cerrar</a></li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div style="padding: 20px 20px 0 20px">
-                                <div class="d-flex" style="margin-bottom: 30px" th:each="comentario : ${comentarios}">
-                                    <img th:src="@{/imagen/perfil/__${comentario.usuario.id}__}" alt="foto-perfil" width="35"
-                                         height="35" class="rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/>
-                                    <p class="card-text" th:text="${comentario.contenido}"></p>
-                                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                                        </svg>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${comentario.id}">Reportar</a></li>
-                                        <li><a class="dropdown-item" href="#">Cerrar</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div style="background-color: rgba( 33,37,41 , 0.03); padding: 20px; border-top: 1px rgba(0, 0, 0, 0.175) solid; width: -webkit-fill-available;
-                                 bottom: 0;
-                                 position: absolute;">
+                            <div class="card_col5_footer">
                                 <div class="btns-right d-flex">
                                     <form th:action="@{/darLike/__${publicacion.id}__}" method="post">
-                                        <button th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
+                                        <button type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                  fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                            <path  fill-rule="evenodd"
+                                            <path fill-rule="evenodd"
                                                   d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                             </svg>
-                                            
+                                            <span th:text="${conteoLike}"></span>
                                         </button>
-                                        <span th:text="${conteoLike}"></span>
                                     </form>                                
                                     <button type="button" class="btn like-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -169,15 +149,15 @@
                                         <span th:text="${conteoComentarios}"></span>
                                     </button>
                                 </div>
-                                <p class="card-text" style="margin-top: 5px;"><small class="text-body-secondary" th:text="${#dates.format(publicacion.fechaPublicacion, 'dd-MMM-yyyy')}"></small></p>
-                                <form th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')"th:action="@{/comentario/crearComentario}" method="post">
+                                <p class="card-text card_col5_footerDate"><small class="text-body-secondary" th:text="${#dates.format(publicacion.fechaPublicacion, 'dd-MMM-yyyy')}"></small></p>
+                                <form th:action="@{/comentario/crearComentario}" method="post">
                                     <input hidden th:value="${publicacion.id}" name="idPublicacion">
                                     <div class="input-group mb-3">
 
                                         <span class="input-group-text" id="basic-addon1"><img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="foto-perfil" width="35"
                                                                                               height="35" class="rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/></span>
-                                        <input type="text" name="contenido" class="form-control" placeholder="Agrega un comentario..." aria-label="Username" aria-describedby="basic-addon1" required>
-                                        <button  type="submit" class="btn btn-outline-secondary" style="border-color: #dee2e6;">
+                                        <input type="text" name="contenido" class="form-control card_col5_footerComment" placeholder="Agrega un comentario..." aria-label="Username" aria-describedby="basic-addon1" required>
+                                        <button type="submit" class="btn btn-outline-secondary card_col5_footerSend">
                                             <a class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cursor-fill" viewBox="0 0 16 16">
                                                 <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"/>
                                                 </svg></a>
@@ -230,65 +210,65 @@
                 </footer>
             </div>
         </div>
-        
+
         <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="reportModalLabel">Reportar Comentario</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                 <form th:action="@{/reporte/registroReporte}" method="POST">                    
-                    <input name="id" placeholder="id">                    
-                    <div class="form-group">
-                    <label for="categoria">Categoría</label>
-                    <select name="categoria" class="form-control">
-                    <option value="" disabled selected>Selecciona una categoría</option>
-                    <option th:each="categoria : ${T(com.egg.backend.enumeraciones.Categoria).values()}"
-                             th:value="${categoria}" th:text="${categoria}"></option>
-                    </select>
-                    <br>
-                    <textarea name="descripcion" class="form-control" rows="3" placeholder="Describe el reporte"></textarea>
-                    <button type="submit" class="btn btn-login d-block">Enviar Reporte</button>
-                </form>
-            </div>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reportModalLabel">Reportar Comentario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <div class="modal-body">
+                        <form th:action="@{/reporte/registroReporte}" method="POST">                    
+                            <input name="id" placeholder="id">                    
+                            <div class="form-group">
+                                <label for="categoria">Categoría</label>
+                                <select name="categoria" class="form-control">
+                                    <option value="" disabled selected>Selecciona una categoría</option>
+                                    <option th:each="categoria : ${T(com.egg.backend.enumeraciones.Categoria).values()}"
+                                            th:value="${categoria}" th:text="${categoria}"></option>
+                                </select>
+                                <br>
+                                <textarea name="descripcion" class="form-control" rows="3" placeholder="Describe el reporte"></textarea>
+                                <button type="submit" class="btn btn-login d-block">Enviar Reporte</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
 
 
-        <script>
-            const heartButtons = document.querySelectorAll(".heart-btn");
-            heartButtons.forEach((heartButton) => {
-            heartButton.addEventListener("click", () => {
-            heartButton.classList.toggle("liked");
-            });
-            });
-        </script>
-        <script>
+    <script>
+        const heartButtons = document.querySelectorAll(".heart-btn");
+        heartButtons.forEach((heartButton) => {
+        heartButton.addEventListener("click", () => {
+        heartButton.classList.toggle("liked");
+        });
+        });
+    </script>
+    <script>
         $(document).ready(function() {
         $(".report-link").click(function() {
-            var publicacionId = $(this).data("id");
-            console.log(publicacionId);
-            $("#reportModal input[name='id']").val(publicacionId);            
+        var publicacionId = $(this).data("id");
+        console.log(publicacionId);
+        $("#reportModal input[name='id']").val(publicacionId);            
         });
-    });
+        });
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    </body>
+</body>
 
 </html>
