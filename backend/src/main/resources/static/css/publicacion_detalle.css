@@ -1,0 +1,102 @@
+.cards-container .card:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.cards-container .card {
+    cursor: initial;
+}
+
+.card-body {
+    padding: 0px;
+}
+
+.heart-btn.liked svg {
+    fill: red;
+}
+
+.main_container{
+    padding: 40px 0;
+}
+
+.card_container{
+    width: 70%;
+    margin: auto;
+    height: 500px;
+}
+
+.card_row{
+    height: 500px;
+    margin:0;
+    box-shadow: 5px 5px 15px;
+}
+
+.card_col7{
+    border: 1px rgba(0, 0, 0, 0.175) solid;
+    height: 500px;
+    padding: 0
+}
+
+.card_col7_img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%
+}
+
+.card_col5{
+    padding: 0;
+    height: 500px;
+}
+
+.card_col5_header{
+    background-color: rgba( 33,37,41 , 0.03); 
+}
+
+.card_col5_headerName{
+    padding: 20px;
+    border-bottom: 1px rgba(0, 0, 0, 0.175) solid;
+    height: 76px;
+}
+
+.card_col5_body{
+    padding: 20px 20px 0 20px;
+    height: 246px;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.card_col5_bodyContainer{
+    margin-bottom: 30px;
+}
+
+.card_col5_bodyComment{
+    align-items: center;
+    width: -webkit-fill-available
+}
+
+.card_col5_footer{
+    background-color: rgba( 33,37,41 , 0.03);
+    padding: 20px;
+    border-top: 1px rgba(0, 0, 0, 0.175) solid;
+}
+
+.card_col5_footerDate{
+    margin-top: 5px;
+}
+
+.card_col5_footerComment{
+    height: auto;
+}
+
+.card_col5_footerSend{
+    border-color: #dee2e6;
+}
+
+.dropdown-item:active{
+    background-color: transparent;
+    color: #212529;
+}
+
+.dropdown-item:hover{
+    background-color: transparent;
+}
