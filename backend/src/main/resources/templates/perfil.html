@@ -74,7 +74,7 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="/perfil"
+                    <a th:href="@{/perfil/__${session.usuariosession.id}__}"
                         class="d-flex align-items-center nav-link link-body-emphasis text-decoration-none">
                         <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="" width="32" height="32" class="rounded-circle me-2"  onerror="this.src='/img/fotoDefault.jpg'">
                         Perfil
@@ -177,7 +177,7 @@
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a class="dropdown-item" href="#">Reportar</a></li>
                                             <li><a class="dropdown-item" th:href="@{/disenador/ver/__${publicacion.id}__}">Ver publicación</a></li>
-                                            <li th:if="${session.usuariosession != null}" sec:authorize="hasRole('DISENIADOR')"><a role="button" type="submit" class="dropdown-item" th:href= "@{/disenador/eliminar/__${publicacion.id}__}"> Eliminar</a></li>
+                                            <li th:if="${usuario.id == session.usuariosession.id}" sec:authorize="hasRole('DISENIADOR')"><a role="button" type="submit" class="dropdown-item" th:href= "@{/disenador/eliminar/__${publicacion.id}__}"> Eliminar</a></li>
                                             <li><a class="dropdown-item" href="#">Cerrar</a></li>
                                         </ul>
                                     </div>
