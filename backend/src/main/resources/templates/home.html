@@ -81,8 +81,8 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
                         <li th:if="${session.usuariosession != null}"
-                        sec:authorize="hasRole('DISENIADOR')" ><a class="dropdown-item" href="/perfil">Mi perfil</a></li>
-                        <li><a class="dropdown-item" href="/editar_perfil">Editar perfil</a></li>
+                        sec:authorize="hasRole('DISENIADOR')" ><a class="dropdown-item" th:href="@{/perfil/__${session.usuariosession.id}__}">Mi perfil</a></li>
+                        <li><a class="dropdown-item" th:href="@{/editar_perfil/__${session.usuariosession.id}__}">Editar perfil</a></li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
@@ -163,7 +163,7 @@
                         <div class="card-header">
                             <img th:src="@{/imagen/perfil/__${publicacion.usuario.id}__}" alt="foto-perfil" width="35"
                                 height="35" class="d-inline-block rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/>
-                            <span th:text="${publicacion.usuario.nombreUsuario}"></span>
+                            <a th:href="@{/perfil/__${publicacion.usuario.id}__}"><span th:text="${publicacion.usuario.nombreUsuario}"></span></a>
                         </div>                        
                         <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" class="card-img-top" alt="">
                         <div class="card-footer d-flex align-items-center">
