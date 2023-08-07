@@ -94,6 +94,7 @@ nav a {
 .vista-login {
     font-family: 'Nunito', sans-serif;
     background-image: url('../img/fondo1.png');
+    background-size: cover;
 }
 .form-container{
     background-color: white;
@@ -131,7 +132,8 @@ nav a {
 }
 /* -----------------FORM REGISTRO------------------- */
 .vista-registro{
-    background-image: url(../img/fondo1.png);    
+    background-image: url(../img/fondo1.png);
+    background-size: cover;    
 }
 .vista-registro .form-container{
     padding: 30px 40px 10px 40px;
@@ -184,7 +186,7 @@ nav a {
     position: relative;
 }
 .blurry-background {
-    background-image: url('../img/fondo_post.jpg');
+    background-image: url('../img/fondoCrear.png');
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
