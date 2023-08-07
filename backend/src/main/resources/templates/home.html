@@ -80,7 +80,8 @@
                             onerror="this.src='/img/fotoDefault.jpg'" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small">
-                        <li><a class="dropdown-item" th:href="@{/perfil/__${session.usuariosession.id}__}">Mi perfil</a></li>
+                        <li th:if="${session.usuariosession != null}"
+                        sec:authorize="hasRole('DISENIADOR')" ><a class="dropdown-item" th:href="@{/perfil/__${session.usuariosession.id}__}">Mi perfil</a></li>
                         <li><a class="dropdown-item" th:href="@{/editar_perfil/__${session.usuariosession.id}__}">Editar perfil</a></li>
                         <li>
                             <hr class="dropdown-divider" />
@@ -168,14 +169,15 @@
                         <div class="card-footer d-flex align-items-center">
                             <div class="btns-right d-flex">
                                 <form th:action="@{/darLike/__${publicacion.id}__}" method="post" class="d-flex align-items-center">
-                                    <button type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
+                                    <button th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd"
                                                 d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                         </svg>
-                                        <span th:text="${conteoLike[publicacion.id]}"></span> 
-                                    </button>                                    
+                                       
+                                    </button>         
+                                     <span  th:text="${conteoLike[publicacion.id]}"></span> 
                                 </form>
                                                                
                                 <button type="button" class="btn like-btn">

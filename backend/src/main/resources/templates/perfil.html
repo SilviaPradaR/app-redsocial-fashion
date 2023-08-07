@@ -45,7 +45,8 @@
                         Home
                     </a>
                 </li>
-                <li>
+                <li th:if="${session.usuariosession != null}"
+                        sec:authorize="hasRole('DISENIADOR')">
                     <a href="/disenador/crear" class="nav-link link-body-emphasis">
                         <svg aria-label="Nueva publicación" class="bi pe-none me-2 _ab6-" color="rgb(0, 0, 0)"
                             fill="rgb(0, 0, 0)" height="22" role="img" viewBox="0 0 24 24" width="22">
@@ -143,14 +144,15 @@
                                 <div class="card-footer d-flex align-items-center">
                                     <div class="btns-right d-flex">
                                         <form th:action="@{/darLike/__${publicacion.id}__}" method="post" class="d-flex align-items-center">
-                                            <button type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
+                                            <button th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                      fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd"
                                                       d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                                 </svg>
-                                                <span th:text="${conteoLike[publicacion.id]}"></span>
+                                                
                                             </button>
+                                            <span th:text="${conteoLike[publicacion.id]}"></span>
                                         </form>                                
                                         <button type="button" class="btn like-btn">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -175,7 +177,7 @@
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a class="dropdown-item" href="#">Reportar</a></li>
                                             <li><a class="dropdown-item" th:href="@{/disenador/ver/__${publicacion.id}__}">Ver publicación</a></li>
-                                            <li><a role="button" type="submit" class="dropdown-item" th:href= "@{/disenador/eliminar/__${publicacion.id}__}"> Eliminar</a></li>
+                                            <li th:if="${session.usuariosession != null}" sec:authorize="hasRole('DISENIADOR')"><a role="button" type="submit" class="dropdown-item" th:href= "@{/disenador/eliminar/__${publicacion.id}__}"> Eliminar</a></li>
                                             <li><a class="dropdown-item" href="#">Cerrar</a></li>
                                         </ul>
                                     </div>
