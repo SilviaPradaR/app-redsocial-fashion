@@ -43,7 +43,6 @@ public class ReporteControlador {
             Optional<Comentario> respuestaComentario = comentarioRepositorio.findById(id);
             Optional<Publicacion> respuestaPublicacion = publicacionRepositorio.findById(id);
             
-
             if (respuestaUsuario.isPresent()) {
                 reporteServicio.registrarReporte(id, null, null, categoria, descripcion);
                 modelo.put("exito", "reporte enviado correctamente");
