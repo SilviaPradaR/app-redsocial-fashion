@@ -13,6 +13,7 @@ import com.egg.backend.servicios.ComentarioServicio;
 import com.egg.backend.servicios.ReporteServicio;
 
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,6 +45,9 @@ public class ReporteControlador {
     
     @Autowired
     private ComentarioServicio comentarioServicio;
+    
+    @Autowired
+    private HttpServletRequest request;
 
 //    @GetMapping("/registrarReporte")
 //    public String registrarReporte() {
@@ -59,28 +63,33 @@ public class ReporteControlador {
             
             Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(id);
             Optional<Comentario>respuestaComentario= comentarioRepositorio.findById(id);
-            Optional<Publicacion> respuestaPublicacion = publicacionRepositorio.findById(id);            
+            Optional<Publicacion> respuestaPublicacion = publicacionRepositorio.findById(id); 
+            String Url = request.getRequestURI();             
 
             if (respuestaUsuario.isPresent()) {
                 reporteServicio.registrarReporte(id, null, null, categoria, descripcion);
-                    modelo.put("exito", "reporte enviado correctamente");             
-            return "redirect:../inicio";
+                    modelo.put("exito", "reporte enviado correctamente");     
+               String idUsuario= respuestaUsuario.get().getId();
+            return "redirect:../perfil/"+idUsuario;
             }else if (respuestaComentario.isPresent()) {
                 reporteServicio.registrarReporte(null, null,id,categoria,descripcion);
                 String idPublicacion = respuestaComentario.get().getPublicacion().getId();
                     modelo.put("exito", "reporte enviado correctamente");             
             return "redirect:../disenador/ver/"+idPublicacion;
-            }else if (respuestaPublicacion.isPresent()) {
+            }else if ((respuestaPublicacion.isPresent())&&(Url.contains("/inicio"))) {
+                Boolean b=Url.contains("/inicio");
+                System.out.println(b);
                 reporteServicio.registrarReporte(null, id, null, categoria, descripcion);
                 modelo.put("exito", "reporte enviado correctamente");             
             return "redirect:../inicio";
-            }else{
-                modelo.put("error", "No encontró ningún tipo de entidad con el ID proporcionado");
-               return "redirect:../inicio"; 
+            }else{ 
+                reporteServicio.registrarReporte(null, id, null, categoria, descripcion);
+                String idUsuario = respuestaPublicacion.get().getUsuario().getId();
+               return "redirect:../perfil/"+idUsuario;
             }            
 
         } catch (MiException e) {
-            modelo.put("error al encontrar id", e.getMessage());        
+            modelo.put("error", e.getMessage());        
             return "redirect:/registroReporte";
         }
         
