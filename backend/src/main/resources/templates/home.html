@@ -312,7 +312,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                 <form th:action="@{/reporte/registroReporte}" method="POST">                    
+                 <form th:action="@{/reporte/registroReporte(from='inicio')}" method="POST">
                     <input name="id" placeholder="id">                    
                     <div class="form-group">
                     <label for="categoria">Categoría</label>
@@ -323,11 +323,13 @@
                     </select>
                     <br>
                     <textarea name="descripcion" class="form-control" rows="3" placeholder="Describe el reporte"></textarea>
+                    <div class="d-flex justify-content-center align-items-center">
                     <button type="submit" class="btn btn-login d-block">Enviar Reporte</button>
+                    </div>
                 </form>
             </div>
                     </div>
-            <div class="modal-footer">
+            <div class="modal-footer d-flex justify-content-center align-items-center">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
