@@ -179,7 +179,7 @@
                             </td>
                             
                             <td>
-                                <a class="btn-dar-baja" th:href= "@{/perfil/__${usuario.id}__}"> Modificar</a>
+                                <a class="btn-dar-baja" th:href= "@{/editar_perfil/__${usuario.id}__}"> Modificar</a>
                             </td>                           
                             <td>
                                 <a class="btn-eliminar" th:if="${usuario.rol != T(com.egg.backend.enumeraciones.Rol).ADMIN}"  th:href= "@{/administrador/usuario_eliminar/__${usuario.id}__}" onclick="return confirm('¿Está seguro de que desea ELIMINAR a este usuario?');">Eliminar </a>
