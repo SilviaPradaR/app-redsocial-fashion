@@ -115,7 +115,7 @@
                 <div class="contenedor-cabezera">
                     <div class="cabezera1">
                         <h1 th:text="${usuario.nombreUsuario}"></h1>
-                        <a th:if="${usuario.id != session.usuariosession.id}" class="report-link btn btn-outline-secondary" type="button"  href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${usuario.id}" data-tipo="usuario">Reportar</a>
+                        <a th:if="${usuario.id != session.usuariosession.id}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" class="report-link btn btn-outline-secondary" type="button"  href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${usuario.id}" data-tipo="usuario">Reportar</a>
                         <!-- <svg aria-label="Opciones" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48"
                             width="24">
                             <path clip-rule="evenodd"
@@ -177,7 +177,7 @@
                                             </svg>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}" data-tipo="publicacion">Reportar</a></li>
+                                            <li><a class="dropdown-item report-link" th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}" data-tipo="publicacion">Reportar</a></li>
                                             <li><a class="dropdown-item" th:href="@{/disenador/ver/__${publicacion.id}__}">Ver publicación</a></li>
                                             <li th:if="${usuario.id == session.usuariosession.id}" sec:authorize="hasRole('DISENIADOR')"><a role="button" type="submit" class="dropdown-item" th:href= "@{/disenador/eliminar/__${publicacion.id}__}"> Eliminar</a></li>
                                             <li><a class="dropdown-item" href="#">Cerrar</a></li>

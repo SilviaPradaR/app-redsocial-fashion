@@ -57,14 +57,15 @@ public class ReporteControlador {
 //    }
 
     @PostMapping("/registroReporte")
-    public String registroReporte(@RequestParam String id, @RequestParam Categoria categoria, String descripcion, ModelMap modelo) {
+    public String registroReporte(@RequestParam String id, @RequestParam Categoria categoria, String descripcion, String Url, ModelMap modelo) {
 
         try {
-            
+             
+System.out.println("Url: " + Url); 
             Optional<Usuario> respuestaUsuario = usuarioRepositorio.findById(id);
             Optional<Comentario>respuestaComentario= comentarioRepositorio.findById(id);
             Optional<Publicacion> respuestaPublicacion = publicacionRepositorio.findById(id); 
-            String Url = request.getRequestURI();             
+//            String Url = request.getRequestURI();  
 
             if (respuestaUsuario.isPresent()) {
                 reporteServicio.registrarReporte(id, null, null, categoria, descripcion);
@@ -75,10 +76,9 @@ public class ReporteControlador {
                 reporteServicio.registrarReporte(null, null,id,categoria,descripcion);
                 String idPublicacion = respuestaComentario.get().getPublicacion().getId();
                     modelo.put("exito", "reporte enviado correctamente");             
-            return "redirect:../disenador/ver/"+idPublicacion;
+            return "redirect:../disenador/ver/"+idPublicacion;            
             }else if ((respuestaPublicacion.isPresent())&&(Url.contains("/inicio"))) {
-                Boolean b=Url.contains("/inicio");
-                System.out.println(b);
+                                          
                 reporteServicio.registrarReporte(null, id, null, categoria, descripcion);
                 modelo.put("exito", "reporte enviado correctamente");             
             return "redirect:../inicio";
@@ -86,7 +86,7 @@ public class ReporteControlador {
                 reporteServicio.registrarReporte(null, id, null, categoria, descripcion);
                 String idUsuario = respuestaPublicacion.get().getUsuario().getId();
                return "redirect:../perfil/"+idUsuario;
-            }            
+            }  
 
         } catch (MiException e) {
             modelo.put("error", e.getMessage());        

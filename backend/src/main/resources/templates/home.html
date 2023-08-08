@@ -201,7 +201,7 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
 
-                                    <li><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}">Reportar</a></li>
+                                    <li><a class="dropdown-item report-link" th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}">Reportar</a></li>
                                     <li><a class="dropdown-item" th:href="@{/disenador/ver/__${publicacion.id}__}">Ver publicación</a></li>
                                     <li><a class="dropdown-item" href="#">Cerrar</a></li>
                                 </ul>
@@ -309,9 +309,11 @@
         $(document).ready(function() {
         $(".report-link").click(function() {
             var publicacionId = $(this).data("id");
+            var currentUrl = window.location.href;
             console.log(publicacionId);
+            console.log(currentUrl);
             $("#reportModal input[name='id']").val(publicacionId);            
-        });
+        });       
     });
     </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
