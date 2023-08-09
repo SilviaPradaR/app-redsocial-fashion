@@ -35,26 +35,18 @@
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarsExample09">
                 <ul class="navbar-nav mb-2 mb-lg-0">
-                    <li class="nav-item me-2">
-                        <a class="nav-link" href="/inicio"><svg aria-label="Inicio" class="bi pe-none me-2 _8-yf5 " fill="#262626" height="22"
+                    <li class="nav-item me-3">
+                        <a class="nav-link link-nav" href="/inicio"><svg aria-label="Inicio" class="bi pe-none me-2 _8-yf5" fill="#262626" height="22"
                             viewBox="0 0 48 48" width="22">
                             <path
                                 d="M45.3 48H30c-.8 0-1.5-.7-1.5-1.5V34.2c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6v12.3c0 .8-.7 1.5-1.5 1.5H2.5c-.8 0-1.5-.7-1.5-1.5V23c0-.4.2-.8.4-1.1L22.9.4c.6-.6 1.5-.6 2.1 0l21.5 21.5c.4.4.6 1.1.3 1.6 0 .1-.1.1-.1.2v22.8c.1.8-.6 1.5-1.4 1.5zm-13.8-3h12.3V23.4L24 3.6l-20 20V45h12.3V34.2c0-4.3 3.3-7.6 7.6-7.6s7.6 3.3 7.6 7.6V45z">
                             </path>
-                        </svg></a>
+                        </svg>Home</a>
                         
                     </li>
-                    <li class="nav-item me-2">
-                        <a class="nav-link" href=""><svg aria-label="Buscar personas" class="bi pe-none me-2 _8-yf5 " fill="#262626" height="22"
-                            viewBox="0 0 48 48" width="22">
-                            <path clip-rule="evenodd"
-                                d="M24 0C10.8 0 0 10.8 0 24s10.8 24 24 24 24-10.8 24-24S37.2 0 24 0zm0 45C12.4 45 3 35.6 3 24S12.4 3 24 3s21 9.4 21 21-9.4 21-21 21zm10.2-33.2l-14.8 7c-.3.1-.6.4-.7.7l-7 14.8c-.3.6-.2 1.3.3 1.7.3.3.7.4 1.1.4.2 0 .4 0 .6-.1l14.8-7c.3-.1.6-.4.7-.7l7-14.8c.3-.6.2-1.3-.3-1.7-.4-.5-1.1-.6-1.7-.3zm-7.4 15l-5.5-5.5 10.5-5-5 10.5z"
-                                fill-rule="evenodd"></path>
-                        </svg></a>
-                    </li>
-                    <li class="nav-item me-2" th:if="${session.usuariosession != null}"
+                    <li class="nav-item me-3" th:if="${session.usuariosession != null}"
                         sec:authorize="hasRole('DISENIADOR')">
-                        <a class="nav-link" href="/disenador/crear"><svg aria-label="Nueva publicación" class="bi pe-none me-2 _ab6-"
+                        <a class="nav-link link-nav" href="/disenador/crear"><svg aria-label="Nueva publicación" class="bi pe-none me-2 _ab6-"
                             fill="rgb(0, 0, 0)" height="22" role="img" viewBox="0 0 24 24" width="22">
                             <path
                                 d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552Z"
@@ -64,17 +56,22 @@
                                 stroke-width="2" x1="6.545" x2="17.455" y1="12.001" y2="12.001"></line>
                             <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" x1="12.003" x2="12.003" y1="6.545" y2="17.455"></line>
-                        </svg></a>
+                        </svg>Publicar</a>
                     </li>
                     <li class="nav-item me-3" th:if="${session.usuariosession != null}"
                         sec:authorize="hasRole('ADMIN')">
-                        <a class="nav-link" href="/administrador/dashboard">Administrador</a>
+                        <a class="nav-link link-nav" href="/administrador/dashboard"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-gear me-2" viewBox="0 0 16 16">
+                            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+                          </svg>
+                            Dashboard</a>
                     </li>
                 </ul>
 
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                         data-bs-toggle="dropdown" aria-expanded="false">
+                        <span id="usuario-format" th:text="${session.usuariosession.nombreUsuario}"></span>
                         <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="foto-perfil" width="35"
                             height="35" class="rounded-circle" id="img-cover"
                             onerror="this.src='/img/fotoDefault.jpg'" />
@@ -287,18 +284,21 @@
                     </a>
                     <span class="mb-3 mb-md-0 text-body-secondary">&copy; 2023 Fashion.Net</span>
                 </div>
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/" class="nav-link px-3 text-body-secondary">Inicio</a></li>
+                    <li><a href="/#explorar" class="nav-link px-3 text-body-secondary">Explore</a></li>                    
+                    <li><a href="/#about" class="nav-link px-3 text-body-secondary">About</a></li>
+                    <li><a href="/#faq" class="nav-link px-3 text-body-secondary">FAQ</a></li>        
+                </ul>
 
                 <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
-                                <use href="#twitter" />
-                            </svg></a></li>
-                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
-                                <use href="#instagram" />
-                            </svg></a></li>
-                    <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
-                                <use href="#facebook" />
-                            </svg></a></li>
-                </ul>
+                    <li class="ms-3"><a class="text-body-secondary btn-descargar" type="button" href="https://www.apple.com/app-store/">
+                      <img src="/img/AppStore.png" id="border-img" alt="app-store" width="120" height="40">
+                    </a></li>
+                    <li class="ms-3"><a class="text-body-secondary btn-descargar" type="button" href="https://play.google.com/">
+                      <img src="/img/PlayStore.png" id="border-img" alt="play-store" width="120" height="40">
+                    </a></li>          
+                  </ul>
             </footer>
         </div>
     </div>
