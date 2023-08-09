@@ -75,7 +75,8 @@
                         Explorar
                     </a>
                 </li>
-                <li class="">
+                <li class="" th:if="${session.usuariosession != null}"
+                        sec:authorize="hasRole('DISENIADOR')">
                     <a th:href="@{/perfil/__${session.usuariosession.id}__}"
                         class="d-flex align-items-center nav-link link-body-emphasis text-decoration-none">
                         <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="" width="32" height="32" class="rounded-circle me-2"  onerror="this.src='/img/fotoDefault.jpg'">
@@ -115,7 +116,8 @@
                 <div class="contenedor-cabezera">
                     <div class="cabezera1">
                         <h1 th:text="${usuario.nombreUsuario}"></h1>
-                        <a th:if="${usuario.id != session.usuariosession.id}" class="report-link btn btn-outline-secondary" type="button"  href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${usuario.id}" data-tipo="usuario">Reportar</a>
+                        <a class="report-link btn btn-outline-secondary" type="button"  href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${usuario.id}" data-tipo="usuario" 
+                        th:if="${usuario.id != session.usuariosession.id}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" >Reportar</a>
                         <!-- <svg aria-label="Opciones" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48"
                             width="24">
                             <path clip-rule="evenodd"
@@ -146,7 +148,7 @@
                                 <div class="card-footer d-flex align-items-center">
                                     <div class="btns-right d-flex">
                                         <form th:action="@{/darLike/__${publicacion.id}__}" method="post" class="d-flex align-items-center">
-                                            <button th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
+                                            <button  th:disabled="${(session.usuariosession != null) && (session.usuariosession.rol == T(com.egg.backend.enumeraciones.Rol).ADMIN)} ? 'true': 'false'" type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                      fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd"
@@ -177,7 +179,7 @@
                                             </svg>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}" data-tipo="publicacion">Reportar</a></li>
+                                            <li th:if="${usuario.id != session.usuariosession.id}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" ><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}" data-tipo="publicacion">Reportar</a></li>
                                             <li><a class="dropdown-item" th:href="@{/disenador/ver/__${publicacion.id}__}">Ver publicación</a></li>
                                             <li th:if="${usuario.id == session.usuariosession.id}" sec:authorize="hasRole('DISENIADOR')"><a role="button" type="submit" class="dropdown-item" th:href= "@{/disenador/eliminar/__${publicacion.id}__}"> Eliminar</a></li>
                                             <li><a class="dropdown-item" href="#">Cerrar</a></li>
