@@ -1,5 +1,6 @@
 .tendencias-container {
     background-image: url("../img/fondoCards.png");
+    background-size: cover;
 }
 .tendencias-container .carousel-image {
     height: calc(100vh - 60px);
@@ -9,7 +10,7 @@
     display: flex;
 }
 .tendencias-container .card {
-    margin: 0 0.5em;
+/*    margin: 0 0.5em;*/
     width: calc(100% / 3);
 }
 .tendencias-container .carousel {

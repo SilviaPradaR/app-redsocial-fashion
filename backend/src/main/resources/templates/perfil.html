@@ -6,15 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="/css/home.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>FashionNet</title>
     <style>
         .dropdown-toggle::after {
             display: none !important;
+        }
+        .heart-btn.liked svg {
+            fill: red;
         }
     </style>
 
@@ -42,7 +47,8 @@
                         Home
                     </a>
                 </li>
-                <li>
+                <li th:if="${session.usuariosession != null}"
+                        sec:authorize="hasRole('DISENIADOR')">
                     <a href="/disenador/crear" class="nav-link link-body-emphasis">
                         <svg aria-label="Nueva publicación" class="bi pe-none me-2 _ab6-" color="rgb(0, 0, 0)"
                             fill="rgb(0, 0, 0)" height="22" role="img" viewBox="0 0 24 24" width="22">
@@ -69,8 +75,9 @@
                         Explorar
                     </a>
                 </li>
-                <li class="">
-                    <a href="/perfil"
+                <li class="" th:if="${session.usuariosession != null}"
+                        sec:authorize="hasRole('DISENIADOR')">
+                    <a th:href="@{/perfil/__${session.usuariosession.id}__}"
                         class="d-flex align-items-center nav-link link-body-emphasis text-decoration-none">
                         <img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="" width="32" height="32" class="rounded-circle me-2"  onerror="this.src='/img/fotoDefault.jpg'">
                         Perfil
@@ -94,7 +101,7 @@
                     <span style="padding-left: 5px;">Más</span>
                 </a>
                 <ul class="dropdown-menu text-small shadow">
-                    <li><a class="dropdown-item" href="/editar_perfil">Editar perfil</a></li>
+                    <li><a class="dropdown-item" th:href="@{/editar_perfil/__${session.usuariosession.id}__}">Editar perfil</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -104,18 +111,21 @@
         </div>
         <header style="margin-left: 280px; width: calc(100% - 280px);">
             <div class="perfil-container justify-content-center">
-                <img class="img-perfil" th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt=""  onerror="this.src='/img/fotoDefault.jpg'">
+                <img class="img-perfil" th:src="@{/imagen/perfil/__${idUsuario}__}" alt=""  onerror="this.src='/img/fotoDefault.jpg'">
                 
                 <div class="contenedor-cabezera">
                     <div class="cabezera1">
-                        <h1 th:text="${session.usuariosession.nombreUsuario}"></h1>
-                        
-                        <svg aria-label="Opciones" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48"
+                        <h1 th:text="${usuario.nombreUsuario}"></h1>
+
+                        <a class="report-link btn btn-outline-secondary" type="button"  href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${usuario.id}" data-tipo="usuario" 
+                        th:if="${usuario.id != session.usuariosession.id}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" >Reportar</a>
+
+                        <!-- <svg aria-label="Opciones" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48"
                             width="24">
                             <path clip-rule="evenodd"
                                 d="M46.7 20.6l-2.1-1.1c-.4-.2-.7-.5-.8-1-.5-1.6-1.1-3.2-1.9-4.7-.2-.4-.3-.8-.1-1.2l.8-2.3c.2-.5 0-1.1-.4-1.5l-2.9-2.9c-.4-.4-1-.5-1.5-.4l-2.3.8c-.4.1-.8.1-1.2-.1-1.4-.8-3-1.5-4.6-1.9-.4-.1-.8-.4-1-.8l-1.1-2.2c-.3-.5-.8-.8-1.3-.8h-4.1c-.6 0-1.1.3-1.3.8l-1.1 2.2c-.2.4-.5.7-1 .8-1.6.5-3.2 1.1-4.6 1.9-.4.2-.8.3-1.2.1l-2.3-.8c-.5-.2-1.1 0-1.5.4L5.9 8.8c-.4.4-.5 1-.4 1.5l.8 2.3c.1.4.1.8-.1 1.2-.8 1.5-1.5 3-1.9 4.7-.1.4-.4.8-.8 1l-2.1 1.1c-.5.3-.8.8-.8 1.3V26c0 .6.3 1.1.8 1.3l2.1 1.1c.4.2.7.5.8 1 .5 1.6 1.1 3.2 1.9 4.7.2.4.3.8.1 1.2l-.8 2.3c-.2.5 0 1.1.4 1.5L8.8 42c.4.4 1 .5 1.5.4l2.3-.8c.4-.1.8-.1 1.2.1 1.4.8 3 1.5 4.6 1.9.4.1.8.4 1 .8l1.1 2.2c.3.5.8.8 1.3.8h4.1c.6 0 1.1-.3 1.3-.8l1.1-2.2c.2-.4.5-.7 1-.8 1.6-.5 3.2-1.1 4.6-1.9.4-.2.8-.3 1.2-.1l2.3.8c.5.2 1.1 0 1.5-.4l2.9-2.9c.4-.4.5-1 .4-1.5l-.8-2.3c-.1-.4-.1-.8.1-1.2.8-1.5 1.5-3 1.9-4.7.1-.4.4-.8.8-1l2.1-1.1c.5-.3.8-.8.8-1.3v-4.1c.4-.5.1-1.1-.4-1.3zM24 41.5c-9.7 0-17.5-7.8-17.5-17.5S14.3 6.5 24 6.5 41.5 14.3 41.5 24 33.7 41.5 24 41.5z"
                                 fill-rule="evenodd"></path>
-                        </svg>
+                        </svg> -->
                     </div>
                     <div class="cabezera2">
                         <p><b th:text="${publicaciones.size}">xx</b> publicaciones</p>
@@ -123,7 +133,7 @@
                                                 
                     </div>
                     <div class="cabezera3">
-                        <h2 th:text="${session.usuariosession.nombreCompleto}"></h2>
+                        <h2 th:text="${usuario.nombreCompleto}"></h2>
                         
                     </div>
                 </div>
@@ -140,14 +150,15 @@
                                 <div class="card-footer d-flex align-items-center">
                                     <div class="btns-right d-flex">
                                         <form th:action="@{/darLike/__${publicacion.id}__}" method="post" class="d-flex align-items-center">
-                                            <button type="submit" class="btn like-btn heart-btn" >                                        
+                                            <button  th:disabled="${(session.usuariosession != null) && (session.usuariosession.rol == T(com.egg.backend.enumeraciones.Rol).ADMIN)} ? 'true': 'false'" type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                      fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd"
                                                       d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                                 </svg>
-                                                <span th:text="${conteoLike[publicacion.id]}"></span>
+                                                
                                             </button>
+                                            <span th:text="${conteoLike[publicacion.id]}"></span>
                                         </form>                                
                                         <button type="button" class="btn like-btn">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -170,9 +181,11 @@
                                             </svg>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item" href="#">Reportar</a></li>
+
+                                            <li th:if="${usuario.id != session.usuariosession.id}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" ><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}" data-tipo="publicacion">Reportar</a></li>
+
                                             <li><a class="dropdown-item" th:href="@{/disenador/ver/__${publicacion.id}__}">Ver publicación</a></li>
-                                            <li><a role="button" type="submit" class="dropdown-item" th:href= "@{/disenador/eliminar/__${publicacion.id}__}"> Eliminar</a></li>
+                                            <li th:if="${usuario.id == session.usuariosession.id}" sec:authorize="hasRole('DISENIADOR')"><a role="button" type="submit" class="dropdown-item" th:href= "@{/disenador/eliminar/__${publicacion.id}__}"> Eliminar</a></li>
                                             <li><a class="dropdown-item" href="#">Cerrar</a></li>
                                         </ul>
                                     </div>
@@ -210,10 +223,66 @@
         </div>
 
     </div> -->
+    
+        <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <form th:action="@{/reporte/registroReporte(from='perfil')}" method="POST">
+                    <input type="hidden" name="id" placeholder="id">                    
+                    <div class="form-group">
+                    <label for="categoria">Categoría</label>
+                    <select name="categoria" class="form-control">
+                    <option value="" disabled selected>Selecciona una categoría</option>
+                    <option th:each="categoria : ${T(com.egg.backend.enumeraciones.Categoria).values()}"
+                             th:value="${categoria}" th:text="${categoria}"></option>
+                    </select>
+                    <br>
+                    <textarea name="descripcion" class="form-control" rows="3" placeholder="Describe el reporte"></textarea>
+                    <div class="d-flex justify-content-center align-items-center">
+                    <button type="submit" class="btn btn-login d-block">Enviar Reporte</button>
+                    </div>
+                </form>
+            </div>
+                    </div>
+            <div class="modal-footer d-flex justify-content-center align-items-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
+        <script>
+            const heartButtons = document.querySelectorAll(".heart-btn");
+            heartButtons.forEach((heartButton) => {
+                heartButton.addEventListener("click", () => {
+                    heartButton.classList.toggle("liked");
+                });
+            });
+            </script>
+            <script>
+        $(document).ready(function() {
+        $(".report-link").click(function() {
+            var publicacionId = $(this).data("id");
+             var tipo = $(this).data("tipo");          
+             var modalTitle = tipo === "usuario" ? "Reportar Usuario" : "Reportar Publicación";
+             $("#reportModal .modal-title").text(modalTitle);
+            $("#reportModal input[name='id']").val(publicacionId);            
+        });
+    });
+    </script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,102 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+  <title>FashionNet</title>
+  <link rel="icon" href="/img/logo.png">
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg" id="nav-scrolled" aria-label="Eleventh navbar example">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="/img/logo.png" alt="Logo" width="45" height="40" class="d-inline-block" />
+                <span>Fashion.Net</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09"
+                aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarsExample09">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item me-2">
+                        <a class="nav-link" href="/inicio"><svg aria-label="Inicio" class="bi pe-none me-2 _8-yf5 " fill="#262626" height="22"
+                            viewBox="0 0 48 48" width="22">
+                            <path
+                                d="M45.3 48H30c-.8 0-1.5-.7-1.5-1.5V34.2c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6v12.3c0 .8-.7 1.5-1.5 1.5H2.5c-.8 0-1.5-.7-1.5-1.5V23c0-.4.2-.8.4-1.1L22.9.4c.6-.6 1.5-.6 2.1 0l21.5 21.5c.4.4.6 1.1.3 1.6 0 .1-.1.1-.1.2v22.8c.1.8-.6 1.5-1.4 1.5zm-13.8-3h12.3V23.4L24 3.6l-20 20V45h12.3V34.2c0-4.3 3.3-7.6 7.6-7.6s7.6 3.3 7.6 7.6V45z">
+                            </path>
+                        </svg></a>
+                        
+                    </li>
+                    
+                   
+                    
+                </ul>
+
+                
+            </div>
+        </div>
+    </nav>
+
+  <main>
+    
+    <div class="card banner-container">
+      <div class="row g-0 info-container py-5">
+        <div class="col-md-5 d-flex justify-content-center align-items-center">
+          <img src="/img/logoError.png" alt='imglogoError' id='imgBanner'></img>
+        </div>
+        <div class="col-md-7 d-flex justify-content-center align-items-center">
+             <div class="errorMensaje">
+                    <h1 id='intro'  th:text="'Error ' + ${codigo}"></h1>
+                     <h2 th:text="${mensaje}"></h2>
+                </div>
+<!--          <div class="card-body">
+            <h1 id='intro'>Conecta con la moda en FashionNet</h1>
+            <p>¿Quieres estar al tanto de las últimas tendencias de moda? Únete a nuestra comunidad en FashionNet y
+              comparte tu estilo con otros amantes de la moda</p>
+          </div>
+        </div>-->
+      </div>
+    </div>
+
+    
+
+
+    <div class="footer-container">
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+          <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+            <img src="/img/logo.png" alt="Logo" width="30" height="26" class="d-inline-block" />
+          </a>
+          <span class="mb-3 mb-md-0 text-body-secondary">&copy; 2023 Fashion.Net</span>
+        </div>
+
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+          <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
+                <use href="#twitter" />
+              </svg></a></li>
+          <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
+                <use href="#instagram" />
+              </svg></a></li>
+          <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24">
+                <use href="#facebook" />
+              </svg></a></li>
+        </ul>
+      </footer>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

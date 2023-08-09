@@ -98,6 +98,7 @@ public class PanelControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
+<<<<<<< HEAD
     public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre,
             String orden, String idDiseniador, String idCategoria) throws MiException {
 
@@ -143,9 +144,51 @@ public class PanelControlador {
                     break;
                 default:
                     break;
+=======
+    public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre, String idDiseniador) throws MiException {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        List<Categoria> categorias = categoriaServicio.listarCategoria();
+        List<Usuario> diseniadores = usuarioServicio.listarDiseniadores();
+        List<Publicacion> publicaciones= publicacionServicio.listarPublicaciones();
+        List<Publicacion> publicacionesFiltradas;     
+        Map<String, Integer> conteoComentariosPub = new HashMap<>();
+        Map<String, Integer> conteoLike = new HashMap<>();
+        Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();    
+
+        if (nombre == null) {
+            
+            publicacionesFiltradas= publicaciones;
+        }else if(nombre == "descendente"){
+            
+           publicacionesFiltradas=publicacionServicio.getByFechaDesc();
+                
+        }else if(nombre =="ascendente"){
+            
+            publicacionesFiltradas=publicacionServicio.getByFechaAsc();
+                
+        }else if(nombre == "likes"){
+            publicacionesFiltradas=publicacionServicio.getByMasLikes();
+        
+        }else if(nombre == "autor"){
+            Usuario diseniador = usuarioServicio.getOne(idDiseniador);
+            publicacionesFiltradas = publicacionServicio.getByAuthor(diseniador);            
+                  
+        }else if(nombre == "alfabetico"){
+            publicacionesFiltradas = publicacionServicio.orderByAuthor();            
+                  
+        }else{
+            
+            publicacionesFiltradas=publicacionServicio.getOneCategoria(nombre);
+        }        
+       
+        List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
+            for (int i = 0; i < publicaciones.size(); i += 3) {
+                publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+>>>>>>> developer
             }
         }
 
+<<<<<<< HEAD
 //        if (nombre == null) {
 //            
 //            publicacionesFiltradas= publicaciones;
@@ -190,6 +233,17 @@ public class PanelControlador {
             conteoComentariosPub.put(p.getId(), conteo);
         }
 
+=======
+            for (Publicacion p : publicaciones) {
+                int conteoLikes = likeServicio.contadorLike(p.getId());
+                conteoLike.put(p.getId(), conteoLikes);
+                int conteoComent = comentarioServicio.contadorComentariosPublicacion(p.getId());
+                conteoComentariosPub.put(p.getId(), conteoComent);
+                boolean usuarioDioLike = likeServicio.usuarioDioLike(usuario, p);
+                usuarioDioLikeMap.put(p.getId(), usuarioDioLike);
+            }
+       
+>>>>>>> developer
         modelo.addAttribute("publicacionesChunked", publicacionesChunked);
         modelo.addAttribute("conteoLike", conteoLike);
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
@@ -197,12 +251,14 @@ public class PanelControlador {
         modelo.addAttribute("usuarios", diseniadores);
         modelo.addAttribute("publicaciones", publicaciones);
         modelo.addAttribute("publicacionesFiltradas", publicacionesFiltradas);
+        modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
 
         return "home.html";
 
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
+<<<<<<< HEAD
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) throws MiException {
 
@@ -211,10 +267,18 @@ public class PanelControlador {
         List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
 
+=======
+    @GetMapping("/perfil/{idUsuario}")
+    public String perfil(ModelMap modelo, @PathVariable String idUsuario) throws MiException {       
+        Usuario usuario = usuarioServicio.getOne(idUsuario);
+        List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);      
+>>>>>>> developer
         modelo.addAttribute("publicaciones", publicaciones);
-
+        
+        int sumatoriaComentarios = 0;
         int sumatoriaLikes = 0;
         Map<String, Integer> conteoLike = new HashMap<>();
+<<<<<<< HEAD
         for (Publicacion p : publicaciones) {
 
             int conteo = likeServicio.contadorLike(p.getId());
@@ -225,8 +289,13 @@ public class PanelControlador {
         }
 
         int sumatoriaComentarios = 0;
+=======
+>>>>>>> developer
         Map<String, Integer> conteoComentariosPub = new HashMap<>();
+        Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();   
+    
         for (Publicacion p : publicaciones) {
+<<<<<<< HEAD
 
             int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
             conteoComentariosPub.put(p.getId(), conteo);
@@ -234,6 +303,25 @@ public class PanelControlador {
             modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
             modelo.addAttribute("sumatoriaComentarios", sumatoriaComentarios);
         }
+=======
+            int conteoLikes = likeServicio.contadorLike(p.getId());
+            conteoLike.put(p.getId(), conteoLikes);
+            sumatoriaLikes += conteoLikes; 
+             int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
+            conteoComentariosPub.put(p.getId(), conteo);            
+            sumatoriaComentarios += conteo;
+            boolean usuarioDioLike = likeServicio.usuarioDioLike(usuario, p);
+            usuarioDioLikeMap.put(p.getId(), usuarioDioLike);                      
+            
+        }        
+        
+        modelo.addAttribute("conteoLike", conteoLike);
+        modelo.addAttribute("sumatoriaLikes", sumatoriaLikes);
+        modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
+        modelo.addAttribute("sumatoriaComentarios", sumatoriaComentarios); 
+        modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
+        modelo.addAttribute("usuario", usuario);
+>>>>>>> developer
 
         return "perfil.html";
     }
@@ -313,7 +401,7 @@ public class PanelControlador {
         return "redirect:/inicio";
     }
 
-    @GetMapping("/perfil/{id}")
+    @GetMapping("/editar_perfil/{id}")
     public String modificarUsuario(ModelMap modelo, @PathVariable String id) {
         modelo.put("usuario", usuarioServicio.getOne(id));
 
