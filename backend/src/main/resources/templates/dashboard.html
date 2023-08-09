@@ -31,6 +31,14 @@
             <div class="collapse navbar-collapse" id="navbarsExample09">
         <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
             <li class="nav-item me-3">
+             <a class="nav-link" href="/inicio"><svg aria-label="Inicio" class="bi pe-none me-2 _8-yf5 " fill="#262626" height="22"
+                            viewBox="0 0 48 48" width="22">
+                            <path
+                                d="M45.3 48H30c-.8 0-1.5-.7-1.5-1.5V34.2c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6v12.3c0 .8-.7 1.5-1.5 1.5H2.5c-.8 0-1.5-.7-1.5-1.5V23c0-.4.2-.8.4-1.1L22.9.4c.6-.6 1.5-.6 2.1 0l21.5 21.5c.4.4.6 1.1.3 1.6 0 .1-.1.1-.1.2v22.8c.1.8-.6 1.5-1.4 1.5zm-13.8-3h12.3V23.4L24 3.6l-20 20V45h12.3V34.2c0-4.3 3.3-7.6 7.6-7.6s7.6 3.3 7.6 7.6V45z">
+                            </path>
+                        </svg></a>
+          </li>
+            <li class="nav-item me-3">
             <a class="nav-link active" aria-current="page" href="#">GESTION DE REPORTES</a>
           </li>
           <li class="nav-item me-3">
@@ -75,7 +83,6 @@
       
          <div id="reportes" class="vista-reporte d-flex justify-content-center align-items-center" style="min-height: 100vh;">
              <div class="bienvenida">            
-            <p>Aquí puedes gestionar y supervisar los reportes de los usuarios a otros usuarios, publicaciones y comentarios de forma rápida y sencilla</p>
             <h3 class="titulo-principal">Lista de reportes</h3>
          </div>
              <div class="table-container">
@@ -86,9 +93,11 @@
                 <th scope="col">ITEM REPORTE</th>
                 <th scope="col">CATEGORIA REPORTE</th>
                 <th scope="col">DESCRIPCION DEL REPORTE</th>
-                <th scope="col">ESTADO </th>
-                <th scope="col">DAR BAJA</th>
+                <th scope="col">ESTADO REPORTE</th>
+                <th scope="col">DAR BAJA REPORTE</th>
                 <th scope="col">DESESTIMAR</th>
+                <th scope="col">ESTADO ENTIDAD</th>
+                <th scope="col">DAR BAJA ENTIDAD</th>
 <!--                <th>ELIMINAR</th>                -->
             </tr>
         </thead>
@@ -110,19 +119,25 @@
                 </td>
                 <td th:text="${reporte.categoria}"></td>
                 <td th:text="${reporte.descripcion}"></td>
+                <td th:text="${reporte.darBaja}"></td>
                 <td>
-                    <span th:if="${reporte.usuario != null}" th:text="${reporte.usuario.darBaja}"></span>
-                    <span th:if="${reporte.publicacion != null}" th:text="${reporte.publicacion.darBaja}"></span>
-                    <span th:if="${reporte.comentario != null}" th:text="${reporte.comentario.darBaja}"></span>
-                </td>
-                <td>
-                   <a class="btn-dar-baja btn-reporte" href="#" 
-                        th:data-id="${reporte.usuario != null ? reporte.usuario.id : (reporte.publicacion != null ? reporte.publicacion.id : (reporte.comentario != null ? reporte.comentario.id : ''))}" 
-                        th:data-tipo="${reporte.usuario != null ? 'USUARIO' : (reporte.publicacion != null ? 'PUBLICACION' : (reporte.comentario != null ? 'COMENTARIO' : ''))}">
+                   <a class="btn-dar-baja" th:href= "@{/administrador/darBajaReporte/__${reporte.id}__}">
                         Cambiar
                    </a>
                 </td>
                <td><a class="btn-eliminar" th:href= "@{/administrador/reportes_eliminar/__${reporte.id}__}" onclick="return confirm('¿Está seguro de que desea DESESTIMAR el reporte?');">Eliminar </a></td>
+               <td>
+                    <span th:if="${reporte.usuario != null}" th:text="${reporte.usuario.darBaja}"></span>
+                    <span th:if="${reporte.publicacion != null}" th:text="${reporte.publicacion.darBaja}"></span>
+                    <span th:if="${reporte.comentario != null}" th:text="${reporte.comentario.darBaja}"></span>
+                </td>
+               <td>
+                   <a class="btn-dar-baja btn-reporte" href="#" 
+                        th:data-id="${reporte.usuario != null ? reporte.usuario.id : (reporte.publicacion != null ? reporte.publicacion.id : (reporte.comentario != null ? reporte.comentario.id : ''))}" 
+                        th:data-tipo="${reporte.usuario != null ? 'USUARIO' : (reporte.publicacion != null ? 'PUBLICACION' : (reporte.comentario != null ? 'COMENTARIO' : ''))}">
+                        Aceptar
+                   </a>
+                </td>
           
             </tr>            
         </tbody>
@@ -133,7 +148,6 @@
 </div>
     <div id="usuarios" class="vista-usuarios d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="bienvenida">        
-            <p>Desde aquí, puedes realizar diversas acciones como dar de baja, editar, eliminar y analizar datos de los usuarios</p>
             <h3 class="titulo-principal">Lista de Usuarios</h3>
     </div>
        <div class="table-container">
@@ -179,7 +193,7 @@
                             </td>
                             
                             <td>
-                                <a class="btn-dar-baja" th:href= "@{/perfil/__${usuario.id}__}"> Modificar</a>
+                                <a class="btn-dar-baja" th:href= "@{/editar_perfil/__${usuario.id}__}"> Modificar</a>
                             </td>                           
                             <td>
                                 <a class="btn-eliminar" th:if="${usuario.rol != T(com.egg.backend.enumeraciones.Rol).ADMIN}"  th:href= "@{/administrador/usuario_eliminar/__${usuario.id}__}" onclick="return confirm('¿Está seguro de que desea ELIMINAR a este usuario?');">Eliminar </a>
@@ -193,8 +207,6 @@
 
     <div id="publicaciones" class="vista-publicaciones d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="bienvenida">        
-            <p>Recuerda que el contenido de las publicaciones son muy importante para nosotros
-                ; desde aquí, puedes realizar diversas acciones como dar de baja, eliminar y analizar datos de las publicaciones</p>
             <h3 class="titulo-principal">Lista de publicaciones</h3>
             </div>
        <div class="table-container">
@@ -249,9 +261,6 @@
 
     <div id="comentarios" class="vista-comentarios d-flex justify-content-center align-items-center" style="min-height: 100vh;">
        <div class="bienvenida">        
-        <p>Elimina comentarios innecesarios y destaca aquellos que impulsan el éxito de nuestra plataforma. 
-            Tu análisis permitirá entender mejor a nuestros usuarios y mejorar continuamente sus experiencias.             
-        </p>
         <h3 class="titulo-principal">Lista de Comentarios</h3>
     </div>
       <div class="table-container">           
@@ -296,9 +305,7 @@
     </div>
      <div id="categorias" class="vista-publicaciones d-flex justify-content-center align-items-center " style="min-height: 100vh; flex-direction: column">
          <div class="bienvenida ">
-             <h3 class="titulo-principal">¡Todas las Categorias!</h3>
-            <p>Aquí puedes ver todas las Categorias, eliminar y Crear Nuevas Categorias segun se requiera.</p>
-            <h3 class="titulo-principal">Lista de Categorias</h3>
+             <h3 class="titulo-principal">Lista de Categorias</h3>
          </div>
         
          <div class="table-container">           

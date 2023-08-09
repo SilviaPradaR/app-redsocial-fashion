@@ -256,7 +256,7 @@ nav a {
 .table-container {
     width: 80%;
     max-height: 33vw;
-    overflow: auto;    
+    overflow: auto;
 }
 
 .custom-table {
@@ -271,7 +271,7 @@ nav a {
     font-family: "Bodoni MT", serif;
     font-weight: bold;
     background-color: #f9d9c2;
-    border-bottom: 2px solid #000;   
+    border-bottom: 2px solid #000;
 }
 
 .custom-table td {
@@ -354,9 +354,11 @@ nav a {
   padding-left: 15px;
   border: 1px solid #ccc;
   min-height: 80px;  
-  min-width: 200px;
+  max-width: auto;
+  width:auto;
+  min-width: auto;
 }
-
+    
 /*------------------------------------------------------------*/
 .nav  {
     --bs-nav-link-color: none!important;

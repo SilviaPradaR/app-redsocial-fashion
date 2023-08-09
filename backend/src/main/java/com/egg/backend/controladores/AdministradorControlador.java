@@ -126,6 +126,23 @@ public class AdministradorControlador {
         }
 
     }
+    
+    @GetMapping("/darBajaReporte/{id}")
+    public String darBajaReporte(@PathVariable String id, ModelMap modelo) {
+
+        try {
+
+            reporteServicio.darBaja(id);
+            modelo.put("Éxito", "El reporte fue dado de baja correctamente");
+            return "redirect:/administrador/dashboard";
+
+        } catch (MiException ex) {
+
+            modelo.put("error", ex.getMessage());
+            return "redirect:/administrador/dashboard";
+        }
+
+    }
 
     @GetMapping("/publicacion_eliminar/{id}")
     public String eliminarPublicacion(@PathVariable String id, ModelMap modelo) {
