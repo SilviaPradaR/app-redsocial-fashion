@@ -73,6 +73,10 @@ public class CategoriaServicio {
         return categorias;
     }
     
+    public Categoria getOne(String id) {
+        
+        return categoriaRepositorio.getOne(id);
+    }
+    
 }
-
 

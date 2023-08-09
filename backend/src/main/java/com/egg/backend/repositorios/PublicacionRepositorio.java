@@ -35,6 +35,18 @@ public interface PublicacionRepositorio extends JpaRepository<Publicacion, Strin
     public List<Publicacion> buscarPorAutor(@Param("usuario") Usuario usuario);
     
     @Query("SELECT p FROM Publicacion p LEFT JOIN Usuario u ON p.usuario = u ORDER BY u.nombreUsuario")
-    public List<Publicacion> ordenarAlfabeticamente();           
+    public List<Publicacion> ordenarAlfabeticamente();     
+    
+    @Query("SELECT p FROM publicacion p "
+            + "LEFT JOIN (SELECT l.publicacion.id, COUNT(l.id) AS cantidad_likes FROM Like l "
+            +               "WHERE fechaLike >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) "
+            +               "GROUP BY l.publicacion.id) "
+            + "l ON p.id = l.publicacion.id "
+            + "LEFT JOIN (SELECT c.publicacion.id, COUNT(id) AS cantidad_comentarios FROM comentario c "
+            +               "WHERE c.fechaComentario >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) "
+            +               "GROUP BY c.publicacion.id) "
+            + "c ON p.id = c.publicacion.id "
+            + "ORDER BY IFNULL(cantidad_likes, 0) + IFNULL(cantidad_comentarios, 0) DESC;")
+    public List<Publicacion> ordenarPorInteracciones();
     
 }

@@ -98,59 +98,98 @@ public class PanelControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
-    public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre, String idDiseniador) throws MiException {
+    public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre,
+            String orden, String idDiseniador, String idCategoria) throws MiException {
 
         List<Categoria> categorias = categoriaServicio.listarCategoria();
         List<Usuario> diseniadores = usuarioServicio.listarDiseniadores();
-        List<Publicacion> publicaciones= publicacionServicio.listarPublicaciones();
-        List<Publicacion> publicacionesFiltradas;     
-                
-        if (nombre == null) {
-            
-            publicacionesFiltradas= publicaciones;
-        }else if(nombre == "descendente"){
-            
-           publicacionesFiltradas=publicacionServicio.getByFechaDesc();
-                
-        }else if(nombre =="ascendente"){
-            
-            publicacionesFiltradas=publicacionServicio.getByFechaAsc();
-                
-        }else if(nombre == "likes"){
-            publicacionesFiltradas=publicacionServicio.getByMasLikes();
-        
-        }else if(nombre == "autor"){
-            Usuario diseniador = usuarioServicio.getOne(idDiseniador);
-            publicacionesFiltradas = publicacionServicio.getByAuthor(diseniador);            
-                  
-        }else if(nombre == "alfabetico"){
-            publicacionesFiltradas = publicacionServicio.orderByAuthor();            
-                  
-        }else{
-            
-            publicacionesFiltradas=publicacionServicio.getOneCategoria(nombre);
+        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
+        List<Publicacion> publicacionesFiltradas = new ArrayList();
+        List<Publicacion> publicacionesOrdenadadas = publicaciones;
+
+        //ORDENA recibe orden        
+        if (null != orden) {
+            switch (orden) {
+                case "descendente":
+                    publicacionesOrdenadadas = publicacionServicio.getByFechaDesc();
+                    break;
+                case "ascendente":
+                    publicacionesOrdenadadas = publicacionServicio.getByFechaAsc();
+                    break;
+                case "likes":
+                    publicacionesOrdenadadas = publicacionServicio.getByMasLikes();
+                    break;
+                case "alfabetico":
+                    publicacionesOrdenadadas = publicacionServicio.orderByAuthor();
+                    break;
+                default:
+                    break;
+            }
         }
-        
-       
-           List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
-            for (int i = 0; i < publicaciones.size(); i += 3) {
-                publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+
+        //FILTRA recibe nombre: null - "autor" + idDiseniador - "categoria" + idCategoria
+        if (null == nombre) {
+            publicacionesFiltradas = publicacionesOrdenadadas;
+
+        } else {
+            switch (nombre) {
+                case "autor":
+                    Usuario diseniador = usuarioServicio.getOne(idDiseniador);
+                    publicacionesOrdenadadas.stream().filter(p -> p.getUsuario() == diseniador).forEach(publicacionesFiltradas::add);
+                    break;
+                case "categoria":
+                    Categoria categoria = categoriaServicio.getOne(idCategoria);
+                    publicacionesOrdenadadas.stream().filter(p -> p.getCategoria() == categoria).forEach(publicacionesFiltradas::add);
+                    break;
+                default:
+                    break;
             }
+        }
 
-            Map<String, Integer> conteoLike = new HashMap<>();
-            for (Publicacion p : publicaciones) {
+//        if (nombre == null) {
+//            
+//            publicacionesFiltradas= publicaciones;
+//        }else if(nombre == "descendente"){
+//            
+//           publicacionesFiltradas=publicacionServicio.getByFechaDesc();
+//                
+//        }else if(nombre =="ascendente"){
+//            
+//            publicacionesFiltradas=publicacionServicio.getByFechaAsc();
+//                
+//        }else if(nombre == "likes"){
+//            publicacionesFiltradas=publicacionServicio.getByMasLikes();
+//        
+//        }else if(nombre == "autor"){
+//            Usuario diseniador = usuarioServicio.getOne(idDiseniador);
+//            publicacionesFiltradas = publicacionServicio.getByAuthor(diseniador);            
+//                  
+//        }else if(nombre == "alfabetico"){
+//            publicacionesFiltradas = publicacionServicio.orderByAuthor();            
+//                  
+//        }else{
+//            
+//            publicacionesFiltradas=publicacionServicio.getOneCategoria(nombre);
+//        }
+        List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
+        for (int i = 0; i < publicaciones.size(); i += 3) {
+            publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+        }
 
-                int conteo = likeServicio.contadorLike(p.getId());
-                conteoLike.put(p.getId(), conteo);
-            }
+        Map<String, Integer> conteoLike = new HashMap<>();
+        for (Publicacion p : publicaciones) {
 
-            Map<String, Integer> conteoComentariosPub = new HashMap<>();
-            for (Publicacion p : publicaciones) {
+            int conteo = likeServicio.contadorLike(p.getId());
+            conteoLike.put(p.getId(), conteo);
+        }
 
-                int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
-                conteoComentariosPub.put(p.getId(), conteo);
-            }
-        
+        Map<String, Integer> conteoComentariosPub = new HashMap<>();
+        for (Publicacion p : publicaciones) {
+
+            int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
+            conteoComentariosPub.put(p.getId(), conteo);
+        }
+
         modelo.addAttribute("publicacionesChunked", publicacionesChunked);
         modelo.addAttribute("conteoLike", conteoLike);
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
@@ -160,7 +199,7 @@ public class PanelControlador {
         modelo.addAttribute("publicacionesFiltradas", publicacionesFiltradas);
 
         return "home.html";
-        
+
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
@@ -171,7 +210,7 @@ public class PanelControlador {
 
         List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-        
+
         modelo.addAttribute("publicaciones", publicaciones);
 
         int sumatoriaLikes = 0;
@@ -180,7 +219,7 @@ public class PanelControlador {
 
             int conteo = likeServicio.contadorLike(p.getId());
             conteoLike.put(p.getId(), conteo);
-            sumatoriaLikes += conteo;            
+            sumatoriaLikes += conteo;
             modelo.addAttribute("conteoLike", conteoLike);
             modelo.addAttribute("sumatoriaLikes", sumatoriaLikes);
         }
@@ -190,12 +229,12 @@ public class PanelControlador {
         for (Publicacion p : publicaciones) {
 
             int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
-            conteoComentariosPub.put(p.getId(), conteo);            
-            sumatoriaComentarios += conteo;            
+            conteoComentariosPub.put(p.getId(), conteo);
+            sumatoriaComentarios += conteo;
             modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
-            modelo.addAttribute("sumatoriaComentarios", sumatoriaComentarios);            
-        }   
-        
+            modelo.addAttribute("sumatoriaComentarios", sumatoriaComentarios);
+        }
+
         return "perfil.html";
     }
 
