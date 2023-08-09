@@ -120,8 +120,10 @@
                                                 <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
                                                 </svg>
                                             </button>
+
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li ><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${comentario.id}" th:if="${comentario.usuario.id != session.usuariosession.id}"sec:authorize="hasAnyRole('DISENIADOR', 'USER')">Reportar</a></li>
+
                                                 <li><a class="dropdown-item" href="#">Cerrar</a></li>
                                             </ul>
                                         </div>
@@ -222,7 +224,7 @@
                     </div>
                     <div class="modal-body">
                         <form th:action="@{/reporte/registroReporte}" method="POST">                    
-                            <input name="id" placeholder="id">                    
+                            <input type="hidden" name="id" placeholder="id">                    
                             <div class="form-group">
                                 <label for="categoria">Categoría</label>
                                 <select name="categoria" class="form-control">
