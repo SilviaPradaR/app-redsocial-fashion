@@ -86,9 +86,11 @@
                 <th scope="col">ITEM REPORTE</th>
                 <th scope="col">CATEGORIA REPORTE</th>
                 <th scope="col">DESCRIPCION DEL REPORTE</th>
-                <th scope="col">ESTADO </th>
-                <th scope="col">DAR BAJA</th>
+                <th scope="col">ESTADO REPORTE</th>
+                <th scope="col">DAR BAJA REPORTE</th>
                 <th scope="col">DESESTIMAR</th>
+                <th scope="col">ESTADO ENTIDAD</th>
+                <th scope="col">DAR BAJA ENTIDAD</th>
 <!--                <th>ELIMINAR</th>                -->
             </tr>
         </thead>
@@ -110,19 +112,25 @@
                 </td>
                 <td th:text="${reporte.categoria}"></td>
                 <td th:text="${reporte.descripcion}"></td>
+                <td th:text="${reporte.darBaja}"></td>
                 <td>
-                    <span th:if="${reporte.usuario != null}" th:text="${reporte.usuario.darBaja}"></span>
-                    <span th:if="${reporte.publicacion != null}" th:text="${reporte.publicacion.darBaja}"></span>
-                    <span th:if="${reporte.comentario != null}" th:text="${reporte.comentario.darBaja}"></span>
-                </td>
-                <td>
-                   <a class="btn-dar-baja btn-reporte" href="#" 
-                        th:data-id="${reporte.usuario != null ? reporte.usuario.id : (reporte.publicacion != null ? reporte.publicacion.id : (reporte.comentario != null ? reporte.comentario.id : ''))}" 
-                        th:data-tipo="${reporte.usuario != null ? 'USUARIO' : (reporte.publicacion != null ? 'PUBLICACION' : (reporte.comentario != null ? 'COMENTARIO' : ''))}">
+                   <a class="btn-dar-baja" th:href= "@{/administrador/darBajaReporte/__${reporte.id}__}">
                         Cambiar
                    </a>
                 </td>
                <td><a class="btn-eliminar" th:href= "@{/administrador/reportes_eliminar/__${reporte.id}__}" onclick="return confirm('¿Está seguro de que desea DESESTIMAR el reporte?');">Eliminar </a></td>
+               <td>
+                    <span th:if="${reporte.usuario != null}" th:text="${reporte.usuario.darBaja}"></span>
+                    <span th:if="${reporte.publicacion != null}" th:text="${reporte.publicacion.darBaja}"></span>
+                    <span th:if="${reporte.comentario != null}" th:text="${reporte.comentario.darBaja}"></span>
+                </td>
+               <td>
+                   <a class="btn-dar-baja btn-reporte" href="#" 
+                        th:data-id="${reporte.usuario != null ? reporte.usuario.id : (reporte.publicacion != null ? reporte.publicacion.id : (reporte.comentario != null ? reporte.comentario.id : ''))}" 
+                        th:data-tipo="${reporte.usuario != null ? 'USUARIO' : (reporte.publicacion != null ? 'PUBLICACION' : (reporte.comentario != null ? 'COMENTARIO' : ''))}">
+                        Aceptar
+                   </a>
+                </td>
           
             </tr>            
         </tbody>
