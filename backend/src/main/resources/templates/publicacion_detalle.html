@@ -114,14 +114,16 @@
                                             <p class="card-text" th:text="${comentario.contenido}"></p>
                                         </div>
                                         <div class="col-2">
-                                            <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" th:disabled="${(session.usuariosession != null) && (session.usuariosession.rol == T(com.egg.backend.enumeraciones.Rol).ADMIN)} ? 'true': 'false'">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-square" viewBox="0 0 16 16">
                                                 <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
                                                 <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
                                                 </svg>
                                             </button>
-                                            <ul class="dropdown-menu dropdown-menu-end" th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')">
-                                                <li><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${comentario.id}">Reportar</a></li>
+
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li ><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${comentario.id}" th:if="${comentario.usuario.id != session.usuariosession.id}"sec:authorize="hasAnyRole('DISENIADOR', 'USER')">Reportar</a></li>
+
                                                 <li><a class="dropdown-item" href="#">Cerrar</a></li>
                                             </ul>
                                         </div>
@@ -131,7 +133,7 @@
                             <div class="card_col5_footer">
                                 <div class="btns-right d-flex">
                                     <form th:action="@{/darLike/__${publicacion.id}__}" method="post">
-                                        <button type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
+                                        <button  th:disabled="${(session.usuariosession != null) && (session.usuariosession.rol == T(com.egg.backend.enumeraciones.Rol).ADMIN)} ? 'true': 'false'" type="submit" class="btn like-btn heart-btn" th:classappend="${usuarioDioLikeMap.get(publicacion.id)} ? 'liked' : ''">                                        
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                  fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd"
@@ -152,12 +154,12 @@
                                 <p class="card-text card_col5_footerDate"><small class="text-body-secondary" th:text="${#dates.format(publicacion.fechaPublicacion, 'dd-MMM-yyyy')}"></small></p>
                                 <form th:action="@{/comentario/crearComentario}" method="post">
                                     <input hidden th:value="${publicacion.id}" name="idPublicacion">
-                                    <div class="input-group mb-3">
+                                    <div  class="input-group mb-3">
 
                                         <span class="input-group-text" id="basic-addon1"><img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" alt="foto-perfil" width="35"
                                                                                               height="35" class="rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/></span>
-                                        <input type="text" name="contenido" class="form-control card_col5_footerComment" placeholder="Agrega un comentario..." aria-label="Username" aria-describedby="basic-addon1" required>
-                                        <button type="submit" class="btn btn-outline-secondary card_col5_footerSend">
+                                        <input th:disabled="${(session.usuariosession != null) && (session.usuariosession.rol == T(com.egg.backend.enumeraciones.Rol).ADMIN)} ? 'true': 'false'" type="text" name="contenido" class="form-control card_col5_footerComment" placeholder="Agrega un comentario..." aria-label="Username" aria-describedby="basic-addon1" required>
+                                        <button th:disabled="${(session.usuariosession != null) && (session.usuariosession.rol == T(com.egg.backend.enumeraciones.Rol).ADMIN)} ? 'true': 'false'" type="submit" class="btn btn-outline-secondary card_col5_footerSend">
                                             <a class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cursor-fill" viewBox="0 0 16 16">
                                                 <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"/>
                                                 </svg></a>

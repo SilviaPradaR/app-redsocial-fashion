@@ -112,7 +112,7 @@
                                      <div class="card-header">
                                      <img th:src="@{/imagen/perfil/__${publicacion.usuario.id}__}" alt="foto-perfil"
                                         width="35" height="35" class="d-inline-block rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'">
-                                    <span th:text="${publicacion.usuario.nombreUsuario}"></span>
+                                    <a th:href="@{/perfil/__${publicacion.usuario.id}__}"><span th:text="${publicacion.usuario.nombreUsuario}"></span></a>
                                      </div>
                                 <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" class="card-img-top" alt="">
                                 <div class="card-footer d-flex align-items-center">
@@ -148,7 +148,7 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
 
-                                    <li><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}">Reportar</a></li>
+                                    <li  ><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}" th:if="${publicacion.usuario.id != session.usuariosession.id}"sec:authorize="hasAnyRole('DISENIADOR', 'USER')">Reportar</a></li>
                                     <li><a class="dropdown-item" th:href="@{/disenador/ver/__${publicacion.id}__}">Ver publicación</a></li>
                                     <li><a class="dropdown-item" href="#">Cerrar</a></li>
                                 </ul>
@@ -243,7 +243,8 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
 
-                                    <li><a class="dropdown-item report-link" th:if="${session.usuariosession != null}" sec:authorize="hasAnyRole('DISENIADOR', 'USER')" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}">Reportar</a></li>
+                                    <li><a class="dropdown-item report-link" href="#" data-toggle="modal" data-target="#reportModal" th:data-id="${publicacion.id}"th:if="${publicacion.usuario.id != session.usuariosession.id}"sec:authorize="hasAnyRole('DISENIADOR', 'USER')" >Reportar</a></li>
+
                                     <li><a class="dropdown-item" th:href="@{/disenador/ver/__${publicacion.id}__}">Ver publicación</a></li>
                                     <li><a class="dropdown-item" href="#">Cerrar</a></li>
                                 </ul>
