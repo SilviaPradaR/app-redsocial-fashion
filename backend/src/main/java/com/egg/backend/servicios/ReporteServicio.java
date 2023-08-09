@@ -53,7 +53,7 @@ public class ReporteServicio {
         }
         reporte.setCategoria(categoria);
         reporte.setDescripcion(descripcion);
-
+        reporte.setDarBaja(Boolean.FALSE);
         reporteRepositorio.save(reporte);
     }
 
@@ -169,5 +169,21 @@ public class ReporteServicio {
             }
         }
         return contador;
-    }         
+    } 
+    
+     @Transactional
+    public void darBaja(String id) throws MiException {
+
+        Optional<Reporte> respuesta = reporteRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+            Reporte reporte = respuesta.get();
+
+            if (!reporte.getDarBaja()) {
+                reporte.setDarBaja(Boolean.TRUE);
+            } else {
+                reporte.setDarBaja(Boolean.FALSE);
+            }
+        }
+    }
 }
