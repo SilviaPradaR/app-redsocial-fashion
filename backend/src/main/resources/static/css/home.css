@@ -31,16 +31,16 @@
 }
 .tendencias-container .carousel-control-prev{
     width: auto;
-    
+
 }
 .tendencias-container .carousel-control-next{
     width: auto;
-    
+
 }
 .tendencias-container .carousel-inner{
     padding-left: 3rem;
     padding-right: 3rem;
-    
+
 }
 .tendencias-container .card-body{
     border-top: 1px lightgrey solid;
@@ -64,4 +64,18 @@
 }
 .cards-container .container{
     padding-bottom: 40px;
+}
+
+.span-filters{
+    margin-right: 15px;
+    align-self: center;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.container-filters{
+    display: flex;
+    margin: auto;
+    width: fit-content;
+    padding-bottom: 30px; 
 }
