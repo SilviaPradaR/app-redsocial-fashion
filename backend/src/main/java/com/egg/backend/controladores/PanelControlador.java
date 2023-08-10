@@ -106,27 +106,26 @@ public class PanelControlador {
         List<Publicacion> publicacionesFiltradas;     
         Map<String, Integer> conteoComentariosPub = new HashMap<>();
         Map<String, Integer> conteoLike = new HashMap<>();
-        Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();    
+        Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();
 
-        if (nombre == null) {
+        if (nombre == null && idDiseniador == null) {
             
             publicacionesFiltradas= publicaciones;
-        }else if(nombre == "descendente"){
+        }else if("descendente".equals(nombre)){
             
            publicacionesFiltradas=publicacionServicio.getByFechaDesc();
                 
-        }else if(nombre =="ascendente"){
-            
+        }else if("ascendente".equals(nombre)){
             publicacionesFiltradas=publicacionServicio.getByFechaAsc();
                 
-        }else if(nombre == "likes"){
+        }else if("likes".equals(nombre)){
             publicacionesFiltradas=publicacionServicio.getByMasLikes();
         
-        }else if(nombre == "autor"){
+        }else if(idDiseniador != null && nombre == null ){
             Usuario diseniador = usuarioServicio.getOne(idDiseniador);
             publicacionesFiltradas = publicacionServicio.getByAuthor(diseniador);            
                   
-        }else if(nombre == "alfabetico"){
+        }else if("alfabetico".equals(nombre)){
             publicacionesFiltradas = publicacionServicio.orderByAuthor();            
                   
         }else{
@@ -152,11 +151,25 @@ public class PanelControlador {
         modelo.addAttribute("conteoLike", conteoLike);
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
         modelo.addAttribute("categorias", categorias);
-        modelo.addAttribute("usuarios", diseniadores);
+        modelo.addAttribute("diseniadores", diseniadores);
         modelo.addAttribute("publicaciones", publicaciones);
         modelo.addAttribute("publicacionesFiltradas", publicacionesFiltradas);
         modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
 
+        return "home.html";
+        
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
+    @GetMapping("/filtrarLikes")
+    public String filtrarLikes(ModelMap modelo) throws MiException {
+        List<Publicacion> publicacionesFiltradas; 
+
+            publicacionesFiltradas=publicacionServicio.getByMasLikes();
+                
+       
+       
+        modelo.addAttribute("publicacionesFiltradas", publicacionesFiltradas);
         return "home.html";
         
     }

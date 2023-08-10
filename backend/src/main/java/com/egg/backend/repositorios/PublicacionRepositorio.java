@@ -20,19 +20,19 @@ public interface PublicacionRepositorio extends JpaRepository<Publicacion, Strin
 
     @Query("Select p from Publicacion p where p.categoria.nombre = :nombre")
     public List<Publicacion> buscarPorCategoria(@Param("nombre") String nombre);
-    
+
     @Query("Select p from Publicacion p order by p.fechaPublicacion desc")
     public List<Publicacion> FechaDesc();
-    
+
     @Query("Select p from Publicacion p order by p.fechaPublicacion asc")
     public List<Publicacion> FechaAsc();
 
-   @Query("SELECT p FROM Publicacion p LEFT JOIN Like l ON p.id = l.publicacion.id GROUP BY p.id, p.contenido, p.fechaPublicacion ORDER BY COUNT(l.id) DESC")
+    @Query("SELECT p FROM Publicacion p LEFT JOIN Like l ON p.id = l.publicacion.id GROUP BY p.id, p.contenido, p.fechaPublicacion ORDER BY COUNT(l.id) DESC")
     public List<Publicacion> buscarPublicacionesConMasLikes();
-    
+
     @Query("Select p from Publicacion p where p.usuario = :usuario")
     public List<Publicacion> buscarPorAutor(@Param("usuario") Usuario usuario);
-    
+
     @Query("SELECT p FROM Publicacion p LEFT JOIN Usuario u ON p.usuario = u ORDER BY u.nombreUsuario")
     public List<Publicacion> ordenarAlfabeticamente();     
     

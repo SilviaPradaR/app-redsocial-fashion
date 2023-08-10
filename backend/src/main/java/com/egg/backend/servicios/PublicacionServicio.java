@@ -170,5 +170,4 @@ public class PublicacionServicio {
     public List<Publicacion> orderByInteraction() {
         return publicacionRepositorio.buscarPublicacionesConMasInteracciones();
     }
-    
 }
