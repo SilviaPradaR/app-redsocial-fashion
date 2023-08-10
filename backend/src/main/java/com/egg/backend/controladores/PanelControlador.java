@@ -54,7 +54,7 @@ public class PanelControlador {
         List<Publicacion> publicacionesSegunInteraccion = publicacionServicio.orderByInteraction();     
         Map<String, Integer> conteoComentariosPub = new HashMap<>();
         Map<String, Integer> conteoLike = new HashMap<>();
-        Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();
+        
 
         if (nombre == null && idDiseniador == null) {
             
@@ -79,14 +79,22 @@ public class PanelControlador {
         }else{
             
             publicacionesFiltradas=publicacionServicio.getOneCategoria(nombre);
-        }        
-       
+        }         
         List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
-            for (int i = 0; i < publicaciones.size(); i += 3) {
-                publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+        int maxPublicaciones = Math.min(10, publicacionesFiltradas.size());
+            for (int i = 0; i <maxPublicaciones; i += 3) {
+                publicacionesChunked.add(publicacionesFiltradas.subList(i, Math.min(i + 3, maxPublicaciones)));
             }
 
-            modelo.addAttribute("publicacionesChunked", publicacionesChunked);
+            for (Publicacion p : publicaciones) {
+                int conteoLikes = likeServicio.contadorLike(p.getId());
+                conteoLike.put(p.getId(), conteoLikes);
+                int conteoComent = comentarioServicio.contadorComentariosPublicacion(p.getId());
+                conteoComentariosPub.put(p.getId(), conteoComent);
+     
+            }
+
+        modelo.addAttribute("publicacionesChunked", publicacionesChunked);
         modelo.addAttribute("publicacionesSegunInteraccion", publicacionesSegunInteraccion);
         modelo.addAttribute("conteoLike", conteoLike);
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
@@ -94,7 +102,9 @@ public class PanelControlador {
         modelo.addAttribute("diseniadores", diseniadores);
         modelo.addAttribute("publicaciones", publicaciones);
         modelo.addAttribute("publicacionesFiltradas", publicacionesFiltradas);
-        modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
+
+        
+
         return "index.html";
     }
 
@@ -182,8 +192,8 @@ public class PanelControlador {
         }        
        
         List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
-            for (int i = 0; i < publicaciones.size(); i += 3) {
-                publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+            for (int i = 0; i < publicacionesSegunInteraccion.size(); i += 3) {
+                publicacionesChunked.add(publicacionesSegunInteraccion.subList(i, Math.min(i + 3, publicacionesSegunInteraccion.size())));
             }
 
             for (Publicacion p : publicaciones) {
