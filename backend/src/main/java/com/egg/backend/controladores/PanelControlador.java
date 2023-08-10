@@ -107,8 +107,6 @@ public class PanelControlador {
         Map<String, Integer> conteoComentariosPub = new HashMap<>();
         Map<String, Integer> conteoLike = new HashMap<>();
         Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();
-        
-        System.out.println("NOMBRE: " + nombre);
 
         if (nombre == null && idDiseniador == null) {
             
@@ -166,7 +164,6 @@ public class PanelControlador {
     @GetMapping("/filtrarLikes")
     public String filtrarLikes(ModelMap modelo) throws MiException {
         List<Publicacion> publicacionesFiltradas; 
-        System.out.println("FILTRAR LIKES");
 
             publicacionesFiltradas=publicacionServicio.getByMasLikes();
                 
