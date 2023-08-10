@@ -9,6 +9,7 @@ import com.egg.backend.servicios.CategoriaServicio;
 import com.egg.backend.servicios.ComentarioServicio;
 import com.egg.backend.servicios.LikeServicio;
 import com.egg.backend.servicios.PublicacionServicio;
+import com.egg.backend.servicios.UsuarioServicio;
 
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +82,7 @@ public class PublicacionControlador {
             publicacionServicio.crearPublicacion(logueado, contenido, imagen, idCategoria);
 
             modelo.put("exito", "La publicación fue cargada exitosamente!!!");
+            return "redirect:../perfil/"+ logueado.getId();
 
         } catch (MiException ex) {
             Logger.getLogger(PublicacionControlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,8 +90,8 @@ public class PublicacionControlador {
 
             return "home.html";
         }
-
-        return "redirect:../perfil";
+        
+        
     }
 
     @GetMapping("/listar")
@@ -104,7 +106,8 @@ public class PublicacionControlador {
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable String id, ModelMap modelo) throws MiException {
+        String idUsuario = publicacionServicio.getOne(id).getUsuario().getId();
         publicacionServicio.eliminar(id);
-        return "redirect:../../perfil";
+        return "redirect:../../perfil/"+ idUsuario;
     }
 }
