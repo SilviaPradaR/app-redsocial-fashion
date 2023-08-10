@@ -196,13 +196,16 @@ nav a {
 .explore-container{
     background-image: url('../img/fondoAzul.png');
 }
-.explore-container .card{
-    border:none;
-    background-image: url('../img/fondoAzul.png');
+.explore-container .explore-text{
+    border:none;    
     color: #156669;
 }
 .explore-container h2{
     font-size: 55px;
+}
+.explore-container .explore-text{
+    flex-direction: column;
+
 }
 
 /* -----------------FORM CREAR POST------------------- */
@@ -231,7 +234,7 @@ nav a {
     width: 100%; /* Ancho del 100% del contenedor */
     height: 200px; /* Altura de 200px, ajusta este valor según tus necesidades */
     object-fit: contain; /* Ajusta la imagen al tamaño del contenedor sin perder su proporción */
-    border-radius: 8px; /* Opcional: agrega bordes redondeados para un mejor aspecto */
+   
 }
 #img-cover{
     object-fit: cover;
@@ -253,6 +256,45 @@ nav a {
 }
 .cards-home-container a:hover, .carousel .card-body a:hover, .card-detail .card-body a:hover{
     color:#156669;
+}
+.explore-container .carousel-image {
+    height: calc(100vh - 60px);
+    width: 100%;
+}
+.explore-container .carousel {
+    width: 60%;
+    margin: auto;
+}.explore-container .carousel-control-prev{
+    width: auto;
+
+}
+.explore-container .carousel-control-next{
+    width: auto;
+
+}
+.explore-container .carousel-inner{
+    padding-left: 3rem;
+    padding-right: 3rem;
+
+}
+.explore-container .cards-wrapper {
+    display: flex;
+}
+.explore-container .card {
+   margin: 0 0.5em;
+    width: calc(100% / 3);
+}
+.explore-container .card-body{
+    padding: 0;
+}
+.explore-container .btn-login{
+    background-color: darkcyan;
+}
+.explore-container .btn-login:hover{
+    background-color: rgb(32, 151, 151);
+}
+.explore-container form {
+    margin-bottom: 0;
 }
 
 /* -----------------FORM DASHBOARD------------------- */
@@ -398,25 +440,45 @@ nav a {
 header{
     width: 60%;
     /* margin: auto; */
-    transform: translateY(50px);
+    /* transform: translateY(50px); */
+    
     /* padding: 20px 0; */
 }
 .perfil-container{
     display: flex;
+    background-image: url('../img/fondoPerfilN.jpeg');
+    padding: 30px;
 }
 .perfil-container img{
     height: 150px;
     width: 150px;
     border-radius: 50%;
     cursor: pointer;
-    border: 3px solid #fc9e11;
+    border: 3px solid white;
+}
+.perfil-container img:hover{
+    transform: scale(1.2);
 }
 .perfil-cards{
     background-image: none;
-    border-top: 1px solid lightgray;
+    
 }
 .navbar-izq{
-    border-right: 1px solid lightgrey;
+    
+    background-image: url('../img/fondoNavIz.jpeg');
+    background-size: cover;
+}
+.navbar-izq .btns li{
+    background-color: rgb(255, 245, 232);
+    border-radius: 10px;
+}
+
+.navbar-izq .btns li:hover{
+    background-color: rgb(255, 234, 206);
+  
+}
+.navbar-izq hr{
+    border-top: 2px solid white;
 }
 .contenedor-cabezera{
     margin-left: 100px;
@@ -432,6 +494,9 @@ header{
     color: #616161;
     font-weight: 100;
     font-size: 26px;
+    background-color: #f8f9fa;
+    padding: 1px 8px;
+    border-radius: 10px;
 }
 .cabezera1 button{
     width: 100px;
