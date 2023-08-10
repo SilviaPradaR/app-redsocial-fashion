@@ -247,6 +247,14 @@ nav a {
 .like-btn{
     padding: 0px 5px;
 }
+.cards-home-container a, .carousel .card-body a, .card-detail .card-body a{
+    text-decoration: none;
+    color: #000000;
+}
+.cards-home-container a:hover, .carousel .card-body a:hover, .card-detail .card-body a:hover{
+    color:#156669;
+}
+
 /* -----------------FORM DASHBOARD------------------- */
  #comentarios,
 #usuarios,
@@ -401,6 +409,14 @@ header{
     width: 150px;
     border-radius: 50%;
     cursor: pointer;
+    border: 3px solid #fc9e11;
+}
+.perfil-cards{
+    background-image: none;
+    border-top: 1px solid lightgray;
+}
+.navbar-izq{
+    border-right: 1px solid lightgrey;
 }
 .contenedor-cabezera{
     margin-left: 100px;
@@ -444,14 +460,12 @@ header{
     font-size: x-large;
   
 }
-
-
-
-
-
 .cabezera1 .report-link{
     font-size: 12px!important;
     padding: 3px 5px;
+}
+.btn:disabled {
+    border-color: transparent !important;
 }
 
 

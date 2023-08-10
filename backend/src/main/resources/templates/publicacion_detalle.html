@@ -85,11 +85,11 @@
             </div>
         </nav>
 
-        <main class="main-container cards-container main_container">
+        <main class="main-container cards-container main_container card-detail">
             <div class="card mb-3 card_container">
                 <div class="row g-0 card_row">
-                    <div class="col-md-7 card_col7">
-                        <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" class="img-fluid rounded-start card_col7_img" alt="...">
+                    <div class="col-md-7 card_col7 d-flex justify-content-center">
+                        <img th:src="@{/imagen/publicacion/__${publicacion.id}__}" class="img-fluid" alt="...">
                     </div>
                     <div class="col-md-5 card_col5">
                         <div class="card-body">
@@ -97,7 +97,7 @@
                                 <div class="container card_col5_headerName">
                                     <img th:src="@{/imagen/perfil/__${publicacion.usuario.id}__}" alt="foto-perfil" width="35"
                                          height="35" class="d-inline-block rounded-circle" id="img-cover" onerror="this.src='/img/fotoDefault.jpg'"/>
-                                    <span th:text="${publicacion.usuario.nombreUsuario}"></span>
+                                         <a th:href="@{/perfil/__${publicacion.usuario.id}__}"><span th:text="${publicacion.usuario.nombreUsuario}"></span></a>
                                 </div>
                             </div>
                             <div class="card_col5_body">

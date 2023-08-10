@@ -35,7 +35,7 @@ public class ReporteControlador {
 
     @PostMapping("/registroReporte")
     public String registroReporte(@RequestParam String id, @RequestParam Categoria categoria, String descripcion,
-            ModelMap modelo, @RequestParam("from") String from) {
+            ModelMap modelo, @RequestParam(name = "from", required = false) String from) {
 
         try {
 

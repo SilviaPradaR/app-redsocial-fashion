@@ -59,13 +59,14 @@
   </nav>
 
   <main>
-    <div th:if="${exito != null}" class="card text-white bg-success mensajeExito" >
-      <div class="card-body">
-          <h5 class="card-title">Exito!</h5>
-          <p class="card-text" th:text="${exito}"></p>
-      </div>
-  </div>
+    
     <div class="card banner-container">
+      <div th:if="${exito != null}" class="card text-white bg-success mensajeExito" >
+        <div class="card-body">
+            <h5 class="card-title">Exito!</h5>
+            <p class="card-text" th:text="${exito}"></p>
+        </div>
+    </div>
       <div class="row g-0 info-container py-5">
         <div class="col-md-5 d-flex justify-content-center align-items-center">
           <img src="/img/imgBanner.png" alt='imgBanner' id='imgBanner'></img>
@@ -87,7 +88,81 @@
             <div class="card-body text-center">
               <h2 class="card-title">¡Sumérgete en el fascinante universo de la moda! </h2>
               <p>Explora las creaciones más innovadoras y encuentra inspiración para tu propio estilo.</p>
+              <div class="container-filters text-start">
+                
+                <div style="margin-right: 20px;">
+                    <form action="/inicio" method="GET" style="display:flex;">
+                        <div style="margin-right: 5px;">
+                            <select name="nombre" id="categoria" class="form-select" aria-label="Default select example">
+                                <option selected>Seleccione una categoria...</option>
+                                <option th:each="categoria : ${categorias}" th:value="${categoria.nombre}"
+                                        th:text="${categoria.nombre}">
+                                </option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-login" style="margin-top:0;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                            </svg></button>
+                    </form>
+                </div>
+                <div style="margin-right: 20px;">
+                    <form action="/inicio" method="GET" style="display:flex;">
+                        <div style="margin-right: 5px;">
+                            <select name="idDiseniador" id="diseniador" class="form-select" aria-label="Default select example">
+                                <option selected>Seleccione un diseñador...</option>
+                                <option th:each="diseniador : ${diseniadores}" th:value="${diseniador.id}"
+                                        th:text="${diseniador.nombreUsuario}">
+                                </option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-login" style="margin-top:0;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                            </svg></button>
+                    </form>
+                </div>
+                <div style="margin-right: 20px;">
+                    <form action="/inicio" method="GET">
+                        <div>
+                            <div class="dropdown">
+                                <button class="btn btn-login dropdown-toggle" style="margin-top:0;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                    </svg>Por fecha
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><button type="submit" class="dropdown-item" name="nombre" value="ascendente">Ascendente</button></li>
+                                    <li><button type="submit" class="dropdown-item" name="nombre" value="descendente">Descendente</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div style="margin-right: 20px;">
+                    <form action="/inicio" method="GET">
+                        <div>
+                            <button type="submit" value="likes" name="nombre" class="btn btn-login" style="margin-top:0;"> <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px" width="16" height="16"
+                                                                                                                                fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                </svg>Por más likes</button>
+                        </div>
+                    </form>
+                </div>
+                <div style="margin-right: 20px;">
+                    <form action="/inicio" method="GET">
+                        <div>
+                            <button type="submit" value="alfabetico" name="nombre" class="btn btn-login" style="margin-top:0;"> 
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px" width="16" height="16" fill="currentColor" class="bi bi-sort-alpha-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M10.082 5.629 9.664 7H8.598l1.789-5.332h1.234L13.402 7h-1.12l-.419-1.371h-1.781zm1.57-.785L11 2.687h-.047l-.652 2.157h1.351z"/>
+                                <path d="M12.96 14H9.028v-.691l2.579-3.72v-.054H9.098v-.867h3.785v.691l-2.567 3.72v.054h2.645V14zM4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z"/>
+                                </svg>Alfabeticamente</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+            </div>
+            
           </div>
           <div class="col-md-5">
             <div id="carouselExampleCaptions" class="carousel slide">
