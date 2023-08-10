@@ -46,8 +46,55 @@ public class PanelControlador {
     private CategoriaServicio categoriaServicio;
 
     @GetMapping("/")
-    public String index() {
+    public String index(ModelMap modelo, @RequestParam(required = false) String nombre, String idDiseniador) throws MiException  {
+        List<Categoria> categorias = categoriaServicio.listarCategoria();
+        List<Usuario> diseniadores = usuarioServicio.listarDiseniadores();
+        List<Publicacion> publicaciones= publicacionServicio.listarPublicaciones();
+        List<Publicacion> publicacionesFiltradas;     
+        List<Publicacion> publicacionesSegunInteraccion = publicacionServicio.orderByInteraction();     
+        Map<String, Integer> conteoComentariosPub = new HashMap<>();
+        Map<String, Integer> conteoLike = new HashMap<>();
+        Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();
 
+        if (nombre == null && idDiseniador == null) {
+            
+            publicacionesFiltradas= publicaciones;
+        }else if("descendente".equals(nombre)){
+            
+           publicacionesFiltradas=publicacionServicio.getByFechaDesc();
+                
+        }else if("ascendente".equals(nombre)){
+            publicacionesFiltradas=publicacionServicio.getByFechaAsc();
+                
+        }else if("likes".equals(nombre)){
+            publicacionesFiltradas=publicacionServicio.getByMasLikes();
+        
+        }else if(idDiseniador != null && nombre == null ){
+            Usuario diseniador = usuarioServicio.getOne(idDiseniador);
+            publicacionesFiltradas = publicacionServicio.getByAuthor(diseniador);            
+                  
+        }else if("alfabetico".equals(nombre)){
+            publicacionesFiltradas = publicacionServicio.orderByAuthor();            
+                  
+        }else{
+            
+            publicacionesFiltradas=publicacionServicio.getOneCategoria(nombre);
+        }        
+       
+        List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
+            for (int i = 0; i < publicaciones.size(); i += 3) {
+                publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
+            }
+
+            modelo.addAttribute("publicacionesChunked", publicacionesChunked);
+        modelo.addAttribute("publicacionesSegunInteraccion", publicacionesSegunInteraccion);
+        modelo.addAttribute("conteoLike", conteoLike);
+        modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
+        modelo.addAttribute("categorias", categorias);
+        modelo.addAttribute("diseniadores", diseniadores);
+        modelo.addAttribute("publicaciones", publicaciones);
+        modelo.addAttribute("publicacionesFiltradas", publicacionesFiltradas);
+        modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
         return "index.html";
     }
 
@@ -230,9 +277,8 @@ public class PanelControlador {
             }
             usuarioServicio.actualizar(archivo, id, nombreCompleto, nombreUsuario, email, password, password2, rol);
 
-            modelo.put("éxito", "Usuario actualizado correctamente!");
-
-            return "redirect:../inicio";
+            modelo.put("éxito", "Usuario actualizado correctamente!");            
+            return "redirect:../perfil/"+ id;
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
