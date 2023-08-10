@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.egg.backend.entidades.Imagen;
 import com.egg.backend.enumeraciones.Rol;
 import com.egg.backend.excepciones.MiException;
+import java.util.Calendar;
 
 @Service
 public class PublicacionServicio {
@@ -122,4 +123,42 @@ public class PublicacionServicio {
     public List<Publicacion> orderByAuthor() {
         return publicacionRepositorio.ordenarAlfabeticamente(); 
     }
+  @Transactional
+    public void modificarPublicacion(String idPublicacion, String contenido, MultipartFile archivo, String idCategoria) throws MiException {
+
+        Optional<Categoria> respuesta = categoriaRepositorio.findById(idCategoria);
+        Categoria categoria = new Categoria();
+        if (respuesta.isPresent()) {
+            categoria = respuesta.get();
+        }
+
+        Optional<Publicacion> respuesta2 = publicacionRepositorio.findById(idPublicacion);
+        if (respuesta.isPresent()) {
+            Publicacion publicacion = respuesta2.get();
+
+            if (archivo != null) {
+                validar(archivo, idCategoria);
+
+                publicacion.setCategoria(categoria);
+                publicacion.setContenido(contenido);
+
+                String idImagen = null;
+                if (publicacion.getImagen() != null) {
+                    idImagen = publicacion.getImagen().getId();
+                }
+                Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
+                publicacion.setImagen(imagen);
+
+                publicacionRepositorio.save(publicacion);
+
+            } else {
+                 validar(archivo, idCategoria);
+
+                publicacion.setCategoria(categoria);
+                publicacion.setContenido(contenido);
+
+                publicacionRepositorio.save(publicacion);
+            }
+        }
+    }  
 }
