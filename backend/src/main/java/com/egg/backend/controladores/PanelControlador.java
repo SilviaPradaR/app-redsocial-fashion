@@ -104,6 +104,7 @@ public class PanelControlador {
         List<Usuario> diseniadores = usuarioServicio.listarDiseniadores();
         List<Publicacion> publicaciones= publicacionServicio.listarPublicaciones();
         List<Publicacion> publicacionesFiltradas;     
+        List<Publicacion> publicacionesSegunInteraccion = publicacionServicio.orderByInteraction();     
         Map<String, Integer> conteoComentariosPub = new HashMap<>();
         Map<String, Integer> conteoLike = new HashMap<>();
         Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();
@@ -148,6 +149,7 @@ public class PanelControlador {
             }
        
         modelo.addAttribute("publicacionesChunked", publicacionesChunked);
+        modelo.addAttribute("publicacionesSegunInteraccion", publicacionesSegunInteraccion);
         modelo.addAttribute("conteoLike", conteoLike);
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
         modelo.addAttribute("categorias", categorias);
