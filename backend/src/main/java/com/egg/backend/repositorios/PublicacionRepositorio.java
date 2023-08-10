@@ -1,6 +1,5 @@
 package com.egg.backend.repositorios;
 
-import com.egg.backend.entidades.Categoria;
 import com.egg.backend.entidades.Publicacion;
 import com.egg.backend.entidades.Usuario;
 
@@ -35,6 +34,12 @@ public interface PublicacionRepositorio extends JpaRepository<Publicacion, Strin
     public List<Publicacion> buscarPorAutor(@Param("usuario") Usuario usuario);
 
     @Query("SELECT p FROM Publicacion p LEFT JOIN Usuario u ON p.usuario = u ORDER BY u.nombreUsuario")
-    public List<Publicacion> ordenarAlfabeticamente();
-
+    public List<Publicacion> ordenarAlfabeticamente();     
+    
+    @Query("SELECT p FROM Publicacion p "
+            + "LEFT JOIN Like l ON p.id = l.publicacion.id " 
+            + "LEFT JOIN Comentario c ON p.id = c.publicacion.id GROUP BY p.id "
+            + "ORDER BY (COUNT(l.id) + COUNT(c.id)) DESC")
+    public List<Publicacion> buscarPublicacionesConMasInteracciones();   
+   
 }
