@@ -88,7 +88,6 @@ public class PublicacionServicio {
             }
         }
     }
-
     private void validar(MultipartFile imagen, String idCategoria) throws MiException {
 
         if (imagen == null) {
@@ -101,7 +100,7 @@ public class PublicacionServicio {
 
     private void validar(String idCategoria) throws MiException {
 
-        if (idCategoria.isEmpty() || idCategoria == null) {
+        if (idCategoria.isEmpty()) {
             throw new MiException("el categoría no puede ser nulo o estar vacio");
         }
     }
@@ -169,6 +168,7 @@ public class PublicacionServicio {
     }
 
     public List<Publicacion> orderByInteraction() {
-        return publicacionRepositorio.ordenarPorInteracciones();
+        return publicacionRepositorio.buscarPublicacionesConMasInteracciones();
     }
+    
 }

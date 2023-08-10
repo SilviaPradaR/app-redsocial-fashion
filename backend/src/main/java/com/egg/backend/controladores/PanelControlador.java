@@ -98,53 +98,6 @@ public class PanelControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
-<<<<<<< HEAD
-    public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre,
-            String orden, String idDiseniador, String idCategoria) throws MiException {
-
-        List<Categoria> categorias = categoriaServicio.listarCategoria();
-        List<Usuario> diseniadores = usuarioServicio.listarDiseniadores();
-        List<Publicacion> publicaciones = publicacionServicio.listarPublicaciones();
-        List<Publicacion> publicacionesFiltradas = new ArrayList();
-        List<Publicacion> publicacionesOrdenadadas = publicaciones;
-
-        //ORDENA recibe orden        
-        if (null != orden) {
-            switch (orden) {
-                case "descendente":
-                    publicacionesOrdenadadas = publicacionServicio.getByFechaDesc();
-                    break;
-                case "ascendente":
-                    publicacionesOrdenadadas = publicacionServicio.getByFechaAsc();
-                    break;
-                case "likes":
-                    publicacionesOrdenadadas = publicacionServicio.getByMasLikes();
-                    break;
-                case "alfabetico":
-                    publicacionesOrdenadadas = publicacionServicio.orderByAuthor();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        //FILTRA recibe nombre: null - "autor" + idDiseniador - "categoria" + idCategoria
-        if (null == nombre) {
-            publicacionesFiltradas = publicacionesOrdenadadas;
-
-        } else {
-            switch (nombre) {
-                case "autor":
-                    Usuario diseniador = usuarioServicio.getOne(idDiseniador);
-                    publicacionesOrdenadadas.stream().filter(p -> p.getUsuario() == diseniador).forEach(publicacionesFiltradas::add);
-                    break;
-                case "categoria":
-                    Categoria categoria = categoriaServicio.getOne(idCategoria);
-                    publicacionesOrdenadadas.stream().filter(p -> p.getCategoria() == categoria).forEach(publicacionesFiltradas::add);
-                    break;
-                default:
-                    break;
-=======
     public String inicio(ModelMap modelo, HttpSession session, @RequestParam(required = false) String nombre, String idDiseniador) throws MiException {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         List<Categoria> categorias = categoriaServicio.listarCategoria();
@@ -184,56 +137,8 @@ public class PanelControlador {
         List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
             for (int i = 0; i < publicaciones.size(); i += 3) {
                 publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
->>>>>>> developer
             }
-        }
 
-<<<<<<< HEAD
-//        if (nombre == null) {
-//            
-//            publicacionesFiltradas= publicaciones;
-//        }else if(nombre == "descendente"){
-//            
-//           publicacionesFiltradas=publicacionServicio.getByFechaDesc();
-//                
-//        }else if(nombre =="ascendente"){
-//            
-//            publicacionesFiltradas=publicacionServicio.getByFechaAsc();
-//                
-//        }else if(nombre == "likes"){
-//            publicacionesFiltradas=publicacionServicio.getByMasLikes();
-//        
-//        }else if(nombre == "autor"){
-//            Usuario diseniador = usuarioServicio.getOne(idDiseniador);
-//            publicacionesFiltradas = publicacionServicio.getByAuthor(diseniador);            
-//                  
-//        }else if(nombre == "alfabetico"){
-//            publicacionesFiltradas = publicacionServicio.orderByAuthor();            
-//                  
-//        }else{
-//            
-//            publicacionesFiltradas=publicacionServicio.getOneCategoria(nombre);
-//        }
-        List<List<Publicacion>> publicacionesChunked = new ArrayList<>();
-        for (int i = 0; i < publicaciones.size(); i += 3) {
-            publicacionesChunked.add(publicaciones.subList(i, Math.min(i + 3, publicaciones.size())));
-        }
-
-        Map<String, Integer> conteoLike = new HashMap<>();
-        for (Publicacion p : publicaciones) {
-
-            int conteo = likeServicio.contadorLike(p.getId());
-            conteoLike.put(p.getId(), conteo);
-        }
-
-        Map<String, Integer> conteoComentariosPub = new HashMap<>();
-        for (Publicacion p : publicaciones) {
-
-            int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
-            conteoComentariosPub.put(p.getId(), conteo);
-        }
-
-=======
             for (Publicacion p : publicaciones) {
                 int conteoLikes = likeServicio.contadorLike(p.getId());
                 conteoLike.put(p.getId(), conteoLikes);
@@ -243,7 +148,6 @@ public class PanelControlador {
                 usuarioDioLikeMap.put(p.getId(), usuarioDioLike);
             }
        
->>>>>>> developer
         modelo.addAttribute("publicacionesChunked", publicacionesChunked);
         modelo.addAttribute("conteoLike", conteoLike);
         modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
@@ -254,56 +158,23 @@ public class PanelControlador {
         modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
 
         return "home.html";
-
+        
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_DISENIADOR','ROLE_ADMIN')")
-<<<<<<< HEAD
-    @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, HttpSession session) throws MiException {
-
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-        List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);
-        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-
-=======
     @GetMapping("/perfil/{idUsuario}")
     public String perfil(ModelMap modelo, @PathVariable String idUsuario) throws MiException {       
         Usuario usuario = usuarioServicio.getOne(idUsuario);
         List<Publicacion> publicaciones = usuarioServicio.getPublicacionesPorUsuario(usuario);      
->>>>>>> developer
         modelo.addAttribute("publicaciones", publicaciones);
         
         int sumatoriaComentarios = 0;
         int sumatoriaLikes = 0;
         Map<String, Integer> conteoLike = new HashMap<>();
-<<<<<<< HEAD
-        for (Publicacion p : publicaciones) {
-
-            int conteo = likeServicio.contadorLike(p.getId());
-            conteoLike.put(p.getId(), conteo);
-            sumatoriaLikes += conteo;
-            modelo.addAttribute("conteoLike", conteoLike);
-            modelo.addAttribute("sumatoriaLikes", sumatoriaLikes);
-        }
-
-        int sumatoriaComentarios = 0;
-=======
->>>>>>> developer
         Map<String, Integer> conteoComentariosPub = new HashMap<>();
         Map<String, Boolean> usuarioDioLikeMap = new HashMap<>();   
     
         for (Publicacion p : publicaciones) {
-<<<<<<< HEAD
-
-            int conteo = comentarioServicio.contadorComentariosPublicacion(p.getId());
-            conteoComentariosPub.put(p.getId(), conteo);
-            sumatoriaComentarios += conteo;
-            modelo.addAttribute("conteoComentariosPub", conteoComentariosPub);
-            modelo.addAttribute("sumatoriaComentarios", sumatoriaComentarios);
-        }
-=======
             int conteoLikes = likeServicio.contadorLike(p.getId());
             conteoLike.put(p.getId(), conteoLikes);
             sumatoriaLikes += conteoLikes; 
@@ -321,7 +192,6 @@ public class PanelControlador {
         modelo.addAttribute("sumatoriaComentarios", sumatoriaComentarios); 
         modelo.addAttribute("usuarioDioLikeMap", usuarioDioLikeMap);
         modelo.addAttribute("usuario", usuario);
->>>>>>> developer
 
         return "perfil.html";
     }
