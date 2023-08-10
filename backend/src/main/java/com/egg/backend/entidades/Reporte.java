@@ -33,4 +33,5 @@ public class Reporte {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;    
     private String descripcion;
+    private Boolean darBaja;
 }

@@ -1,6 +1,9 @@
 nav a {
     color: rgb(6, 95, 73) !important;
 }
+.fixed-top{
+    background-color: white !important;
+}
 .navbar-nav .nav-item{
     font-size: 18px;
     font-weight: bold;
@@ -23,6 +26,16 @@ nav a {
 .navbar-brand span{
     font-family: 'Courgette', cursive;
     font-size: 28px;
+}
+.link-nav{
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+#usuario-format{
+    font-size: 15px;
+    color: #156669;
+    font-weight: bold;
 }
 .nav-btns {
     background-color:  #e27fe2f1;
@@ -59,6 +72,7 @@ nav a {
 }
 .banner-container{
     background-image: url('../img/fondoBanner.png');
+    margin-top: 65px;
 }
 .info-container p{
     color: rgb(255, 255, 255);
@@ -129,6 +143,16 @@ nav a {
 .links-footer a:hover {
     text-decoration: none;
     color: #da8302;
+}
+.btn-descargar{
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+#border-img{
+    border-radius: 10px;
+}
+.btn-descargar:hover{
+    scale: 1.1;
 }
 /* -----------------FORM REGISTRO------------------- */
 .vista-registro{
